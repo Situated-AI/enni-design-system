@@ -11,6 +11,7 @@ export { ConfirmByTyping, ConfirmStep, confirmationMatches } from "./confirm.tsx
 export { COPY_WORDS, CopyButton, type CopyState, copyValue } from "./copy-button.tsx";
 export { Details, Sheet, syncDialog } from "./disclosure.tsx";
 export { describedBy, Field } from "./field.tsx";
+export { type Mark, Orb, StatusMark, TONE_TOKENS, type Tone } from "./status.tsx";
 export { PRIMITIVES_CSS } from "./styles.ts";
 export { relativeTime, ScrollHere, Timestamp } from "./time.tsx";
 export {

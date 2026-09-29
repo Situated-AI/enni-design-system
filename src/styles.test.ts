@@ -10,7 +10,7 @@ describe("the primitives' stylesheet", () => {
 
   test("every colour variable it names is a token that exists", () => {
     const named = [...PRIMITIVES_CSS.matchAll(/var\(--enni-([a-z-]+)\)/g)].map((m) => m[1] ?? "");
-    const colours = named.filter((n) => !/^(space|radius|font|type|motion|measure)-/.test(n));
+    const colours = named.filter((n) => !/^(space|radius|font|type|motion|measure|tone)-/.test(n));
     expect(colours.length).toBeGreaterThan(10);
     for (const name of colours) expect(Object.keys(LIGHT)).toContain(name);
   });

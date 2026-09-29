@@ -10,6 +10,8 @@
  * at least 44px tall, because the phone layout is half of the 54 screens.
  */
 
+import { TONE_TOKENS } from "./status.tsx";
+
 const BASE = `
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; background: var(--enni-canvas); color: var(--enni-ink); font-family: var(--enni-font-sans); font-size: var(--enni-type-md); line-height: 1.5; }
@@ -46,5 +48,26 @@ const DISCLOSURE = `
 @media (max-width: 40rem) { .enni-sheet { width: 100vw; border-left: 0; } }
 `;
 
+/** One rule per tone, generated — a tone added to `TONE_TOKENS` is styled by the same commit. */
+const TONES = Object.entries(TONE_TOKENS)
+  .map(
+    ([tone, { ink, ground }]) =>
+      `.enni-tone--${tone} { --enni-tone-ink: var(--enni-${ink}); --enni-tone-ground: var(--enni-${ground}); }`,
+  )
+  .join("\n");
+
+/**
+ * The orb and the mark (#111). The glyph is drawn in the tone's ink on its ground, and the word sits
+ * beside it in the ordinary ink — so the word stays readable whatever the hue.
+ */
+const STATUS = `
+.enni-mark { display: inline-flex; align-items: center; gap: var(--enni-space-1); }
+.enni-mark__glyph { color: var(--enni-tone-ink); font-weight: 700; }
+.enni-orb { display: inline-flex; align-items: center; gap: var(--enni-space-2); }
+.enni-orb__disc { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: var(--enni-radius-pill); background: var(--enni-tone-ground); color: var(--enni-tone-ink); border: 2px solid var(--enni-tone-ink); font-weight: 700; }
+.enni-orb[data-moving="true"] .enni-orb__disc { animation: enni-pulse var(--enni-motion-calm) ease-in-out infinite; }
+@keyframes enni-pulse { 50% { transform: scale(1.12); } }
+`;
+
 /** Every rule the primitives need, in one string for the root layout to put on the page. */
-export const PRIMITIVES_CSS = [BASE, BUTTON, FORM, DISCLOSURE].join("\n").trim();
+export const PRIMITIVES_CSS = [BASE, BUTTON, FORM, DISCLOSURE, TONES, STATUS].join("\n").trim();
