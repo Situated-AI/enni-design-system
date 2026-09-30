@@ -10,6 +10,7 @@
  * `Tone` names the same five meanings core's `TONES` does. They meet in the web app, where a
  * mismatch is a type error rather than a silent grey.
  */
+import type { ReactNode } from "react";
 import type { ColourToken } from "./tokens.ts";
 
 export type Tone = "accent" | "ready" | "care" | "limited" | "danger";
@@ -51,6 +52,11 @@ type OrbProps = Mark & {
   readonly size?: OrbSize;
   /** The mic is open (#69): the sphere pulses a ring rather than breathing. */
   readonly listening?: boolean;
+  /**
+   * #282: what the orb belongs to, above its mark — the header's *Enni · Meridian Payments*. Outside
+   * the announced region, so a status change is heard without the name read again.
+   */
+  readonly label?: ReactNode;
 };
 
 /**
@@ -58,7 +64,8 @@ type OrbProps = Mark & {
  * sphere is decoration — hidden from a screen reader and never the only carrier of the status
  * (D-115); the glyph is the shape and the word is the text. `moving` breathes the sphere while
  * sources settle; `listening` pulses a ring instead. Both are the caller's state, never a timer.
- * `role=status` so a change — *Reading your apps*, then *Needs care* — is announced as it happens.
+ * The mark is `role=status` so a change — *Reading your apps*, then *Needs care* — is announced as
+ * it happens.
  */
 export function Orb({
   glyph,
@@ -67,21 +74,31 @@ export function Orb({
   moving = false,
   size = "inline",
   listening = false,
+  label,
 }: OrbProps) {
+  const mark = (
+    <span className="enni-orb__mark" role="status">
+      <span className="enni-orb__glyph" aria-hidden="true">
+        {glyph}
+      </span>
+      <span className="enni-orb__word">{word}</span>
+    </span>
+  );
   return (
     <span
       className={`enni-orb enni-orb--${size} enni-tone--${tone}`}
-      role="status"
       data-moving={moving}
       data-listening={listening}
     >
       <span className="enni-orb__sphere" aria-hidden="true" />
-      <span className="enni-orb__mark">
-        <span className="enni-orb__glyph" aria-hidden="true">
-          {glyph}
+      {label === undefined ? (
+        mark
+      ) : (
+        <span className="enni-orb__text">
+          <span className="enni-orb__label">{label}</span>
+          {mark}
         </span>
-        <span className="enni-orb__word">{word}</span>
-      </span>
+      )}
     </span>
   );
 }

@@ -48,6 +48,18 @@ describe("Orb", () => {
     expect(hero).toContain('class="enni-orb enni-orb--hero enni-tone--accent"');
   });
 
+  test("#282: a label sits above the mark, outside the announced region", () => {
+    const html = renderToStaticMarkup(
+      <Orb glyph="○" word="Waiting for you" tone="accent" label="Enni · Meridian" />,
+    );
+    expect(html).toContain(
+      '<span class="enni-orb__text"><span class="enni-orb__label">Enni · Meridian</span><span class="enni-orb__mark" role="status">',
+    );
+    expect(renderToStaticMarkup(<Orb glyph="○" word="W" tone="accent" />)).not.toContain(
+      "enni-orb__label",
+    );
+  });
+
   test("listening is its own attribute, so the sphere rings rather than breathes", () => {
     const html = renderToStaticMarkup(
       <Orb glyph="◉" word="Listening" tone="accent" moving listening />,

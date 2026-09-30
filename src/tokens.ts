@@ -217,7 +217,7 @@ const orbStops = (): Record<string, string> =>
   );
 
 /** The widest a line of reading runs, and the width a sheet takes on a desktop. */
-export const MEASURE = { reading: "42rem", sheet: "28rem", rail: "16rem" } as const;
+export const MEASURE = { reading: "42rem", sheet: "28rem", rail: "16.5rem" } as const;
 
 const declarations = (prefix: string, table: Readonly<Record<string, string>>): string[] =>
   Object.entries(table).map(([name, value]) => `--enni-${prefix}${name}: ${value};`);

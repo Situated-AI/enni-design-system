@@ -87,6 +87,8 @@ const STATUS = `
 .enni-mark, .enni-orb__mark { display: inline-flex; align-items: center; gap: var(--enni-space-1); }
 .enni-mark__glyph, .enni-orb__glyph { color: var(--enni-tone-ink); font-weight: 700; }
 .enni-orb { display: inline-flex; align-items: center; gap: var(--enni-space-2); }
+.enni-orb__text { display: grid; min-width: 0; }
+.enni-orb__label { font-weight: 600; }
 .enni-orb--hero { flex-direction: column; gap: var(--enni-space-3); align-self: center; text-align: center; }
 .enni-orb__sphere { display: inline-block; flex-shrink: 0; width: 20px; height: 20px; border-radius: var(--enni-radius-pill); background: radial-gradient(circle at 35% 30%, var(--enni-tone-glow) 0%, var(--enni-tone-ink) 55%, var(--enni-tone-deep) 100%); }
 .enni-orb--hero .enni-orb__sphere { width: 88px; height: 88px; box-shadow: var(--enni-shadow-lift); }
