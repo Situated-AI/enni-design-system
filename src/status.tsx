@@ -44,17 +44,44 @@ export function StatusMark({ glyph, word, tone }: Mark) {
   );
 }
 
+/** `hero`: large and centred, the first run's. `inline`: small, beside a name or a status line. */
+export type OrbSize = "hero" | "inline";
+
+type OrbProps = Mark & {
+  readonly size?: OrbSize;
+  /** The mic is open (#69): the sphere pulses a ring rather than breathing. */
+  readonly listening?: boolean;
+};
+
 /**
- * The orb: a disc carrying its glyph, pulsing when `moving`, with its word beside it. `role=status`
- * so a change — *Reading your apps*, then *Needs care* — is announced as it happens.
+ * The orb (#279): a lit sphere in its tone's gradient, and beside it the glyph and the word. The
+ * sphere is decoration — hidden from a screen reader and never the only carrier of the status
+ * (D-115); the glyph is the shape and the word is the text. `moving` breathes the sphere while
+ * sources settle; `listening` pulses a ring instead. Both are the caller's state, never a timer.
+ * `role=status` so a change — *Reading your apps*, then *Needs care* — is announced as it happens.
  */
-export function Orb({ glyph, word, tone, moving = false }: Mark) {
+export function Orb({
+  glyph,
+  word,
+  tone,
+  moving = false,
+  size = "inline",
+  listening = false,
+}: OrbProps) {
   return (
-    <span className={`enni-orb enni-tone--${tone}`} role="status" data-moving={moving}>
-      <span className="enni-orb__disc" aria-hidden="true">
-        {glyph}
+    <span
+      className={`enni-orb enni-orb--${size} enni-tone--${tone}`}
+      role="status"
+      data-moving={moving}
+      data-listening={listening}
+    >
+      <span className="enni-orb__sphere" aria-hidden="true" />
+      <span className="enni-orb__mark">
+        <span className="enni-orb__glyph" aria-hidden="true">
+          {glyph}
+        </span>
+        <span className="enni-orb__word">{word}</span>
       </span>
-      <span className="enni-orb__word">{word}</span>
     </span>
   );
 }

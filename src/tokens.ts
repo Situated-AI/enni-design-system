@@ -184,8 +184,37 @@ export const LEADING: Readonly<Record<keyof typeof TYPE, string>> = {
 /** Letter-spacing: mono eyebrows open up, the display headline closes in (the designs' values). */
 export const TRACKING = { eyebrow: "0.12em", display: "-0.025em" } as const;
 
-/** Motion a reader can switch off: `prefers-reduced-motion` zeroes both in `TOKENS_CSS`. */
-export const MOTION = { quick: "120ms", calm: "1600ms" } as const;
+/**
+ * The orb's sphere (#279): a radial gradient per tone, lit from 35% 30% — a `glow` highlight, the
+ * tone's ink through the middle, a `deep` shade at the edge. The designs draw the accent, care and
+ * ready spheres; limited and danger take the same stops on their hue (30). The stops are the same in
+ * both themes, as the designs have them — the middle is the themed ink.
+ */
+export const ORB: Readonly<Record<"accent" | Status, { glow: string; deep: string }>> = {
+  accent: { glow: "oklch(0.92 0.04 276)", deep: "oklch(0.3 0.09 276)" },
+  ready: { glow: "oklch(0.95 0.03 152)", deep: "oklch(0.3 0.06 152)" },
+  care: { glow: "oklch(0.96 0.04 72)", deep: "oklch(0.32 0.08 72)" },
+  limited: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
+  danger: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
+};
+
+/**
+ * Motion a reader can switch off: `prefers-reduced-motion` zeroes every one in `TOKENS_CSS`.
+ * `enter` is a turn or a sheet arriving, `calm` the listening pulse, `breath` the reading orb's
+ * (#279, the designs' `--duration-slow` and `presence-breath`).
+ */
+export const MOTION = { quick: "120ms", enter: "220ms", calm: "1600ms", breath: "4500ms" } as const;
+
+/** The designs' one easing, for everything that arrives. */
+export const EASE = { standard: "cubic-bezier(0.2, 0, 0, 1)" } as const;
+
+const orbStops = (): Record<string, string> =>
+  Object.fromEntries(
+    Object.entries(ORB).flatMap(([tone, { glow, deep }]) => [
+      [`${tone}-glow`, glow],
+      [`${tone}-deep`, deep],
+    ]),
+  );
 
 /** The widest a line of reading runs, and the width a sheet takes on a desktop. */
 export const MEASURE = { reading: "42rem", sheet: "28rem", rail: "16rem" } as const;
@@ -213,6 +242,8 @@ export function scaleCss(): string {
     ...declarations("leading-", LEADING),
     ...declarations("tracking-", TRACKING),
     ...declarations("motion-", MOTION),
+    ...declarations("ease-", EASE),
+    ...declarations("orb-", orbStops()),
     ...declarations("measure-", MEASURE),
   ].join(" ");
 }
@@ -221,7 +252,9 @@ export function scaleCss(): string {
 export const TOKENS_CSS = [
   `:root { color-scheme: light dark; ${scaleCss()} ${themeCss(LIGHT, SHADOW_LIGHT)} }`,
   `@media (prefers-color-scheme: dark) { :root { ${themeCss(DARK, SHADOW_DARK)} } }`,
-  "@media (prefers-reduced-motion: reduce) { :root { --enni-motion-quick: 0ms; --enni-motion-calm: 0ms; } }",
+  `@media (prefers-reduced-motion: reduce) { :root { ${Object.keys(MOTION)
+    .map((name) => `--enni-motion-${name}: 0ms;`)
+    .join(" ")} } }`,
 ].join("\n");
 
 /** `var(--enni-…)` for a colour token — the only way a primitive names a colour. */

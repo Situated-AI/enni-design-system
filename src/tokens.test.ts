@@ -7,6 +7,8 @@ import {
   FONT,
   LEADING,
   LIGHT,
+  MOTION,
+  ORB,
   type Palette,
   paletteCss,
   RADIUS,
@@ -87,6 +89,20 @@ describe("the stylesheet is generated from the tables", () => {
     expect(TOKENS_CSS).toContain(`--enni-shadow-card: ${SHADOW_LIGHT.card};`);
     expect(TOKENS_CSS).toContain(`--enni-shadow-lift: ${SHADOW_DARK.lift};`);
     expect(TOKENS_CSS).toContain("prefers-reduced-motion: reduce");
+  });
+
+  test("reduced motion zeroes every MOTION duration, not a list typed beside it (#279)", () => {
+    const still =
+      TOKENS_CSS.split("\n").find((line) => line.includes("prefers-reduced-motion")) ?? "";
+    for (const name of Object.keys(MOTION)) expect(still).toContain(`--enni-motion-${name}: 0ms;`);
+  });
+
+  test("the orb's stops are declared per tone, in OKLCH", () => {
+    for (const [tone, { glow, deep }] of Object.entries(ORB)) {
+      expect(scaleCss()).toContain(`--enni-orb-${tone}-glow: ${glow};`);
+      expect(scaleCss()).toContain(`--enni-orb-${tone}-deep: ${deep};`);
+      for (const stop of [glow, deep]) expect(stop).toMatch(/^oklch\(0?\.\d+ 0?\.\d+ \d+\)$/);
+    }
   });
 });
 

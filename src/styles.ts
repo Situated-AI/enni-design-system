@@ -57,6 +57,7 @@ const FORM = `
 const DISCLOSURE = `
 .enni-details { border-top: 1px solid var(--enni-line); padding-top: var(--enni-space-2); }
 .enni-details > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--enni-ink-muted); font-weight: 600; }
+.enni-sheet[open] { animation: enni-sheet-in var(--enni-motion-enter) var(--enni-ease-standard) both; }
 .enni-sheet { box-shadow: var(--enni-shadow-lift); width: min(100vw, var(--enni-measure-sheet)); max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0 0 0 auto; padding: var(--enni-space-5); border: 0; border-left: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink); }
 .enni-sheet::backdrop { background: color-mix(in srgb, var(--enni-ink) 35%, transparent); }
 .enni-sheet__header { display: flex; align-items: center; justify-content: space-between; gap: var(--enni-space-3); margin-bottom: var(--enni-space-4); }
@@ -68,24 +69,41 @@ const DISCLOSURE = `
 const TONES = Object.entries(TONE_TOKENS)
   .map(
     ([tone, { ink, ground, edge }]) =>
-      `.enni-tone--${tone} { --enni-tone-ink: var(--enni-${ink}); --enni-tone-ground: var(--enni-${ground}); --enni-tone-edge: var(--enni-${edge}); }`,
+      `.enni-tone--${tone} { --enni-tone-ink: var(--enni-${ink}); --enni-tone-ground: var(--enni-${ground}); --enni-tone-edge: var(--enni-${edge}); --enni-tone-glow: var(--enni-orb-${tone}-glow); --enni-tone-deep: var(--enni-orb-${tone}-deep); }`,
   )
   .join("\n");
 
 /**
- * The orb and the mark (#111). The glyph is drawn in the tone's ink on its ground, inside its edge
- * (#277), and the word sits beside it in the ordinary ink — so the word stays readable whatever the hue.
+ * The mark and the orb (#111, #279). The glyph is drawn in the tone's ink and the word sits beside it
+ * in the ordinary ink — so the word stays readable whatever the hue. The orb's sphere is its tone's
+ * gradient (`ORB` in `tokens.ts`), lit from 35% 30%: 88px as the hero (72px on a phone), 20px inline.
  */
 const STATUS = `
-.enni-mark { display: inline-flex; align-items: center; gap: var(--enni-space-1); }
-.enni-mark__glyph { color: var(--enni-tone-ink); font-weight: 700; }
+.enni-mark, .enni-orb__mark { display: inline-flex; align-items: center; gap: var(--enni-space-1); }
+.enni-mark__glyph, .enni-orb__glyph { color: var(--enni-tone-ink); font-weight: 700; }
 .enni-orb { display: inline-flex; align-items: center; gap: var(--enni-space-2); }
-.enni-orb__disc { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: var(--enni-radius-pill); background: var(--enni-tone-ground); color: var(--enni-tone-ink); border: 2px solid var(--enni-tone-edge); font-weight: 700; }
-.enni-orb[data-moving="true"] .enni-orb__disc { animation: enni-pulse var(--enni-motion-calm) ease-in-out infinite; }
-@keyframes enni-pulse { 50% { transform: scale(1.12); } }
+.enni-orb--hero { flex-direction: column; gap: var(--enni-space-3); align-self: center; text-align: center; }
+.enni-orb__sphere { display: inline-block; flex-shrink: 0; width: 20px; height: 20px; border-radius: var(--enni-radius-pill); background: radial-gradient(circle at 35% 30%, var(--enni-tone-glow) 0%, var(--enni-tone-ink) 55%, var(--enni-tone-deep) 100%); }
+.enni-orb--hero .enni-orb__sphere { width: 88px; height: 88px; box-shadow: var(--enni-shadow-lift); }
+@media (max-width: 40rem) { .enni-orb--hero .enni-orb__sphere { width: 72px; height: 72px; } }
+.enni-orb[data-moving="true"]:not([data-listening="true"]) .enni-orb__sphere { animation: enni-breath var(--enni-motion-breath) var(--enni-ease-standard) infinite; }
+.enni-orb[data-listening="true"] .enni-orb__sphere { animation: enni-listen var(--enni-motion-calm) var(--enni-ease-standard) infinite; }
+`;
+
+/**
+ * Motion (#279) — each one because something happened: a sphere breathes while sources settle, rings
+ * while the mic is open; a turn or a sheet arrives. Every duration is a `MOTION` token, and
+ * `prefers-reduced-motion` zeroes them all in `TOKENS_CSS`, so a still reader gets the end state.
+ */
+const KEYFRAMES = `
+@keyframes enni-breath { 0%, 100% { transform: scale(1); opacity: 0.92; } 50% { transform: scale(1.04); opacity: 1; } }
+@keyframes enni-listen { 0%, 100% { box-shadow: 0 0 0 4px color-mix(in oklch, var(--enni-tone-ink) 22%, transparent); } 50% { box-shadow: 0 0 0 10px color-mix(in oklch, var(--enni-tone-ink) 22%, transparent); } }
+@keyframes enni-enter { from { opacity: 0; } to { opacity: 1; } }
+@keyframes enni-sheet-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.enni-enter { animation: enni-enter var(--enni-motion-enter) var(--enni-ease-standard) both; }
 `;
 
 /** Every rule the primitives need, in one string for the root layout to put on the page. */
-export const PRIMITIVES_CSS = [BASE, TYPOGRAPHY, BUTTON, FORM, DISCLOSURE, TONES, STATUS]
+export const PRIMITIVES_CSS = [BASE, TYPOGRAPHY, BUTTON, FORM, DISCLOSURE, TONES, STATUS, KEYFRAMES]
   .join("\n")
   .trim();
