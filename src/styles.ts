@@ -128,6 +128,31 @@ a.enni-brand { min-height: 44px; }
 .enni-count { display: inline-flex; align-items: center; justify-content: center; min-width: 1.25rem; padding: 0 var(--enni-space-1); border-radius: var(--enni-radius-pill); background: var(--enni-accent-soft); color: var(--enni-accent); font-size: var(--enni-type-sm); font-weight: 600; }
 `;
 
+/**
+ * The composer (#283): a rounded field on a surface, the round talk button beside it, **Send**, and
+ * the hint under them — the desktop's keys, or the phone's. The talk button is outlined at rest on a
+ * desktop and filled on a phone, as the designs draw it, and an accent ring while it listens.
+ */
+const COMPOSER = `
+.enni-composer { position: sticky; bottom: 0; display: grid; gap: var(--enni-space-1); padding: var(--enni-space-3) 0 var(--enni-space-2); border-top: 1px solid var(--enni-line); background: var(--enni-canvas); }
+.enni-composer__row { display: flex; align-items: flex-end; gap: var(--enni-space-2); }
+.enni-composer textarea { flex: 1; min-width: 0; min-height: 44px; padding: var(--enni-space-2) var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); color: var(--enni-ink); font: inherit; line-height: var(--enni-leading-md); resize: none; field-sizing: content; max-height: 12rem; }
+.enni-composer textarea::placeholder { color: var(--enni-ink-subtle); }
+.enni-talk { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-pill); background: var(--enni-surface); color: var(--enni-ink-muted); font-size: 0; cursor: pointer; transition: background var(--enni-motion-quick); }
+.enni-talk .enni-icon { width: 20px; height: 20px; }
+.enni-talk:not([disabled]):hover { background: var(--enni-hover); }
+.enni-talk[data-listening="true"] { border-color: var(--enni-accent); background: var(--enni-accent-soft); color: var(--enni-accent); animation: enni-listen var(--enni-motion-calm) var(--enni-ease-standard) infinite; --enni-tone-ink: var(--enni-accent); }
+.enni-talk[disabled], .enni-composer__send[disabled] { cursor: not-allowed; opacity: 0.6; }
+.enni-composer__send { flex-shrink: 0; min-height: 44px; padding: 0 var(--enni-space-3); border: 0; border-radius: var(--enni-radius-lg); background: none; color: var(--enni-accent); font: inherit; font-weight: 600; cursor: pointer; }
+.enni-composer__hint { margin: 0; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
+.enni-composer__hint--narrow { display: none; }
+@media (max-width: 40rem) {
+  .enni-composer__hint--wide { display: none; }
+  .enni-composer__hint--narrow { display: inline; }
+  .enni-talk:not([data-listening="true"]) { border-color: var(--enni-accent); background: var(--enni-accent); color: var(--enni-accent-ink); }
+}
+`;
+
 /** Every rule the primitives need, in one string for the root layout to put on the page. */
 export const PRIMITIVES_CSS = [
   BASE,
@@ -138,6 +163,7 @@ export const PRIMITIVES_CSS = [
   TONES,
   STATUS,
   SURFACES,
+  COMPOSER,
   KEYFRAMES,
 ]
   .join("\n")

@@ -19,6 +19,7 @@ export {
   SuggestionChip,
 } from "./button.tsx";
 export { ConfirmByTyping, ConfirmStep, confirmationMatches } from "./confirm.tsx";
+export { Composer, TalkButton } from "./composer.tsx";
 export { COPY_WORDS, CopyButton, type CopyState, copyValue } from "./copy-button.tsx";
 export { Details, Sheet, syncDialog } from "./disclosure.tsx";
 export { describedBy, Field } from "./field.tsx";
