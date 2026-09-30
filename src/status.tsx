@@ -14,13 +14,15 @@ import type { ColourToken } from "./tokens.ts";
 
 export type Tone = "accent" | "ready" | "care" | "limited" | "danger";
 
-/** The token each tone draws in — its ink and its soft ground. */
-export const TONE_TOKENS: Readonly<Record<Tone, { ink: ColourToken; ground: ColourToken }>> = {
-  accent: { ink: "accent", ground: "accent-soft" },
-  ready: { ink: "ready", ground: "ready-soft" },
-  care: { ink: "care", ground: "care-soft" },
-  limited: { ink: "limited", ground: "limited-soft" },
-  danger: { ink: "danger", ground: "danger-soft" },
+type ToneTokens = { ink: ColourToken; ground: ColourToken; edge: ColourToken };
+
+/** The tokens each tone draws in — its ink, its ground and its edge: the status triplet (#277). */
+export const TONE_TOKENS: Readonly<Record<Tone, ToneTokens>> = {
+  accent: { ink: "accent", ground: "accent-soft", edge: "accent" },
+  ready: { ink: "ready-fg", ground: "ready-bg", edge: "ready-border" },
+  care: { ink: "care-fg", ground: "care-bg", edge: "care-border" },
+  limited: { ink: "limited-fg", ground: "limited-bg", edge: "limited-border" },
+  danger: { ink: "danger-fg", ground: "danger-bg", edge: "danger-border" },
 };
 
 export type Mark = {

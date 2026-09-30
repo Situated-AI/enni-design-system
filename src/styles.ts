@@ -23,8 +23,10 @@ const BUTTON = `
 .enni-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--enni-space-2); min-height: 44px; padding: 0 var(--enni-space-4); border-radius: var(--enni-radius-md); border: 1px solid transparent; font: inherit; font-weight: 600; cursor: pointer; transition: background var(--enni-motion-quick); }
 .enni-button[disabled] { cursor: not-allowed; opacity: 0.6; }
 .enni-button--primary { background: var(--enni-accent); color: var(--enni-accent-ink); }
+.enni-button--primary:not([disabled]):hover { background: var(--enni-accent-hover); }
+.enni-button--quiet:not([disabled]):hover, .enni-chip:hover { background: var(--enni-hover); }
 .enni-button--quiet { background: transparent; color: var(--enni-ink); border-color: var(--enni-line); }
-.enni-button--danger { background: var(--enni-danger); color: var(--enni-surface); }
+.enni-button--danger { background: var(--enni-danger-fg); color: var(--enni-surface); }
 .enni-chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--enni-space-4); border-radius: var(--enni-radius-pill); border: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink); font: inherit; cursor: pointer; }
 `;
 
@@ -33,7 +35,7 @@ const FORM = `
 .enni-field label { font-weight: 600; }
 .enni-field input, .enni-field textarea { min-height: 44px; padding: var(--enni-space-2) var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-surface); color: var(--enni-ink); font: inherit; }
 .enni-field__hint { color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
-.enni-field__error { color: var(--enni-danger); font-size: var(--enni-type-sm); }
+.enni-field__error { color: var(--enni-danger-fg); font-size: var(--enni-type-sm); }
 .enni-confirm { margin: 0; min-width: 0; display: grid; gap: var(--enni-space-3); padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); }
 .enni-confirm__actions { display: flex; flex-wrap: wrap; gap: var(--enni-space-2); }
 `;
@@ -41,7 +43,7 @@ const FORM = `
 const DISCLOSURE = `
 .enni-details { border-top: 1px solid var(--enni-line); padding-top: var(--enni-space-2); }
 .enni-details > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--enni-ink-muted); font-weight: 600; }
-.enni-sheet { width: min(100vw, var(--enni-measure-sheet)); max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0 0 0 auto; padding: var(--enni-space-5); border: 0; border-left: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink); }
+.enni-sheet { box-shadow: var(--enni-shadow-lift); width: min(100vw, var(--enni-measure-sheet)); max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0 0 0 auto; padding: var(--enni-space-5); border: 0; border-left: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink); }
 .enni-sheet::backdrop { background: color-mix(in srgb, var(--enni-ink) 35%, transparent); }
 .enni-sheet__header { display: flex; align-items: center; justify-content: space-between; gap: var(--enni-space-3); margin-bottom: var(--enni-space-4); }
 .enni-sheet__header h2 { margin: 0; font-size: var(--enni-type-xl); }
@@ -51,20 +53,20 @@ const DISCLOSURE = `
 /** One rule per tone, generated — a tone added to `TONE_TOKENS` is styled by the same commit. */
 const TONES = Object.entries(TONE_TOKENS)
   .map(
-    ([tone, { ink, ground }]) =>
-      `.enni-tone--${tone} { --enni-tone-ink: var(--enni-${ink}); --enni-tone-ground: var(--enni-${ground}); }`,
+    ([tone, { ink, ground, edge }]) =>
+      `.enni-tone--${tone} { --enni-tone-ink: var(--enni-${ink}); --enni-tone-ground: var(--enni-${ground}); --enni-tone-edge: var(--enni-${edge}); }`,
   )
   .join("\n");
 
 /**
- * The orb and the mark (#111). The glyph is drawn in the tone's ink on its ground, and the word sits
- * beside it in the ordinary ink — so the word stays readable whatever the hue.
+ * The orb and the mark (#111). The glyph is drawn in the tone's ink on its ground, inside its edge
+ * (#277), and the word sits beside it in the ordinary ink — so the word stays readable whatever the hue.
  */
 const STATUS = `
 .enni-mark { display: inline-flex; align-items: center; gap: var(--enni-space-1); }
 .enni-mark__glyph { color: var(--enni-tone-ink); font-weight: 700; }
 .enni-orb { display: inline-flex; align-items: center; gap: var(--enni-space-2); }
-.enni-orb__disc { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: var(--enni-radius-pill); background: var(--enni-tone-ground); color: var(--enni-tone-ink); border: 2px solid var(--enni-tone-ink); font-weight: 700; }
+.enni-orb__disc { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: var(--enni-radius-pill); background: var(--enni-tone-ground); color: var(--enni-tone-ink); border: 2px solid var(--enni-tone-edge); font-weight: 700; }
 .enni-orb[data-moving="true"] .enni-orb__disc { animation: enni-pulse var(--enni-motion-calm) ease-in-out infinite; }
 @keyframes enni-pulse { 50% { transform: scale(1.12); } }
 `;

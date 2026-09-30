@@ -40,6 +40,7 @@ describe("tones", () => {
     for (const tone of TONES) {
       expect(Object.keys(LIGHT)).toContain(TONE_TOKENS[tone].ink);
       expect(Object.keys(LIGHT)).toContain(TONE_TOKENS[tone].ground);
+      expect(Object.keys(LIGHT)).toContain(TONE_TOKENS[tone].edge);
     }
   });
 
