@@ -165,6 +165,12 @@ const TURNS = `
 .enni-say--enni > p, .enni-say--enni > ul, .enni-say--enni > ol { max-width: 54ch; margin: 0; }
 .enni-say--enni article, .enni-say--enni .enni-card { color: var(--enni-ink); }
 .enni-chip-row { display: flex; flex-wrap: wrap; gap: var(--enni-space-2); margin: 0; padding: 0; list-style: none; }
+.enni-help { display: grid; grid-template-columns: 1fr 1fr; gap: var(--enni-space-3); margin: 0; list-style: none; font-family: var(--enni-font-sans); font-size: var(--enni-type-sm); line-height: var(--enni-leading-sm); }
+.enni-help li { display: flex; gap: var(--enni-space-3); }
+.enni-help strong { color: var(--enni-ink); font-weight: 600; }
+.enni-help__text { color: var(--enni-ink-muted); }
+.enni-help__glyph { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 24px; height: 24px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-sunken); color: var(--enni-ink-muted); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
+@media (max-width: 40rem) { .enni-help { grid-template-columns: 1fr; } }
 .enni-hint { margin: 0; color: var(--enni-ink-subtle); font-family: var(--enni-font-sans); font-size: var(--enni-type-sm); }
 `;
 

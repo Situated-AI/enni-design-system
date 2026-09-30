@@ -27,6 +27,7 @@ const PINNED = [
   "Eyebrow",
   "FONT",
   "Field",
+  "HelpCard",
   "Hint",
   "ICONS",
   "Icon",
