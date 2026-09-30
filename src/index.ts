@@ -28,6 +28,7 @@ export { type Mark, Orb, type OrbSize, StatusMark, TONE_TOKENS, type Tone } from
 export { PRIMITIVES_CSS } from "./styles.ts";
 export { Card, CheckList, Eyebrow } from "./surface.tsx";
 export { relativeTime, ScrollHere, Timestamp } from "./time.tsx";
+export { ChipRow, Hint, Turn } from "./turn.tsx";
 export {
   type ColourToken,
   colour,

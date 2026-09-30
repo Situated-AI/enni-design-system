@@ -153,6 +153,21 @@ const COMPOSER = `
 }
 `;
 
+/**
+ * The two voices (#284). The person: right, a rounded bubble with its tail corner small, in the sans,
+ * at most 80% wide. Enni: left, no bubble, the serif a size up; its sentences keep a reading measure
+ * (54ch) while its cards run the column's full width. Chips wrap; the hint is small and subtle.
+ */
+const TURNS = `
+.enni-say--person { width: fit-content; max-width: 80%; margin-left: auto; padding: var(--enni-space-2) var(--enni-space-4); border-radius: var(--enni-radius-2xl) var(--enni-radius-2xl) var(--enni-radius-sm) var(--enni-radius-2xl); background: var(--enni-accent-soft); color: var(--enni-ink); overflow-wrap: anywhere; }
+.enni-say--person > * { margin: 0; }
+.enni-say--enni { display: grid; gap: var(--enni-space-3); color: var(--enni-ink-muted); }
+.enni-say--enni > p, .enni-say--enni > ul, .enni-say--enni > ol { max-width: 54ch; margin: 0; }
+.enni-say--enni article, .enni-say--enni .enni-card { color: var(--enni-ink); }
+.enni-chip-row { display: flex; flex-wrap: wrap; gap: var(--enni-space-2); margin: 0; padding: 0; list-style: none; }
+.enni-hint { margin: 0; color: var(--enni-ink-subtle); font-family: var(--enni-font-sans); font-size: var(--enni-type-sm); }
+`;
+
 /** Every rule the primitives need, in one string for the root layout to put on the page. */
 export const PRIMITIVES_CSS = [
   BASE,
@@ -164,6 +179,7 @@ export const PRIMITIVES_CSS = [
   STATUS,
   SURFACES,
   COMPOSER,
+  TURNS,
   KEYFRAMES,
 ]
   .join("\n")
