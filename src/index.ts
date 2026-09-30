@@ -6,6 +6,14 @@
  * things look and behave — so it cannot become a second path to `@enni/core`. The dependency gate
  * holds it to that (`checkLeafAllowance`), and `index.test.ts` pins this surface.
  */
+export {
+  AnswerActions,
+  AnswerCard,
+  AnswerPair,
+  AnswerSection,
+  Citation,
+  Segmented,
+} from "./answer-card.tsx";
 export { CountBadge, StatusBadge } from "./badge.tsx";
 export { BrandMark } from "./brand.tsx";
 export {
@@ -26,6 +34,8 @@ export { describedBy, Field } from "./field.tsx";
 export { HelpCard, type HelpRow } from "./help-card.tsx";
 export { ICONS, Icon, type IconName } from "./icon.tsx";
 export { type Mark, Orb, type OrbSize, StatusMark, TONE_TOKENS, type Tone } from "./status.tsx";
+export { HeardBubble, ReadingSteps, RefusalCard, type StepState } from "./progress.tsx";
+export { DetailsBlock, SourceCard, SourceList } from "./sources.tsx";
 export { PRIMITIVES_CSS } from "./styles.ts";
 export { Card, CheckList, Eyebrow } from "./surface.tsx";
 export { relativeTime, ScrollHere, Timestamp } from "./time.tsx";

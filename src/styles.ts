@@ -10,6 +10,7 @@
  * at least 44px tall, because the phone layout is half of the 54 screens.
  */
 
+import { ANSWER_CSS } from "./answer-styles.ts";
 import { TONE_TOKENS } from "./status.tsx";
 
 const BASE = `
@@ -186,6 +187,7 @@ export const PRIMITIVES_CSS = [
   SURFACES,
   COMPOSER,
   TURNS,
+  ANSWER_CSS,
   KEYFRAMES,
 ]
   .join("\n")
