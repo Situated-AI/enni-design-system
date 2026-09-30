@@ -59,6 +59,19 @@ describe("the primitives' stylesheet", () => {
     );
   });
 
+  test("#280: a status badge draws in the tone triplet StatusMark's tones set", () => {
+    expect(PRIMITIVES_CSS).toMatch(
+      /\.enni-badge \{[^}]*--enni-tone-edge[^}]*--enni-tone-ground[^}]*--enni-tone-ink/,
+    );
+  });
+
+  test("#280: every tappable primitive is at least 44px", () => {
+    for (const rule of [".enni-button {", ".enni-chip {", "a.enni-brand {"]) {
+      const body = PRIMITIVES_CSS.slice(PRIMITIVES_CSS.indexOf(rule)).split("}")[0] ?? "";
+      expect(body).toMatch(/min-height: 4[4-9]px/);
+    }
+  });
+
   test("focus is always visible", () => {
     expect(PRIMITIVES_CSS).toContain(":focus-visible");
   });

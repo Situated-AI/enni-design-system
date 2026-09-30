@@ -34,14 +34,19 @@ code, kbd, samp { font-family: var(--enni-font-mono); }
 `;
 
 const BUTTON = `
-.enni-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--enni-space-2); min-height: 44px; padding: 0 var(--enni-space-4); border-radius: var(--enni-radius-md); border: 1px solid transparent; font: inherit; font-weight: 600; cursor: pointer; transition: background var(--enni-motion-quick); }
+.enni-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--enni-space-2); min-height: 44px; padding: 0 var(--enni-space-4); border-radius: var(--enni-radius-lg); border: 1px solid transparent; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; transition: background var(--enni-motion-quick); }
+.enni-button--lg { min-height: 48px; padding: 0 var(--enni-space-5); }
+.enni-button--block { display: flex; width: 100%; }
+.enni-button--secondary { background: var(--enni-surface); color: var(--enni-ink); border-color: var(--enni-line); }
+.enni-button--secondary:not([disabled]):hover { background: var(--enni-hover); }
 .enni-button[disabled] { cursor: not-allowed; opacity: 0.6; }
 .enni-button--primary { background: var(--enni-accent); color: var(--enni-accent-ink); }
 .enni-button--primary:not([disabled]):hover { background: var(--enni-accent-hover); }
 .enni-button--quiet:not([disabled]):hover, .enni-chip:hover { background: var(--enni-hover); }
 .enni-button--quiet { background: transparent; color: var(--enni-ink); border-color: var(--enni-line); }
 .enni-button--danger { background: var(--enni-danger-fg); color: var(--enni-surface); }
-.enni-chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--enni-space-4); border-radius: var(--enni-radius-pill); border: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink); font: inherit; cursor: pointer; }
+.enni-chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--enni-space-3); border-radius: var(--enni-radius-pill); border: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink-muted); font: inherit; font-size: var(--enni-type-sm); cursor: pointer; }
+.enni-chip:hover { color: var(--enni-ink); }
 `;
 
 const FORM = `
@@ -103,7 +108,35 @@ const KEYFRAMES = `
 .enni-enter { animation: enni-enter var(--enni-motion-enter) var(--enni-ease-standard) both; }
 `;
 
+/**
+ * Surfaces, marks and badges (#280). A card is lifted by `shadow-card`; the brand tile's fills are
+ * the accent and its ink; a status badge is the tone triplet (ground, edge, ink) from the same
+ * `enni-tone--*` rule `StatusMark` reads; a count is the accent on its soft ground.
+ */
+const SURFACES = `
+.enni-card { padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-card); }
+.enni-checklist { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--enni-space-1); color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
+.enni-checklist li { display: flex; align-items: baseline; gap: var(--enni-space-2); }
+.enni-checklist__mark { font-family: var(--enni-font-mono); }
+.enni-brand { display: inline-flex; align-items: center; gap: var(--enni-space-2); color: var(--enni-ink); font-weight: 600; letter-spacing: var(--enni-tracking-display); text-decoration: none; }
+a.enni-brand { min-height: 44px; }
+.enni-brand__ground { fill: var(--enni-accent); }
+.enni-brand__bar { fill: var(--enni-accent-ink); }
+.enni-badge { display: inline-flex; align-items: center; gap: var(--enni-space-2); padding: var(--enni-space-1) var(--enni-space-3); border: 1px solid var(--enni-tone-edge); border-radius: var(--enni-radius-lg); background: var(--enni-tone-ground); color: var(--enni-tone-ink); font-size: var(--enni-type-sm); font-weight: 600; white-space: nowrap; }
+.enni-count { display: inline-flex; align-items: center; justify-content: center; min-width: 1.25rem; padding: 0 var(--enni-space-1); border-radius: var(--enni-radius-pill); background: var(--enni-accent-soft); color: var(--enni-accent); font-size: var(--enni-type-sm); font-weight: 600; }
+`;
+
 /** Every rule the primitives need, in one string for the root layout to put on the page. */
-export const PRIMITIVES_CSS = [BASE, TYPOGRAPHY, BUTTON, FORM, DISCLOSURE, TONES, STATUS, KEYFRAMES]
+export const PRIMITIVES_CSS = [
+  BASE,
+  TYPOGRAPHY,
+  BUTTON,
+  FORM,
+  DISCLOSURE,
+  TONES,
+  STATUS,
+  SURFACES,
+  KEYFRAMES,
+]
   .join("\n")
   .trim();

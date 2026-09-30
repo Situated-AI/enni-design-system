@@ -1,30 +1,71 @@
 /**
- * Buttons and chips (#61).
+ * Buttons and chips (#61, #280).
  *
  * `SubmitButton` retypes one of v1's seven neutral primitives (D-55, D-16): while a submission is
  * in flight it stays in the tab order, says so to a screen reader with `aria-busy`, and refuses a
  * second press — so *"I pressed it twice"* is never two requests.
  *
+ * **Variants and sizes (#280).** `primary` is filled accent; `secondary` is outlined on a surface
+ * (the landing's *Try it on a sample space*); `quiet` is outlined on nothing; `danger` is the
+ * destructive one. `lg` is the landing's call to action, and `block` fills the width, as the
+ * phone's calls to action do. A call to action that goes somewhere is a `ButtonLink` — an `<a>`,
+ * so it opens in a new tab and a screen reader hears a link.
+ *
  * A `Chip` is a suggestion a person can take: the refusal's way forward (§3.14) and the connected
  * step's next moves (§6) are chips. It is a button, never a link that looks like one.
+ * `SuggestionChip` is the one that *says* its label into the conversation when tapped.
  */
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
-export type ButtonVariant = "primary" | "quiet" | "danger";
+export type ButtonVariant = "primary" | "secondary" | "quiet" | "danger";
+export type ButtonSize = "md" | "lg";
 
-type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> & {
-  readonly variant?: ButtonVariant;
-  readonly children: ReactNode;
-};
+type Look = { readonly size?: ButtonSize; readonly block?: boolean };
 
-export const buttonClass = (variant: ButtonVariant): string =>
-  `enni-button enni-button--${variant}`;
+type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> &
+  Look & {
+    readonly variant?: ButtonVariant;
+    readonly children: ReactNode;
+  };
 
-export function Button({ variant = "quiet", type = "button", children, ...rest }: ButtonProps) {
+export const buttonClass = (variant: ButtonVariant, { size = "md", block = false }: Look = {}) =>
+  [
+    "enni-button",
+    `enni-button--${variant}`,
+    size === "lg" ? "enni-button--lg" : null,
+    block ? "enni-button--block" : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+export function Button({
+  variant = "quiet",
+  size,
+  block,
+  type = "button",
+  children,
+  ...rest
+}: ButtonProps) {
   return (
-    <button {...rest} type={type} className={buttonClass(variant)}>
+    <button {...rest} type={type} className={buttonClass(variant, { size, block })}>
       {children}
     </button>
+  );
+}
+
+type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "className"> &
+  Look & {
+    readonly href: string;
+    readonly variant?: ButtonVariant;
+    readonly children: ReactNode;
+  };
+
+/** A call to action that navigates: a link with a button's look. */
+export function ButtonLink({ variant = "secondary", size, block, children, ...rest }: LinkProps) {
+  return (
+    <a {...rest} className={buttonClass(variant, { size, block })}>
+      {children}
+    </a>
   );
 }
 
@@ -35,12 +76,20 @@ type SubmitProps = Omit<ButtonProps, "type" | "variant"> & {
   readonly pendingLabel: string;
 };
 
-export function SubmitButton({ pending, pendingLabel, children, disabled, ...rest }: SubmitProps) {
+export function SubmitButton({
+  pending,
+  pendingLabel,
+  children,
+  disabled,
+  size,
+  block,
+  ...rest
+}: SubmitProps) {
   return (
     <button
       {...rest}
       type="submit"
-      className={buttonClass("primary")}
+      className={buttonClass("primary", { size, block })}
       disabled={disabled === true || pending}
       aria-busy={pending}
     >
@@ -58,5 +107,21 @@ export function Chip({ children, ...rest }: ChipProps) {
     <button {...rest} type="button" className="enni-chip">
       {children}
     </button>
+  );
+}
+
+type SuggestionProps = {
+  /** The sentence the chip shows — and says, word for word, when tapped. */
+  readonly label: string;
+  /** The conversation's own path: tapping a chip is typing its label and pressing Enter. */
+  readonly onSay: (sentence: string) => void;
+  readonly disabled?: boolean;
+};
+
+export function SuggestionChip({ label, onSay, disabled }: SuggestionProps) {
+  return (
+    <Chip onClick={() => onSay(label)} disabled={disabled}>
+      {label}
+    </Chip>
   );
 }

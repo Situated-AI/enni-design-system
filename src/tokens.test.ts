@@ -62,6 +62,8 @@ describe.each([
   test("a primary button's label reads on the accent, and the said bubble's ink on its ground", () => {
     expect(contrastRatio(palette["accent-ink"], palette.accent)).toBeGreaterThanOrEqual(AA);
     expect(contrastRatio(palette.ink, palette["accent-soft"])).toBeGreaterThanOrEqual(AA);
+    // #280: the count badge — the accent on its soft ground.
+    expect(contrastRatio(palette.accent, palette["accent-soft"])).toBeGreaterThanOrEqual(AA);
   });
 });
 
