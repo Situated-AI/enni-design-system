@@ -14,9 +14,23 @@ import { TONE_TOKENS } from "./status.tsx";
 
 const BASE = `
 *, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; background: var(--enni-canvas); color: var(--enni-ink); font-family: var(--enni-font-sans); font-size: var(--enni-type-md); line-height: 1.5; }
+body { margin: 0; background: var(--enni-canvas); color: var(--enni-ink); font-family: var(--enni-font-sans); font-size: var(--enni-type-md); line-height: var(--enni-leading-md); }
 :focus-visible { outline: 2px solid var(--enni-focus); outline-offset: 2px; }
 .enni-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+`;
+
+/**
+ * Enni's voice (#278, D-135). What Enni says is set in the serif, once, by the `.enni-voice` a turn
+ * carries — no screen chooses a font for it. Controls inside a turn (a chip, a confirm, a field)
+ * are the interface speaking, so they stay in the sans. The eyebrow is mono, spaced and in capitals;
+ * the display is the landing's headline.
+ */
+const TYPOGRAPHY = `
+.enni-voice { font-family: var(--enni-font-serif); font-size: var(--enni-type-lg); line-height: var(--enni-leading-lg); }
+.enni-voice :is(button, input, textarea, select, summary, .enni-mark, .enni-orb) { font-family: var(--enni-font-sans); font-size: var(--enni-type-md); }
+.enni-eyebrow { font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); letter-spacing: var(--enni-tracking-eyebrow); text-transform: uppercase; color: var(--enni-ink-muted); }
+.enni-display { font-size: var(--enni-type-display); line-height: var(--enni-leading-display); letter-spacing: var(--enni-tracking-display); font-weight: 600; }
+code, kbd, samp { font-family: var(--enni-font-mono); }
 `;
 
 const BUTTON = `
@@ -72,4 +86,6 @@ const STATUS = `
 `;
 
 /** Every rule the primitives need, in one string for the root layout to put on the page. */
-export const PRIMITIVES_CSS = [BASE, BUTTON, FORM, DISCLOSURE, TONES, STATUS].join("\n").trim();
+export const PRIMITIVES_CSS = [BASE, TYPOGRAPHY, BUTTON, FORM, DISCLOSURE, TONES, STATUS]
+  .join("\n")
+  .trim();

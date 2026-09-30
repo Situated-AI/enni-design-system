@@ -4,6 +4,8 @@ import {
   type ColourToken,
   colour,
   DARK,
+  FONT,
+  LEADING,
   LIGHT,
   type Palette,
   paletteCss,
@@ -13,6 +15,8 @@ import {
   SPACE,
   scaleCss,
   TOKENS_CSS,
+  TRACKING,
+  TYPE,
 } from "./tokens.ts";
 
 describe("the two themes", () => {
@@ -88,4 +92,29 @@ describe("the stylesheet is generated from the tables", () => {
 
 test("a colour is named through its variable, never as a value", () => {
   expect(colour("accent")).toBe("var(--enni-accent)");
+});
+
+describe("typography (#278)", () => {
+  test("each family leads with its face, and keeps a system stack behind it", () => {
+    expect(FONT.sans).toStartWith('"DM Sans", ');
+    expect(FONT.serif).toStartWith("Newsreader, ");
+    expect(FONT.mono).toStartWith('"JetBrains Mono", ');
+    expect(FONT.sans).toEndWith("sans-serif");
+    expect(FONT.serif).toEndWith("serif");
+    expect(FONT.mono).toEndWith("monospace");
+  });
+
+  test("the display runs 2rem on a phone to 3rem on a desktop", () => {
+    expect(TYPE.display).toMatch(/^clamp\(2rem, .+, 3rem\)$/);
+  });
+
+  test("every size has a line-height, and every one is declared", () => {
+    expect(Object.keys(LEADING).sort()).toEqual(Object.keys(TYPE).sort());
+    for (const step of Object.keys(LEADING))
+      expect(scaleCss()).toContain(`--enni-leading-${step}:`);
+  });
+
+  test("the eyebrow's tracking is declared", () => {
+    expect(scaleCss()).toContain(`--enni-tracking-eyebrow: ${TRACKING.eyebrow};`);
+  });
 });

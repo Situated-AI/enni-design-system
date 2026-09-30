@@ -20,6 +20,7 @@ export {
   DARK,
   type Elevation,
   FONT,
+  LEADING,
   LIGHT,
   MEASURE,
   MOTION,
@@ -29,5 +30,6 @@ export {
   SHADOW_LIGHT,
   SPACE,
   TOKENS_CSS,
+  TRACKING,
   TYPE,
 } from "./tokens.ts";

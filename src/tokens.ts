@@ -145,19 +145,44 @@ export const RADIUS = {
   pill: "999px",
 } as const;
 
+/**
+ * Three families, each with one job (#278, D-135): **DM Sans** for everything the interface says,
+ * **Newsreader** for what Enni says (`.enni-voice`), **JetBrains Mono** for eyebrows, ticket keys
+ * and source paths. Each leads a stack whose system fonts stay as the fallback, so a page whose
+ * fonts have not arrived — or never will — still reads. The faces themselves are the web app's
+ * (`font-faces.ts`): this package names families and serves no files.
+ */
 export const FONT = {
-  sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-  mono: 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace',
+  sans: '"DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  serif: 'Newsreader, ui-serif, Georgia, Cambria, "Times New Roman", serif',
+  mono: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace',
 } as const;
 
-/** Five sizes. The sentence of an answer is `lg`: it comes first and reads first (§3). */
+/**
+ * Five sizes and a display. The sentence of an answer is `lg`: it comes first and reads first (§3).
+ * `display` is the landing's headline: 2rem on a phone, growing to 3rem on a desktop.
+ */
 export const TYPE = {
   sm: "0.8125rem",
   md: "0.9375rem",
   lg: "1.125rem",
   xl: "1.375rem",
   xxl: "2rem",
+  display: "clamp(2rem, 1.25rem + 3.2vw, 3rem)",
 } as const;
+
+/** A line-height per step of `TYPE` — looser for reading, tighter as the size grows. */
+export const LEADING: Readonly<Record<keyof typeof TYPE, string>> = {
+  sm: "1.45",
+  md: "1.55",
+  lg: "1.6",
+  xl: "1.35",
+  xxl: "1.2",
+  display: "1.05",
+};
+
+/** Letter-spacing: mono eyebrows open up, the display headline closes in (the designs' values). */
+export const TRACKING = { eyebrow: "0.12em", display: "-0.025em" } as const;
 
 /** Motion a reader can switch off: `prefers-reduced-motion` zeroes both in `TOKENS_CSS`. */
 export const MOTION = { quick: "120ms", calm: "1600ms" } as const;
@@ -185,6 +210,8 @@ export function scaleCss(): string {
     ...declarations("radius-", RADIUS),
     ...declarations("font-", FONT),
     ...declarations("type-", TYPE),
+    ...declarations("leading-", LEADING),
+    ...declarations("tracking-", TRACKING),
     ...declarations("motion-", MOTION),
     ...declarations("measure-", MEASURE),
   ].join(" ");
