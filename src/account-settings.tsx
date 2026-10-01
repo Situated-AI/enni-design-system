@@ -130,9 +130,11 @@ type RowProps = {
   readonly title: ReactNode;
   readonly detail?: ReactNode;
   readonly trailing?: ReactNode;
+  /** #308: what the row's action opened — a card, a confirmation — across the row's full width. */
+  readonly below?: ReactNode;
 };
 
-export function Row({ monogram, title, detail, trailing }: RowProps) {
+export function Row({ monogram, title, detail, trailing, below }: RowProps) {
   return (
     <li className="enni-row">
       {monogram === undefined ? null : (
@@ -145,6 +147,7 @@ export function Row({ monogram, title, detail, trailing }: RowProps) {
         {detail === undefined ? null : <span className="enni-row__detail">{detail}</span>}
       </span>
       {trailing === undefined ? null : <span className="enni-row__trailing">{trailing}</span>}
+      {below === undefined ? null : <div className="enni-row__below">{below}</div>}
     </li>
   );
 }

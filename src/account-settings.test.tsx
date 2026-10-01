@@ -56,6 +56,11 @@ test("Row: title alone is enough", () => {
   );
 });
 
+test("Row: what its action opened sits below it, across the row (#308)", () => {
+  const html = renderToStaticMarkup(<Row title="Linear" below={<p>card</p>} />);
+  expect(html).toContain('<div class="enni-row__below"><p>card</p></div></li>');
+});
+
 test("ActionMenu: a named button that says it opens a menu, closed until pressed", () => {
   const html = renderToStaticMarkup(
     <ActionMenu
