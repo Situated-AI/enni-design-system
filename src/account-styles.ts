@@ -72,12 +72,12 @@ const SETTINGS = `
 .enni-settings-card__header h2 { margin: 0; font-family: var(--enni-font-sans); font-size: var(--enni-type-md); font-weight: 600; letter-spacing: normal; text-transform: none; }
 .enni-settings-card__why { margin: 0; color: var(--enni-ink-muted); }
 .enni-rows { display: grid; gap: var(--enni-space-2); margin: 0; padding: 0; list-style: none; }
-.enni-row { display: flex; align-items: center; gap: var(--enni-space-3); min-height: 52px; padding: var(--enni-space-2) var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); }
+.enni-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-3); min-height: 52px; padding: var(--enni-space-2) var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); }
 .enni-row__monogram { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-sunken); color: var(--enni-ink-muted); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
-.enni-row__text { display: grid; flex: 1; min-width: 0; }
+.enni-row__text { display: grid; flex: 1 1 12rem; min-width: 0; }
 .enni-row__title { overflow-wrap: anywhere; color: var(--enni-ink); }
 .enni-row__detail { overflow-wrap: anywhere; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
-.enni-row__trailing { display: inline-flex; flex-shrink: 0; align-items: center; gap: var(--enni-space-2); }
+.enni-row__trailing { display: inline-flex; flex-shrink: 0; align-items: center; gap: var(--enni-space-2); margin-left: auto; }
 .enni-action-menu { position: relative; display: inline-flex; }
 .enni-action-menu__list { position: absolute; top: calc(100% + var(--enni-space-1)); right: 0; z-index: 5; display: grid; min-width: 14rem; margin: 0; padding: var(--enni-space-1); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-lift); list-style: none; }
 .enni-action-menu__list button { width: 100%; min-height: 44px; padding: 0 var(--enni-space-3); border: 0; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink); font: inherit; text-align: left; cursor: pointer; }

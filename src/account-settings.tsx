@@ -68,6 +68,8 @@ export function Dialog({ title, lede, open, onClose, closeLabel, children }: Dia
       ref={ref}
       className="enni-dialog"
       aria-labelledby={heading}
+      // What the dialog was asked to be — so a screenshot can wait for `showModal` to catch up.
+      data-open={open}
       onClose={onClose}
       onKeyDown={wrapTab}
     >
