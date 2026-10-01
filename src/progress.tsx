@@ -50,14 +50,20 @@ type RefusalProps = {
   readonly sentence: ReactNode;
   /** The way forward — a `ChipRow`. */
   readonly children?: ReactNode;
+  /** #311, B12/B13: the conversation notice's two buttons — *Raise the tool limit*, *Add credits*. */
+  readonly actions?: ReactNode;
+  /** And the small line under them — *Nothing was charged for refused questions.* */
+  readonly footnote?: ReactNode;
 };
 
-export function RefusalCard({ title, sentence, children }: RefusalProps) {
+export function RefusalCard({ title, sentence, children, actions, footnote }: RefusalProps) {
   return (
     <div className="enni-refusal">
       <p className="enni-refusal__title">{title}</p>
       <p className="enni-refusal__sentence">{sentence}</p>
       {children}
+      {actions === undefined ? null : <div className="enni-refusal__actions">{actions}</div>}
+      {footnote === undefined ? null : <p className="enni-refusal__footnote">{footnote}</p>}
     </div>
   );
 }

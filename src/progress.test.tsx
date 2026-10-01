@@ -47,3 +47,23 @@ test("the heard bubble is the words so far, and not a live region (#301)", () =>
   const html = renderToStaticMarkup(<HeardBubble text="Is PAY-1427 ready for an agent to…" />);
   expect(html).toBe('<p class="enni-heard">Is PAY-1427 ready for an agent to…</p>');
 });
+
+test("#311: a RefusalCard can carry two actions and a footnote — the conversation notice (B12, B13)", () => {
+  const html = renderToStaticMarkup(
+    <RefusalCard
+      title="Tools resume at 3:40 pm"
+      sentence="This limit keeps a tool stuck in a loop from using the month."
+      actions={<button type="button">Raise the tool limit</button>}
+      footnote="Nothing was charged for refused questions."
+    />,
+  );
+  expect(html).toContain(
+    '<div class="enni-refusal__actions"><button type="button">Raise the tool limit</button></div>',
+  );
+  expect(html).toContain(
+    '<p class="enni-refusal__footnote">Nothing was charged for refused questions.</p>',
+  );
+  expect(renderToStaticMarkup(<RefusalCard title="t" sentence="s" />)).not.toContain(
+    "enni-refusal__actions",
+  );
+});

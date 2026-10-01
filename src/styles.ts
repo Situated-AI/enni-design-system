@@ -12,6 +12,7 @@
 
 import { ACCOUNT_CSS } from "./account-styles.ts";
 import { ANSWER_CSS } from "./answer-styles.ts";
+import { BILLING_CSS } from "./billing-styles.ts";
 import { GUIDED_CSS } from "./guided-styles.ts";
 import { TONE_TOKENS } from "./status.tsx";
 
@@ -204,6 +205,7 @@ export const PRIMITIVES_CSS = [
   ANSWER_CSS,
   ACCOUNT_CSS,
   GUIDED_CSS,
+  BILLING_CSS,
   TOGGLE,
   KEYFRAMES,
 ]
