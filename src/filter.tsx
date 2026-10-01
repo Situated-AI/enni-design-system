@@ -5,6 +5,9 @@
  * Native radios in a named fieldset: arrow keys move between the options and choose as they go, a
  * screen reader hears *Project, radio group, PAY · 3, 2 of 3*, and the count is part of each name.
  * The label is the fieldset's legend, hidden — the design draws no word before the options.
+ *
+ * `look="chips"` draws the same group as separate pills (#307: *Claude Code · Cursor · Something
+ * else*) — a choice that changes what follows, rather than a filter over one list.
  */
 import { useId } from "react";
 
@@ -13,12 +16,13 @@ type FilterProps = {
   readonly options: readonly { readonly value: string; readonly label: string }[];
   readonly value: string;
   readonly onChange: (value: string) => void;
+  readonly look?: "segmented" | "chips";
 };
 
-export function Filter({ label, options, value, onChange }: FilterProps) {
+export function Filter({ label, options, value, onChange, look = "segmented" }: FilterProps) {
   const name = useId();
   return (
-    <fieldset className="enni-segmented enni-filter">
+    <fieldset className={`enni-segmented enni-filter enni-filter--${look}`}>
       <legend className="enni-visually-hidden">{label}</legend>
       <span className="enni-segmented__options">
         {options.map((option) => (
