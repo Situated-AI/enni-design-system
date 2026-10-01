@@ -4,9 +4,9 @@
  * as A01–A12 and S01–S09 draw them. Tokens only (`account-styles.test.ts`).
  */
 const FLOW = `
-.enni-steps { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-2); margin: 0; padding: 0; list-style: none; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
+.enni-steps { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-1); margin: 0; padding: 0; list-style: none; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
 .enni-steps li { display: inline-flex; align-items: center; gap: var(--enni-space-1); }
-.enni-steps li + li::before { content: ""; width: var(--enni-space-4); height: 1px; margin-right: var(--enni-space-1); background: var(--enni-line); }
+.enni-steps li + li::before { content: ""; width: var(--enni-space-3); height: 1px; margin-right: var(--enni-space-1); background: var(--enni-line); }
 .enni-steps__mark { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-pill); font-size: var(--enni-type-sm); }
 .enni-steps li[data-state="done"] .enni-steps__mark { border-color: var(--enni-accent); background: var(--enni-accent); color: var(--enni-accent-ink); }
 .enni-steps li[data-state="current"] { color: var(--enni-ink); }
