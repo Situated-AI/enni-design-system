@@ -58,7 +58,7 @@ export function GuidedCard({
       </header>
       <SegmentedProgress current={current} total={total} />
       <div className="enni-guided__body">{children}</div>
-      {footer === undefined ? null : <p className="enni-guided__footer">{footer}</p>}
+      {footer === undefined ? null : <div className="enni-guided__footer">{footer}</div>}
     </section>
   );
 }

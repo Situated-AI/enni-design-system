@@ -26,7 +26,7 @@ test("GuidedCard: named by its title, the step in words, bars, body and footer, 
   );
   expect(html).toContain('class="enni-segments"');
   expect(html).toContain("<p>body</p>");
-  expect(html).toContain('<p class="enni-guided__footer">Stuck? Say it.</p>');
+  expect(html).toContain('<div class="enni-guided__footer">Stuck? Say it.</div>');
 });
 
 test("GuidedCard: no footer, no empty line", () => {
