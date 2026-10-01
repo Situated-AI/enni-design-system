@@ -21,6 +21,9 @@ export const ANSWER_CSS = `
 .enni-segmented { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-2); min-width: 0; min-inline-size: 0; margin: 0; padding: 0; border: 0; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
 .enni-segmented__options { display: inline-flex; padding: 2px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); }
 .enni-segmented button { min-height: 44px; padding: 0 var(--enni-space-2); border: 1px solid transparent; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink-muted); font: inherit; cursor: pointer; }
+.enni-filter label { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--enni-space-2); border: 1px solid transparent; border-radius: var(--enni-radius-md); color: var(--enni-ink-muted); cursor: pointer; }
+.enni-filter label:has(input:checked) { border-color: var(--enni-line-strong); background: var(--enni-sunken); color: var(--enni-ink); font-weight: 600; }
+.enni-filter label:has(input:focus-visible) { outline: 2px solid var(--enni-accent); outline-offset: 2px; }
 .enni-segmented button[aria-pressed="true"] { border-color: var(--enni-line-strong); background: var(--enni-sunken); color: var(--enni-ink); font-weight: 600; }
 .enni-sources { border-top: 1px solid var(--enni-line); }
 .enni-sources > summary { display: flex; align-items: center; min-height: 44px; padding: 0 var(--enni-space-4); color: var(--enni-ink-muted); cursor: pointer; }

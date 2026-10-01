@@ -44,6 +44,7 @@ const PINNED = [
   "Eyebrow",
   "FONT",
   "Field",
+  "Filter",
   "GuidedCard",
   "HeardBubble",
   "HelpCard",
