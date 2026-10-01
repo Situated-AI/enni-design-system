@@ -15,7 +15,7 @@
  * step's next moves (§6) are chips. It is a button, never a link that looks like one.
  * `SuggestionChip` is the one that *says* its label into the conversation when tapped.
  */
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 export type ButtonVariant = "primary" | "secondary" | "quiet" | "danger";
 export type ButtonSize = "md" | "lg";
@@ -25,6 +25,8 @@ type Look = { readonly size?: ButtonSize; readonly block?: boolean };
 type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> &
   Look & {
     readonly variant?: ButtonVariant;
+    /** React 19 passes it through as a prop: the action menu returns focus to its button. */
+    readonly ref?: Ref<HTMLButtonElement>;
     readonly children: ReactNode;
   };
 

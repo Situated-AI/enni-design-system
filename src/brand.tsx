@@ -12,7 +12,8 @@ type BrandProps = {
   readonly href?: string;
 };
 
-function Tile() {
+/** The tile alone — the auth card's title mark (#289). */
+export function BrandTile() {
   return (
     <svg className="enni-brand__tile" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
       <rect className="enni-brand__ground" width="32" height="32" rx="7" />
@@ -26,7 +27,7 @@ function Tile() {
 export function BrandMark({ name, href }: BrandProps) {
   const inner = (
     <>
-      <Tile />
+      <BrandTile />
       <span className="enni-brand__name">{name}</span>
     </>
   );
