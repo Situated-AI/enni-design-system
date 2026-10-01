@@ -55,7 +55,14 @@ export function Sheet({ title, open, onClose, children }: SheetProps) {
   const heading = useId();
   useEffect(() => syncDialog(ref.current, open), [open]);
   return (
-    <dialog ref={ref} className="enni-sheet" aria-labelledby={heading} onClose={onClose}>
+    <dialog
+      ref={ref}
+      className="enni-sheet"
+      aria-labelledby={heading}
+      // What the sheet was asked to be — so a screenshot can wait for `showModal` to catch up.
+      data-open={open}
+      onClose={onClose}
+    >
       <header className="enni-sheet__header">
         <h2 id={heading}>{title}</h2>
         <Button onClick={onClose} aria-label={`Close ${title}`}>

@@ -71,6 +71,7 @@ export { DetailsBlock, SourceCard, SourceList } from "./sources.tsx";
 export { PRIMITIVES_CSS } from "./styles.ts";
 export { Card, CheckList, Eyebrow } from "./surface.tsx";
 export { relativeTime, ScrollHere, Timestamp } from "./time.tsx";
+export { Toggle } from "./toggle.tsx";
 export { ChipRow, Hint, Turn } from "./turn.tsx";
 export {
   type ColourToken,

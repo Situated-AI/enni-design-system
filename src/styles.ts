@@ -105,6 +105,18 @@ const STATUS = `
  * while the mic is open; a turn or a sheet arrives. Every duration is a `MOTION` token, and
  * `prefers-reduced-motion` zeroes them all in `TOKENS_CSS`, so a still reader gets the end state.
  */
+/** #306: a setting, on or off — the row is the target; the switch is drawn, the checkbox is real. */
+const TOGGLE = `
+.enni-toggle { display: flex; align-items: center; justify-content: space-between; gap: var(--enni-space-3); min-height: 52px; padding: var(--enni-space-2) var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); cursor: pointer; }
+.enni-toggle__text { display: grid; min-width: 0; }
+.enni-toggle__label { color: var(--enni-ink); }
+.enni-toggle__hint { color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
+.enni-toggle__switch { appearance: none; position: relative; flex-shrink: 0; width: 40px; height: 24px; margin: 0; border: 1px solid var(--enni-line-strong); border-radius: var(--enni-radius-pill); background: var(--enni-sunken); cursor: pointer; transition: background var(--enni-motion-quick); }
+.enni-toggle__switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: var(--enni-radius-pill); background: var(--enni-surface); box-shadow: var(--enni-shadow-card); transition: transform var(--enni-motion-quick); }
+.enni-toggle__switch:checked { border-color: var(--enni-accent); background: var(--enni-accent); }
+.enni-toggle__switch:checked::after { transform: translateX(16px); }
+`;
+
 const KEYFRAMES = `
 @keyframes enni-breath { 0%, 100% { transform: scale(1); opacity: 0.92; } 50% { transform: scale(1.04); opacity: 1; } }
 @keyframes enni-listen { 0%, 100% { box-shadow: 0 0 0 4px color-mix(in oklch, var(--enni-tone-ink) 22%, transparent); } 50% { box-shadow: 0 0 0 10px color-mix(in oklch, var(--enni-tone-ink) 22%, transparent); } }
@@ -192,6 +204,7 @@ export const PRIMITIVES_CSS = [
   ANSWER_CSS,
   ACCOUNT_CSS,
   GUIDED_CSS,
+  TOGGLE,
   KEYFRAMES,
 ]
   .join("\n")

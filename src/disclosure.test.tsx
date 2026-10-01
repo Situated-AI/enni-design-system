@@ -28,7 +28,7 @@ describe("Sheet", () => {
 
   test("is a dialog labelled by its own heading", () => {
     expect(html(true)).toMatch(
-      /<dialog class="enni-sheet" aria-labelledby="([^"]+)">[\s\S]*<h2 id="\1">Connected apps<\/h2>/,
+      /<dialog class="enni-sheet" aria-labelledby="([^"]+)" data-open="(true|false)">[\s\S]*<h2 id="\1">Connected apps<\/h2>/,
     );
   });
 

@@ -88,6 +88,7 @@ const PINNED = [
   "TYPE",
   "TalkButton",
   "Timestamp",
+  "Toggle",
   "Turn",
   "buttonClass",
   "codeDigits",
