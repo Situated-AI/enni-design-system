@@ -2,6 +2,15 @@ import { describe, expect, test } from "bun:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Details, Sheet, syncDialog } from "./disclosure.tsx";
 
+test("#300: Details can be opened from outside", () => {
+  const html = renderToStaticMarkup(
+    <Details summary="Details" open>
+      formal verdict
+    </Details>,
+  );
+  expect(html).toContain('<details class="enni-details" open=""');
+});
+
 test("Details is a native disclosure, closed until asked", () => {
   const html = renderToStaticMarkup(<Details summary="Details">formal verdict</Details>);
   expect(html).toContain("<details");

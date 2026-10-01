@@ -14,9 +14,18 @@
 import { type ReactNode, useEffect, useId, useRef } from "react";
 import { Button } from "./button.tsx";
 
-export function Details({ summary, children }: { summary: string; children: ReactNode }) {
+export function Details({
+  summary,
+  open,
+  children,
+}: {
+  summary: string;
+  /** Opened from outside — #300's switch. A person can still open or close each one. */
+  open?: boolean;
+  children: ReactNode;
+}) {
   return (
-    <details className="enni-details">
+    <details className="enni-details" open={open}>
       <summary>{summary}</summary>
       {children}
     </details>
