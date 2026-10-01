@@ -18,7 +18,7 @@ export const ANSWER_CSS = `
 .enni-cite { display: inline-flex; align-items: center; min-height: 24px; min-width: 24px; color: var(--enni-ink-subtle); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
 .enni-answer-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-2); }
 .enni-answer-actions > :last-child { margin-left: auto; }
-.enni-segmented { display: inline-flex; align-items: center; gap: var(--enni-space-2); min-width: 0; margin: 0; padding: 0; border: 0; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
+.enni-segmented { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-2); min-width: 0; min-inline-size: 0; margin: 0; padding: 0; border: 0; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
 .enni-segmented__options { display: inline-flex; padding: 2px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); }
 .enni-segmented button { min-height: 44px; padding: 0 var(--enni-space-2); border: 1px solid transparent; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink-muted); font: inherit; cursor: pointer; }
 .enni-segmented button[aria-pressed="true"] { border-color: var(--enni-line-strong); background: var(--enni-sunken); color: var(--enni-ink); font-weight: 600; }
