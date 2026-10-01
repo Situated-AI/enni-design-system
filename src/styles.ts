@@ -12,6 +12,7 @@
 
 import { ACCOUNT_CSS } from "./account-styles.ts";
 import { ANSWER_CSS } from "./answer-styles.ts";
+import { GUIDED_CSS } from "./guided-styles.ts";
 import { TONE_TOKENS } from "./status.tsx";
 
 const BASE = `
@@ -190,6 +191,7 @@ export const PRIMITIVES_CSS = [
   TURNS,
   ANSWER_CSS,
   ACCOUNT_CSS,
+  GUIDED_CSS,
   KEYFRAMES,
 ]
   .join("\n")

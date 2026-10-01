@@ -53,6 +53,16 @@ export { Composer, TalkButton } from "./composer.tsx";
 export { COPY_WORDS, CopyButton, type CopyState, copyValue } from "./copy-button.tsx";
 export { Details, Sheet, syncDialog } from "./disclosure.tsx";
 export { describedBy, Field } from "./field.tsx";
+export { Confirmation, GuidedCard, SegmentedProgress } from "./guided-card.tsx";
+export {
+  type Answer,
+  AnswerChips,
+  type Instruction,
+  InstructionList,
+  NewTabLink,
+  SecretField,
+  takeSecret,
+} from "./guided-inputs.tsx";
 export { HelpCard, type HelpRow } from "./help-card.tsx";
 export { ICONS, Icon, type IconName } from "./icon.tsx";
 export { type Mark, Orb, type OrbSize, StatusMark, TONE_TOKENS, type Tone } from "./status.tsx";
