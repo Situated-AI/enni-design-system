@@ -39,7 +39,7 @@ const INPUTS = `
 .enni-code-list ul { display: grid; grid-template-columns: repeat(2, max-content); gap: var(--enni-space-1) calc(2 * var(--enni-space-5)); margin: 0; padding: 0; list-style: none; color: var(--enni-ink); font-family: var(--enni-font-mono); }
 .enni-code-list__actions, .enni-copy-field { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-2); }
 .enni-copy-field { padding: 2px 2px 2px var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-sunken); }
-.enni-copy-field code { flex: 1; min-width: 0; overflow-wrap: anywhere; color: var(--enni-ink); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
+.enni-copy-field code { flex: 1; min-width: 0; overflow-wrap: anywhere; white-space: pre-wrap; color: var(--enni-ink); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
 .enni-copy-field__status:empty { display: none; }
 .enni-copy-field__status, .enni-code-list__actions [role="status"] { color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
 .enni-qr { display: flex; gap: var(--enni-space-4); padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-card); }
