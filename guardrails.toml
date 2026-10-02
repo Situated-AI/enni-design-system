@@ -1,0 +1,5 @@
+# The same ceilings enni-v2's samuel.toml sets (D-35), enforced here by scripts/guardrails.test.ts.
+[guardrails]
+max_function_lines = 50
+max_file_lines = 300
+require_tests = true
