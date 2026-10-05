@@ -16,3 +16,11 @@ describe("Icon", () => {
     }
   });
 });
+
+test("no two icons draw the same thing: settings is not today's sun (enni-v2 #380)", () => {
+  const drawn = ICONS.map((name) => renderToStaticMarkup(<Icon name={name} />));
+  expect(new Set(drawn).size).toBe(ICONS.length);
+  const paths = (name: (typeof ICONS)[number]) =>
+    [...renderToStaticMarkup(<Icon name={name} />).matchAll(/d="([^"]+)"/g)].map((m) => m[1]);
+  expect(paths("settings").some((d) => paths("today").includes(d))).toBe(false);
+});
