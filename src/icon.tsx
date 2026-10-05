@@ -20,7 +20,8 @@ const PATHS: Readonly<Record<IconName, readonly string[]>> = {
   ],
   conversation: ["M3 4.5h10v6H7l-3 2.5v-2.5H3z"],
   memory: ["M4.5 2.5h7v11L8 11l-3.5 2.5z"],
-  settings: ["M8 6a2 2 0 1 0 0 4a2 2 0 1 0 0-4z", "M8 1.5v2", "M8 12.5v2", "M1.5 8h2", "M12.5 8h2"],
+  // Two sliders: never the sun of *today*, which it sat beside in the rail (enni-v2 #380).
+  settings: ["M2.5 5h5.5", "M11.5 5h2", "M10 3.5v3", "M2.5 11h2", "M8 11h5.5", "M6.5 9.5v3"],
   menu: ["M2.5 4.5h11", "M2.5 8h11", "M2.5 11.5h11"],
   mic: [
     "M8 2a2 2 0 0 0-2 2v4a2 2 0 0 0 4 0V4a2 2 0 0 0-2-2z",
