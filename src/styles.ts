@@ -14,6 +14,7 @@ import { ACCOUNT_CSS } from "./account-styles.ts";
 import { ANSWER_CSS } from "./answer-styles.ts";
 import { BILLING_CSS } from "./billing-styles.ts";
 import { GUIDED_CSS } from "./guided-styles.ts";
+import { MOTION_CSS } from "./motion-styles.ts";
 import { TONE_TOKENS } from "./status.tsx";
 
 const BASE = `
@@ -66,7 +67,6 @@ const FORM = `
 const DISCLOSURE = `
 .enni-details { border-top: 1px solid var(--enni-line); padding-top: var(--enni-space-2); }
 .enni-details > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--enni-ink-muted); font-weight: 600; }
-.enni-sheet[open] { animation: enni-sheet-in var(--enni-motion-enter) var(--enni-ease-standard) both; }
 .enni-sheet { box-shadow: var(--enni-shadow-lift); width: min(100vw, var(--enni-measure-sheet)); max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0 0 0 auto; padding: var(--enni-space-5); border: 0; border-left: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink); }
 .enni-sheet::backdrop { background: color-mix(in srgb, var(--enni-ink) 35%, transparent); }
 .enni-sheet__header { display: flex; align-items: center; justify-content: space-between; gap: var(--enni-space-3); margin-bottom: var(--enni-space-4); }
@@ -208,6 +208,7 @@ export const PRIMITIVES_CSS = [
   BILLING_CSS,
   TOGGLE,
   KEYFRAMES,
+  MOTION_CSS,
 ]
   .join("\n")
   .trim();

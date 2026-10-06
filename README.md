@@ -30,8 +30,22 @@ import { Button, PRIMITIVES_CSS, TOKENS_CSS } from "@enni/ui";
 ```
 
 The package ships TypeScript source (`exports: ./src/index.ts`). A Next app lists it in
-`transpilePackages`. Dark mode follows the reader's system preference, and `prefers-reduced-motion`
-zeroes every duration.
+`transpilePackages`. Dark mode follows the reader's system preference unless the root element
+carries `data-theme="light"` or `"dark"`, and `prefers-reduced-motion` zeroes every duration.
+
+## Motion
+
+`motion-styles.ts` is the last part of `PRIMITIVES_CSS`. Every control eases between its states and
+gives under a press; a sheet and a dialog fade out as well as in; a disclosure opens over its own
+height where the browser can interpolate to `auto`. Three classes are for screens to use:
+
+| Class | What it does |
+|---|---|
+| `enni-rise` | The element arrives: a short rise and fade, on `motion-enter`. |
+| `enni-stagger` | Its children arrive one after another, `motion-stagger` apart. |
+| `enni-card--interactive` | A card that is a target: it lifts on hover and settles on press. |
+
+`<Skeleton label="Loading" />` holds the space of content that is still being fetched.
 
 ## What's in it
 
@@ -58,6 +72,7 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `guided-inputs` | `AnswerChips`, `InstructionList`, `NewTabLink`, `SecretField`, `takeSecret` |
 | `help-card` | `HelpCard` |
 | `icon` | `ICONS`, `Icon` |
+| `skeleton` | `Skeleton`, `skeletonClass` |
 | `status` | `Orb`, `StatusMark`, `TONE_TOKENS` |
 | `progress` | `HeardBubble`, `ReadingSteps`, `RefusalCard` |
 | `sources` | `DetailsBlock`, `SourceCard`, `SourceList` |

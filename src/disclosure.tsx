@@ -11,8 +11,9 @@
  * it, the page behind is inert, and focus returns to what opened it. The design's open question on
  * stacking and focus (#116 F9) starts from the platform's answer rather than a hand-rolled one.
  */
-import { type ReactNode, useEffect, useId, useRef } from "react";
+import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { Button } from "./button.tsx";
+import { MOTION } from "./tokens.ts";
 
 export function Details({
   summary,
@@ -50,9 +51,31 @@ export function syncDialog(
   if (!open && dialog.open) dialog.close();
 }
 
+/** How long a sheet or a dialog takes to leave: `MOTION.exit`, as a number a timer can take. */
+export const EXIT_MS = Number.parseInt(MOTION.exit, 10);
+
+/**
+ * Whether a sheet's content should still be rendered: while it is open, and for as long as it takes
+ * to leave afterwards (enni-v2 #428). Without this the content vanished the moment `open` flipped,
+ * and the sheet faded out empty.
+ */
+export function useLinger(open: boolean): boolean {
+  const [kept, setKept] = useState(open);
+  useEffect(() => {
+    if (open) {
+      setKept(true);
+      return;
+    }
+    const timer = setTimeout(() => setKept(false), EXIT_MS);
+    return () => clearTimeout(timer);
+  }, [open]);
+  return open || kept;
+}
+
 export function Sheet({ title, open, onClose, children }: SheetProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const heading = useId();
+  const shown = useLinger(open);
   useEffect(() => syncDialog(ref.current, open), [open]);
   return (
     <dialog
@@ -69,7 +92,7 @@ export function Sheet({ title, open, onClose, children }: SheetProps) {
           Close
         </Button>
       </header>
-      {open ? children : null}
+      {shown ? children : null}
     </dialog>
   );
 }

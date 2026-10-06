@@ -93,6 +93,16 @@ describe("the stylesheet is generated from the tables", () => {
     expect(TOKENS_CSS).toContain("prefers-reduced-motion: reduce");
   });
 
+  test("a chosen theme overrides the system's, and no choice follows it (enni-v2 #433)", () => {
+    expect(TOKENS_CSS).toContain(
+      `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { ${paletteCss(DARK)}`,
+    );
+    expect(TOKENS_CSS).toContain(
+      `:root[data-theme="dark"] { color-scheme: dark; ${paletteCss(DARK)}`,
+    );
+    expect(TOKENS_CSS).toContain(`:root[data-theme="light"] { color-scheme: light; }`);
+  });
+
   test("reduced motion zeroes every MOTION duration, not a list typed beside it (#279)", () => {
     const still =
       TOKENS_CSS.split("\n").find((line) => line.includes("prefers-reduced-motion")) ?? "";
