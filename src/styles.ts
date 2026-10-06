@@ -14,6 +14,7 @@ import { ACCOUNT_CSS } from "./account-styles.ts";
 import { ANSWER_CSS } from "./answer-styles.ts";
 import { BILLING_CSS } from "./billing-styles.ts";
 import { GUIDED_CSS } from "./guided-styles.ts";
+import { MOTION_CSS } from "./motion-styles.ts";
 import { TONE_TOKENS } from "./status.tsx";
 
 const BASE = `
@@ -208,6 +209,7 @@ export const PRIMITIVES_CSS = [
   BILLING_CSS,
   TOGGLE,
   KEYFRAMES,
+  MOTION_CSS,
 ]
   .join("\n")
   .trim();

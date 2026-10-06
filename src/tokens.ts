@@ -200,13 +200,24 @@ export const ORB: Readonly<Record<"accent" | Status, { glow: string; deep: strin
 
 /**
  * Motion a reader can switch off: `prefers-reduced-motion` zeroes every one in `TOKENS_CSS`.
- * `enter` is a turn or a sheet arriving, `calm` the listening pulse, `breath` the reading orb's
- * (#279, the designs' `--duration-slow` and `presence-breath`).
+ * `quick` is a control changing state, `exit` a sheet leaving, `enter` a turn or a sheet arriving,
+ * `stagger` the step between items of a list arriving, `calm` the listening pulse, `breath` the
+ * reading orb's (#279, the designs' `--duration-slow` and `presence-breath`; enni-v2 #428).
  */
-export const MOTION = { quick: "120ms", enter: "220ms", calm: "1600ms", breath: "4500ms" } as const;
+export const MOTION = {
+  quick: "120ms",
+  exit: "160ms",
+  enter: "220ms",
+  stagger: "40ms",
+  calm: "1600ms",
+  breath: "4500ms",
+} as const;
 
-/** The designs' one easing, for everything that arrives. */
-export const EASE = { standard: "cubic-bezier(0.2, 0, 0, 1)" } as const;
+/** `standard` for a change of state; `out` for what arrives and should settle gently. */
+export const EASE = {
+  standard: "cubic-bezier(0.2, 0, 0, 1)",
+  out: "cubic-bezier(0.16, 1, 0.3, 1)",
+} as const;
 
 const orbStops = (): Record<string, string> =>
   Object.fromEntries(
@@ -248,10 +259,17 @@ export function scaleCss(): string {
   ].join(" ");
 }
 
-/** The stylesheet the root layout puts on the page: light, dark by preference, and still motion. */
+/**
+ * The stylesheet the root layout puts on the page: light, dark by preference, and still motion.
+ *
+ * A person may also choose (enni-v2 #433): `data-theme="dark"` or `"light"` on the root element
+ * overrides the system preference, and no attribute follows it.
+ */
 export const TOKENS_CSS = [
   `:root { color-scheme: light dark; ${scaleCss()} ${themeCss(LIGHT, SHADOW_LIGHT)} }`,
-  `@media (prefers-color-scheme: dark) { :root { ${themeCss(DARK, SHADOW_DARK)} } }`,
+  `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { ${themeCss(DARK, SHADOW_DARK)} } }`,
+  `:root[data-theme="dark"] { color-scheme: dark; ${themeCss(DARK, SHADOW_DARK)} }`,
+  `:root[data-theme="light"] { color-scheme: light; }`,
   `@media (prefers-reduced-motion: reduce) { :root { ${Object.keys(MOTION)
     .map((name) => `--enni-motion-${name}: 0ms;`)
     .join(" ")} } }`,

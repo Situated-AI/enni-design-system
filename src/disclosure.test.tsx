@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { renderToStaticMarkup } from "react-dom/server";
-import { Details, Sheet, syncDialog } from "./disclosure.tsx";
+import { Details, EXIT_MS, Sheet, syncDialog } from "./disclosure.tsx";
+import { MOTION } from "./tokens.ts";
 
 test("#300: Details can be opened from outside", () => {
   const html = renderToStaticMarkup(
@@ -67,4 +68,8 @@ describe("syncDialog", () => {
   test("before it mounts, nothing happens", () => {
     expect(() => syncDialog(null, true)).not.toThrow();
   });
+});
+
+test("a sheet's content lingers for exactly as long as the sheet takes to leave (enni-v2 #428)", () => {
+  expect(`${EXIT_MS}ms`).toBe(MOTION.exit);
 });

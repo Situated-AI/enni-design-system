@@ -17,7 +17,7 @@
  */
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { Button } from "./button.tsx";
-import { syncDialog } from "./disclosure.tsx";
+import { syncDialog, useLinger } from "./disclosure.tsx";
 
 type DialogProps = {
   readonly title: string;
@@ -61,6 +61,7 @@ export function wrapTab(event: KeyboardEvent<HTMLElement>): void {
 export function Dialog({ title, lede, open, onClose, closeLabel, children }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const heading = useId();
+  const shown = useLinger(open);
   useReturnFocus(open);
   useEffect(() => syncDialog(ref.current, open), [open]);
   return (
@@ -85,7 +86,7 @@ export function Dialog({ title, lede, open, onClose, closeLabel, children }: Dia
         </button>
       </header>
       {lede === undefined ? null : <div className="enni-dialog__lede">{lede}</div>}
-      {open ? <div className="enni-dialog__body">{children}</div> : null}
+      {shown ? <div className="enni-dialog__body">{children}</div> : null}
     </dialog>
   );
 }
