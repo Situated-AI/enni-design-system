@@ -6,8 +6,9 @@
  * them:
  *
  * - **Every control eases** between its states, on `motion-quick`, and gives a little under a press.
- * - **A sheet and a dialog leave as they arrived.** They had an entrance and no exit; closing one now
- *   fades it and its backdrop over `motion-exit` (`allow-discrete` keeps it painted until it ends).
+ * - **A sheet and a dialog leave as they arrived.** They had an entrance and no exit; one now slides
+ *   and fades in over `motion-enter` and out over `motion-exit`, with its backdrop (`allow-discrete`
+ *   keeps it painted until it has left).
  * - **A disclosure opens over its own height** where the browser can interpolate to `auto`, and
  *   snaps open where it cannot.
  * - **A skeleton** stands in for what is still being fetched, so nothing arrives as a layout jump.
@@ -52,14 +53,32 @@ ${EASED} { transition: ${PROPERTIES}; }
 .enni-field input:focus, .enni-field textarea:focus, .enni-composer textarea:focus { border-color: var(--enni-accent); }
 `;
 
+const moves = (duration: string, ease: string): string =>
+  [
+    `opacity var(--enni-motion-${duration}) var(--enni-ease-${ease})`,
+    `transform var(--enni-motion-${duration}) var(--enni-ease-${ease})`,
+    `overlay var(--enni-motion-${duration}) allow-discrete`,
+    `display var(--enni-motion-${duration}) allow-discrete`,
+  ].join(", ");
+
+/**
+ * A sheet and a dialog, arriving and leaving. Both are transitions rather than a keyframe: a
+ * transition does not start from a value a filled animation was holding, so the old `enni-sheet-in`
+ * entrance made every exit a jump. The closed rule carries the exit's timing and the open rule the
+ * entrance's, because a transition takes its timing from the state it is going to.
+ */
 const LEAVING = `
-.enni-sheet, .enni-dialog { opacity: 0; transition: opacity var(--enni-motion-exit) var(--enni-ease-standard), transform var(--enni-motion-exit) var(--enni-ease-standard), overlay var(--enni-motion-exit) allow-discrete, display var(--enni-motion-exit) allow-discrete; }
+.enni-sheet, .enni-dialog { opacity: 0; transition: ${moves("exit", "standard")}; }
 .enni-sheet { transform: translateX(var(--enni-space-4)); }
 .enni-dialog { transform: translateY(var(--enni-space-2)); }
-.enni-sheet[open], .enni-dialog[open] { opacity: 1; transform: none; }
-.enni-sheet::backdrop, .enni-dialog::backdrop { opacity: 0; transition: opacity var(--enni-motion-exit) var(--enni-ease-standard), overlay var(--enni-motion-exit) allow-discrete, display var(--enni-motion-exit) allow-discrete; }
+.enni-sheet[open], .enni-dialog[open] { opacity: 1; transform: none; transition: ${moves("enter", "out")}; }
+.enni-sheet::backdrop, .enni-dialog::backdrop { opacity: 0; transition: ${moves("exit", "standard")}; }
 .enni-sheet[open]::backdrop, .enni-dialog[open]::backdrop { opacity: 1; }
-@starting-style { .enni-sheet[open]::backdrop, .enni-dialog[open]::backdrop { opacity: 0; } }
+@starting-style {
+  .enni-sheet[open] { opacity: 0; transform: translateX(var(--enni-space-4)); }
+  .enni-dialog[open] { opacity: 0; transform: translateY(var(--enni-space-2)); }
+  .enni-sheet[open]::backdrop, .enni-dialog[open]::backdrop { opacity: 0; }
+}
 `;
 
 const OPENING = `

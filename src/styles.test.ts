@@ -34,12 +34,14 @@ describe("the primitives' stylesheet", () => {
     );
   });
 
-  test("#279: the four motions are keyframes here, each run on a MOTION duration and the one easing", () => {
+  test("#279: the motions are keyframes here, each run on a MOTION duration and the one easing", () => {
+    // `enni-sheet-in` stays for a screen's own use (enni-v2's phone rail); sheets and dialogs
+    // themselves arrive by transition now (motion-styles.ts).
+    expect(PRIMITIVES_CSS).toContain("@keyframes enni-sheet-in {");
     const uses: Record<string, string> = {
       "enni-breath": "breath",
       "enni-listen": "calm",
       "enni-enter": "enter",
-      "enni-sheet-in": "enter",
     };
     for (const [name, duration] of Object.entries(uses)) {
       expect(PRIMITIVES_CSS).toContain(`@keyframes ${name} {`);
@@ -52,8 +54,7 @@ describe("the primitives' stylesheet", () => {
     for (const duration of animations) expect(duration).toMatch(/^var\(--enni-motion-[a-z]+\)$/);
   });
 
-  test("a sheet arrives with sheet-in; the sphere is its tone's gradient", () => {
-    expect(PRIMITIVES_CSS).toMatch(/\.enni-sheet\[open\] \{ animation: enni-sheet-in/);
+  test("the sphere is its tone's gradient", () => {
     expect(PRIMITIVES_CSS).toContain(
       "radial-gradient(circle at 35% 30%, var(--enni-tone-glow) 0%, var(--enni-tone-ink) 55%, var(--enni-tone-deep) 100%)",
     );

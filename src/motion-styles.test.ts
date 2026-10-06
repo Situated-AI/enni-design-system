@@ -29,7 +29,14 @@ describe("how the primitives move (enni-v2 #428)", () => {
       /\.enni-sheet, \.enni-dialog \{ opacity: 0; transition: opacity var\(--enni-motion-exit\)/,
     );
     expect(MOTION_CSS).toContain("display var(--enni-motion-exit) allow-discrete");
-    expect(MOTION_CSS).toContain(".enni-sheet[open], .enni-dialog[open] { opacity: 1;");
+  });
+
+  test("they arrive over motion-enter, from a starting style and never from a keyframe", () => {
+    expect(MOTION_CSS).toMatch(
+      /\.enni-sheet\[open\], \.enni-dialog\[open\] \{ opacity: 1; transform: none; transition: opacity var\(--enni-motion-enter\)/,
+    );
+    expect(MOTION_CSS).toMatch(/@starting-style \{\s+\.enni-sheet\[open\] \{ opacity: 0;/);
+    expect(PRIMITIVES_CSS).not.toMatch(/\.enni-(sheet|dialog)\[open\] \{ animation:/);
   });
 
   test("a disclosure animates its height only where the browser can", () => {
