@@ -78,6 +78,7 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `sources` | `DetailsBlock`, `SourceCard`, `SourceList` |
 | `styles` | `PRIMITIVES_CSS` |
 | `surface` | `Card`, `CheckList`, `Eyebrow` |
+| `tally` | `Tally` |
 | `time` | `relativeTime`, `ScrollHere`, `Timestamp` |
 | `toggle` | `Toggle` |
 | `turn` | `ChipRow`, `Hint`, `Turn` |

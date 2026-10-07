@@ -37,6 +37,7 @@ export {
   wrapTab,
 } from "./account-settings.tsx";
 export { CountBadge, StatusBadge } from "./badge.tsx";
+export { Tally, type TallyPart } from "./tally.tsx";
 export { BrandMark, BrandTile } from "./brand.tsx";
 export {
   Button,

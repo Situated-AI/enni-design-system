@@ -129,7 +129,8 @@ const KEYFRAMES = `
 /**
  * Surfaces, marks and badges (#280). A card is lifted by `shadow-card`; the brand tile's fills are
  * the accent and its ink; a status badge is the tone triplet (ground, edge, ink) from the same
- * `enni-tone--*` rule `StatusMark` reads; a count is the accent on its soft ground.
+ * `enni-tone--*` rule `StatusMark` reads; a count is the accent on its soft ground; a tally's
+ * segment is its tone's ink, filled, or its outline alone when nothing stands behind it.
  */
 const SURFACES = `
 .enni-card { padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-card); }
@@ -141,6 +142,9 @@ a.enni-brand { min-height: 44px; }
 .enni-brand__ground { fill: var(--enni-accent); }
 .enni-brand__bar { fill: var(--enni-accent-ink); }
 .enni-badge { display: inline-flex; align-items: center; gap: var(--enni-space-2); padding: var(--enni-space-1) var(--enni-space-3); border: 1px solid var(--enni-tone-edge); border-radius: var(--enni-radius-lg); background: var(--enni-tone-ground); color: var(--enni-tone-ink); font-size: var(--enni-type-sm); font-weight: 600; white-space: nowrap; }
+.enni-tally { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 3px; vertical-align: middle; }
+.enni-tally__segment { display: inline-block; width: var(--enni-space-4); height: var(--enni-space-2); border: 1px solid var(--enni-tone-ink); border-radius: var(--enni-radius-sm); background: var(--enni-tone-ink); }
+.enni-tally__segment[data-hollow="true"] { background: none; }
 .enni-count { display: inline-flex; align-items: center; justify-content: center; min-width: 1.25rem; padding: 0 var(--enni-space-1); border-radius: var(--enni-radius-pill); background: var(--enni-accent-soft); color: var(--enni-accent); font-size: var(--enni-type-sm); font-weight: 600; }
 `;
 

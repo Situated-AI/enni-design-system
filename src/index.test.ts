@@ -96,6 +96,7 @@ const PINNED = [
   "TRACKING",
   "TYPE",
   "TalkButton",
+  "Tally",
   "Timestamp",
   "Toggle",
   "Turn",
