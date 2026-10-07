@@ -187,16 +187,19 @@ export const TRACKING = { eyebrow: "0.12em", display: "-0.025em" } as const;
 /**
  * The orb's sphere (#279): a radial gradient per tone, lit from 35% 30% — a `glow` highlight, the
  * tone's ink through the middle, a `deep` shade at the edge. The designs draw the accent, care and
- * ready spheres; limited and danger take the same stops on their hue (30). The stops are the same in
+ * ready spheres; limited and danger take the same stops on their hue (30); neutral is hueless. The stops are the same in
  * both themes, as the designs have them — the middle is the themed ink.
  */
-export const ORB: Readonly<Record<"accent" | Status, { glow: string; deep: string }>> = {
-  accent: { glow: "oklch(0.92 0.04 276)", deep: "oklch(0.3 0.09 276)" },
-  ready: { glow: "oklch(0.95 0.03 152)", deep: "oklch(0.3 0.06 152)" },
-  care: { glow: "oklch(0.96 0.04 72)", deep: "oklch(0.32 0.08 72)" },
-  limited: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
-  danger: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
-};
+export const ORB: Readonly<Record<"accent" | "neutral" | Status, { glow: string; deep: string }>> =
+  {
+    accent: { glow: "oklch(0.92 0.04 276)", deep: "oklch(0.3 0.09 276)" },
+    ready: { glow: "oklch(0.95 0.03 152)", deep: "oklch(0.3 0.06 152)" },
+    care: { glow: "oklch(0.96 0.04 72)", deep: "oklch(0.32 0.08 72)" },
+    limited: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
+    danger: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
+    // enni-v2 #464: unknown or off has no hue; its stops sit on the palette's warm grey (hue 62).
+    neutral: { glow: "oklch(0.95 0.01 62)", deep: "oklch(0.3 0.014 62)" },
+  };
 
 /**
  * Motion a reader can switch off: `prefers-reduced-motion` zeroes every one in `TOKENS_CSS`.

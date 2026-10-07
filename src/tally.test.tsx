@@ -6,7 +6,7 @@ import { Tally } from "./tally.tsx";
 const PARTS = [
   { kind: "passed", count: 1, tone: "ready" },
   { kind: "caveat", count: 0, tone: "care" },
-  { kind: "unread", count: 4, tone: "limited", hollow: true },
+  { kind: "unread", count: 4, tone: "neutral", hollow: true },
 ] as const;
 
 describe("Tally (enni-v2 #461)", () => {
@@ -17,7 +17,7 @@ describe("Tally (enni-v2 #461)", () => {
     expect(segments).toHaveLength(5);
     expect(segments.map((s) => s[1])).toEqual([
       "enni-tone--ready",
-      ...Array(4).fill("enni-tone--limited"),
+      ...Array(4).fill("enni-tone--neutral"),
     ]);
   });
 
