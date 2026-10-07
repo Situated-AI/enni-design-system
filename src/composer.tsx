@@ -52,8 +52,13 @@ type ComposerProps = {
   readonly hintNarrow?: string;
   readonly sendLabel: string;
   readonly disabled?: boolean;
-  /** A sentence is in flight: *busy*, never locked — the next one is still taken. */
+  /** A sentence is in flight: *busy*. The field stays open either way. */
   readonly pending?: boolean;
+  /**
+   * Send takes nothing just now, and the field still does (enni-v2 #463): a question is in flight,
+   * so the next can be typed and the same one cannot be sent twice. `disabled` locks both.
+   */
+  readonly sendDisabled?: boolean;
   readonly fieldRef?: Ref<HTMLTextAreaElement>;
   readonly onChange: (value: string) => void;
   readonly onKeyDown?: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
@@ -65,7 +70,7 @@ type ComposerProps = {
 };
 
 export function Composer(props: ComposerProps) {
-  const { id, disabled = false, pending = false } = props;
+  const { id, disabled = false, pending = false, sendDisabled = false } = props;
   return (
     <form
       className="enni-composer"
@@ -94,7 +99,7 @@ export function Composer(props: ComposerProps) {
           aria-busy={pending}
           type="submit"
           className="enni-composer__send"
-          disabled={disabled}
+          disabled={disabled || sendDisabled}
         >
           {props.sendLabel}
         </button>
