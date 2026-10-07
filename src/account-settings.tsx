@@ -157,6 +157,8 @@ export type MenuItem = {
   readonly label: string;
   readonly onSelect: () => void;
   readonly danger?: boolean;
+  /** The one of a set that is chosen now (enni-v2 #481): said as `aria-current`, drawn heavier. */
+  readonly current?: boolean;
 };
 
 /** Destructive items last, the rest in the order given — so the reflexive pick is the harmless one. */
@@ -179,9 +181,14 @@ type MenuProps = {
   /** The button's name: *"Actions for Sam Reyes"*. */
   readonly label: string;
   readonly items: readonly MenuItem[];
+  /**
+   * What the button shows, in place of `···` (enni-v2 #481): a menu opened from a name, as the
+   * rail's space is. `label` is still the accessible name, so it should begin with what is shown.
+   */
+  readonly trigger?: ReactNode;
 };
 
-export function ActionMenu({ label, items }: MenuProps) {
+export function ActionMenu({ label, items, trigger }: MenuProps) {
   const [open, setOpen] = useState(false);
   const button = useRef<HTMLButtonElement>(null);
   const menu = useId();
@@ -202,7 +209,7 @@ export function ActionMenu({ label, items }: MenuProps) {
         aria-controls={menu}
         onClick={() => setOpen((o) => !o)}
       >
-        ···
+        {trigger ?? "···"}
       </Button>
       {open ? (
         <div
@@ -218,6 +225,7 @@ export function ActionMenu({ label, items }: MenuProps) {
               type="button"
               role="menuitem"
               data-danger={item.danger === true}
+              aria-current={item.current === true ? "true" : undefined}
               onClick={() => {
                 close();
                 item.onSelect();

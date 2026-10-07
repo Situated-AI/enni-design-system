@@ -74,6 +74,19 @@ test("ActionMenu: a named button that says it opens a menu, closed until pressed
   expect(html).not.toContain('role="menu"');
 });
 
+test("ActionMenu: a trigger is what the button shows, and its name is still the label (enni-v2 #481)", () => {
+  const html = renderToStaticMarkup(
+    <ActionMenu
+      label="Meridian Payments · Switch space"
+      trigger={<span>Meridian Payments</span>}
+      items={[{ label: "Home", onSelect: ignore }]}
+    />,
+  );
+  expect(html).toContain('aria-label="Meridian Payments · Switch space" aria-haspopup="menu"');
+  expect(html).toContain("<span>Meridian Payments</span></button>");
+  expect(html).not.toContain("···");
+});
+
 test("the destructive items go last, whatever order they were given in", () => {
   const items = [
     { label: "Remove Sam", onSelect: ignore, danger: true },

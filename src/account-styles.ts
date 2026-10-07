@@ -83,6 +83,7 @@ const SETTINGS = `
 .enni-action-menu__list button { width: 100%; min-height: 44px; padding: 0 var(--enni-space-3); border: 0; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink); font: inherit; text-align: left; cursor: pointer; }
 .enni-action-menu__list button:hover, .enni-action-menu__list button:focus-visible { background: var(--enni-hover); }
 .enni-action-menu__list button[data-danger="true"] { color: var(--enni-danger-fg); }
+.enni-action-menu__list button[aria-current="true"] { font-weight: 600; }
 @media (max-width: 40rem) {
   .enni-steps li:not([data-state="current"]) .enni-steps__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .enni-auth { width: 100%; min-height: 100dvh; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
