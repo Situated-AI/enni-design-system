@@ -13,6 +13,7 @@ export {
   AnswerSection,
   Citation,
   Segmented,
+  type SegmentedOption,
 } from "./answer-card.tsx";
 export { AuthCard, Notice, Steps } from "./account-flow.tsx";
 export {

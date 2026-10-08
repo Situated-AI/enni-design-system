@@ -111,3 +111,36 @@ describe("Segmented", () => {
     expect(element).toBeTruthy();
   });
 });
+
+describe("Segmented — each option's outcome, once known (enni-v2 #468)", () => {
+  const html = renderToStaticMarkup(
+    <Segmented
+      label="Answer for"
+      value="review"
+      onChange={() => {}}
+      options={[
+        {
+          value: "implement",
+          label: "Building",
+          mark: { glyph: "!", word: "Needs care", tone: "care" },
+        },
+        { value: "review", label: "Reviewing", mark: { glyph: "✓", word: "Ready", tone: "ready" } },
+        { value: "deploy", label: "Deploying", busy: true },
+      ]}
+    />,
+  );
+
+  test("a glyph in its tone before the label, and the word for a screen reader after it", () => {
+    expect(html).toContain(
+      '<span class="enni-segmented__mark enni-tone--care" aria-hidden="true">!</span>Building<span class="enni-visually-hidden"> · Needs care</span>',
+    );
+    expect(html).toContain(
+      'aria-pressed="true"><span class="enni-segmented__mark enni-tone--ready"',
+    );
+  });
+
+  test("an option with no outcome yet shows none, and one on its way says it is busy", () => {
+    expect(html).toContain('aria-pressed="false" aria-busy="true">Deploying</button>');
+    expect(html.match(/enni-segmented__mark/g)).toHaveLength(2);
+  });
+});

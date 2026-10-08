@@ -15,6 +15,7 @@
  * control (*Answer for: Building · Reviewing · Deploying*).
  */
 import type { ReactNode } from "react";
+import type { Mark } from "./status.tsx";
 
 type Subject = { readonly key: string; readonly title?: string };
 
@@ -111,10 +112,22 @@ export function AnswerActions({ children }: { readonly children: ReactNode }) {
 
 type SegmentedProps = {
   readonly label: string;
-  readonly options: readonly { readonly value: string; readonly label: string }[];
+  readonly options: readonly SegmentedOption[];
   readonly value: string;
   readonly onChange: (value: string) => void;
   readonly hint?: string;
+};
+
+export type SegmentedOption = {
+  readonly value: string;
+  readonly label: string;
+  /**
+   * What choosing it came to, once that is known (enni-v2 #468): a glyph in its tone before the
+   * label, and the word after it for a screen reader, so every option's outcome shows at once.
+   */
+  readonly mark?: Omit<Mark, "moving">;
+  /** It was chosen and its answer is on the way. */
+  readonly busy?: boolean;
 };
 
 /** One of a few, each a pressed-or-not button in a named fieldset — *Answer for: Building …*. */
@@ -131,9 +144,21 @@ export function Segmented({ label, options, value, onChange, hint }: SegmentedPr
             key={option.value}
             type="button"
             aria-pressed={option.value === value}
+            aria-busy={option.busy === true ? true : undefined}
             onClick={() => onChange(option.value)}
           >
+            {option.mark === undefined ? null : (
+              <span
+                className={`enni-segmented__mark enni-tone--${option.mark.tone}`}
+                aria-hidden="true"
+              >
+                {option.mark.glyph}
+              </span>
+            )}
             {option.label}
+            {option.mark === undefined ? null : (
+              <span className="enni-visually-hidden"> · {option.mark.word}</span>
+            )}
           </button>
         ))}
       </span>

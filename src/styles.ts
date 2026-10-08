@@ -166,6 +166,7 @@ a.enni-brand { min-height: 44px; }
   .enni-checks__row { grid-template-columns: var(--enni-space-5) minmax(0, 1fr); }
   .enni-checks__word, .enni-checks__reason, .enni-checks__action { grid-column: 2; }
 }
+.enni-segmented__mark { margin-right: var(--enni-space-1); color: var(--enni-tone-ink); font-weight: 700; }
 .enni-count { display: inline-flex; align-items: center; justify-content: center; min-width: 1.25rem; padding: 0 var(--enni-space-1); border-radius: var(--enni-radius-pill); background: var(--enni-accent-soft); color: var(--enni-accent); font-size: var(--enni-type-sm); font-weight: 600; }
 `;
 
