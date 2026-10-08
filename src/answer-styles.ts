@@ -27,9 +27,10 @@ a.enni-answer-card__title:hover, a:hover > .enni-answer-card__title { text-decor
 .enni-filter--chips .enni-segmented__options { flex-wrap: wrap; gap: var(--enni-space-2); padding: 0; border: 0; }
 .enni-filter--chips label { border-color: var(--enni-line); border-radius: var(--enni-radius-pill); background: var(--enni-surface); }
 .enni-filter label:has(input:focus-visible) { outline: 2px solid var(--enni-accent); outline-offset: 2px; }
+.enni-segmented button[aria-busy="true"] { cursor: progress; opacity: 0.6; }
 .enni-segmented button[aria-pressed="true"] { border-color: var(--enni-line-strong); background: var(--enni-sunken); color: var(--enni-ink); font-weight: 600; }
 .enni-sources { border-top: 1px solid var(--enni-line); }
-.enni-sources > summary { display: flex; align-items: center; min-height: 44px; padding: 0 var(--enni-space-4); color: var(--enni-ink-muted); cursor: pointer; }
+.enni-sources > summary { display: flex; align-items: center; gap: var(--enni-space-2); min-height: 44px; padding: 0 var(--enni-space-4); color: var(--enni-ink-muted); cursor: pointer; }
 .enni-sources > ul { display: grid; gap: var(--enni-space-2); margin: 0; padding: 0 var(--enni-space-4) var(--enni-space-4); list-style: none; }
 .enni-source { padding: var(--enni-space-2) var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); font-size: var(--enni-type-sm); }
 .enni-source:focus { outline: 2px solid var(--enni-focus); outline-offset: 2px; }

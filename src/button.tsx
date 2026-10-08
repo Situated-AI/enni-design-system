@@ -11,6 +11,10 @@
  * phone's calls to action do. A call to action that goes somewhere is a `ButtonLink` — an `<a>`,
  * so it opens in a new tab and a screen reader hears a link.
  *
+ * **Disabled is one look (enni-v2 #480).** Whatever the variant, a button that cannot be pressed
+ * is the `disabled` ground with subtle ink and a line: fading the variant's own colour made a
+ * disabled primary read as a secondary button in the dark and as a pale primary in the light.
+ *
  * A `Chip` is a suggestion a person can take: the refusal's way forward (§3.14) and the connected
  * step's next moves (§6) are chips. It is a button, never a link that looks like one.
  * `SuggestionChip` is the one that *says* its label into the conversation when tapped.

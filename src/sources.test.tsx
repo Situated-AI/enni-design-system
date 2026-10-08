@@ -7,7 +7,7 @@ describe("SourceCard", () => {
     <SourceCard
       id="src-1"
       n={1}
-      monogram="LI"
+      icon="linear"
       app="Linear"
       title="PAY-1427"
       url="https://linear.app/x/PAY-1427"
@@ -18,8 +18,12 @@ describe("SourceCard", () => {
     expect(html).toMatch(/^<li class="enni-source" id="src-1" tabindex="-1">/);
   });
 
-  test("monogram (decoration), app, title linked, its [n], and the URL in mono", () => {
-    expect(html).toContain('<span class="enni-source__mark" aria-hidden="true">LI</span>');
+  test("the app's mark (decoration), app, title linked, its [n], and the URL in mono", () => {
+    expect(html).toMatch(
+      /<span class="enni-source__mark" aria-hidden="true"><svg class="enni-icon enni-icon--mark"/,
+    );
+    // enni-v2 #483: a drawing, never two letters standing in for one.
+    expect(html).not.toMatch(/enni-source__mark"[^>]*>[A-Z]{1,4}</);
     expect(html).toContain('<a href="https://linear.app/x/PAY-1427">PAY-1427</a>');
     expect(html).toContain(">[1]</span>");
     expect(html).toContain('<p class="enni-source__url">linear.app/x/PAY-1427</p>');
@@ -28,7 +32,7 @@ describe("SourceCard", () => {
   test("no excerpt unless one is given — never invented (#299)", () => {
     expect(html).not.toContain("enni-source__excerpt");
     const with_ = renderToStaticMarkup(
-      <SourceCard id="s" n={1} monogram="GH" app="GitHub" title="t" excerpt="Reverted." />,
+      <SourceCard id="s" n={1} icon="github" app="GitHub" title="t" excerpt="Reverted." />,
     );
     expect(with_).toContain('<p class="enni-source__excerpt">Reverted.</p>');
   });
@@ -38,8 +42,8 @@ test("SourceList is a disclosure with its count, open when asked", () => {
   const closed = renderToStaticMarkup(
     <SourceList summary="Where this comes from · 2 sources">x</SourceList>,
   );
-  expect(closed).toBe(
-    '<details class="enni-sources"><summary>Where this comes from · 2 sources</summary><ul>x</ul></details>',
+  expect(closed).toMatch(
+    /^<details class="enni-sources"><summary><svg class="enni-icon"[^>]*>.*<\/svg>Where this comes from · 2 sources<\/summary><ul>x<\/ul><\/details>$/,
   );
   expect(
     renderToStaticMarkup(

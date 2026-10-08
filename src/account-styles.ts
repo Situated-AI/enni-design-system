@@ -12,9 +12,9 @@ const FLOW = `
 .enni-steps li[data-state="current"] { color: var(--enni-ink); }
 .enni-steps li[data-state="current"] .enni-steps__mark { border-color: var(--enni-accent); color: var(--enni-accent); }
 .enni-steps li[data-state="done"] { color: var(--enni-ink-muted); }
-.enni-auth { display: grid; align-content: start; gap: var(--enni-space-5); width: min(100%, 30rem); margin: var(--enni-space-5) auto; padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-2xl); background: var(--enni-canvas); box-shadow: var(--enni-shadow-card); color: var(--enni-ink); }
-.enni-auth__body { display: grid; align-content: start; gap: var(--enni-space-4); padding: 0 var(--enni-space-5) var(--enni-space-4); }
-.enni-auth__title { display: flex; align-items: center; gap: var(--enni-space-2); margin: 0; font-family: var(--enni-font-sans); font-size: var(--enni-type-xl); letter-spacing: var(--enni-tracking-display); }
+.enni-auth { display: grid; align-content: start; gap: var(--enni-space-5); width: min(100%, 30rem); margin: var(--enni-space-5) auto; padding: var(--enni-space-6); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-2xl); background: var(--enni-canvas); box-shadow: var(--enni-shadow-card); color: var(--enni-ink); }
+.enni-auth__body { display: grid; align-content: start; gap: var(--enni-space-4); }
+.enni-auth__title { display: flex; align-items: center; gap: var(--enni-space-2); margin: 0; font-family: var(--enni-font-sans); font-size: var(--enni-type-xl); line-height: var(--enni-leading-xl); letter-spacing: var(--enni-tracking-display); }
 .enni-auth__lede { color: var(--enni-ink-muted); }
 .enni-auth__lede p { margin: 0 0 var(--enni-space-2); }
 .enni-auth__content { display: grid; gap: var(--enni-space-4); }
@@ -71,9 +71,11 @@ const SETTINGS = `
 .enni-settings-card__header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--enni-space-2); }
 .enni-settings-card__header h2 { margin: 0; font-family: var(--enni-font-sans); font-size: var(--enni-type-md); font-weight: 600; letter-spacing: normal; text-transform: none; }
 .enni-settings-card__why { margin: 0; color: var(--enni-ink-muted); }
+.enni-settings-card__header > .enni-settings-card__why { flex: 1 1 14rem; }
+.enni-settings-card__header > :only-child:not(h2, p) { margin-left: auto; }
 .enni-rows { display: grid; gap: var(--enni-space-2); margin: 0; padding: 0; list-style: none; }
 .enni-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-3); min-height: 52px; padding: var(--enni-space-2) var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); }
-.enni-row__monogram { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-sunken); color: var(--enni-ink-muted); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
+.enni-row__monogram, .enni-row__icon { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-sunken); color: var(--enni-ink-muted); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
 .enni-row__text { display: grid; flex: 1 1 12rem; min-width: 0; }
 .enni-row__title { overflow-wrap: anywhere; color: var(--enni-ink); }
 .enni-row__detail { overflow-wrap: anywhere; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
@@ -87,8 +89,7 @@ const SETTINGS = `
 .enni-action-menu__list button[aria-current="true"] { font-weight: 600; }
 @media (max-width: 40rem) {
   .enni-steps li:not([data-state="current"]) .enni-steps__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .enni-auth { width: 100%; min-height: 100dvh; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
-  .enni-auth__body { padding: 0; }
+  .enni-auth { width: 100%; min-height: 100dvh; margin: 0; padding: var(--enni-space-4); border: 0; border-radius: 0; box-shadow: none; }
   .enni-qr { flex-direction: column; }
   .enni-dialog { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border: 0; border-radius: 0; }
   .enni-action-menu__list { position: fixed; top: auto; right: 0; bottom: 0; left: 0; border-radius: var(--enni-radius-lg) var(--enni-radius-lg) 0 0; }

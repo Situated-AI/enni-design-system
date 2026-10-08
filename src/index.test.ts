@@ -58,6 +58,7 @@ const PINNED = [
   "InstructionList",
   "LEADING",
   "LIGHT",
+  "MARKS",
   "MEASURE",
   "MOTION",
   "Meter",

@@ -96,6 +96,40 @@ test("the composer's main action is Send, solid at every width; the mic never ta
   );
 });
 
+describe("a control that cannot be pressed (enni-v2 #480)", () => {
+  const rules = PRIMITIVES_CSS.split("\n").filter((line) => /^[^{]*\[disabled\][^{]*\{/.test(line));
+  const drawn = rules.filter((line) => !line.includes(":not([disabled])"));
+
+  test("is drawn by one rule, whatever the control was: every button variant, Send and the microphone", () => {
+    expect(drawn).toEqual([
+      ".enni-button[disabled], .enni-talk[disabled], .enni-composer__send[disabled] { border-color: var(--enni-line); background: var(--enni-disabled); color: var(--enni-ink-subtle); cursor: not-allowed; }",
+    ]);
+    // No variant has a disabled look of its own to drift from it.
+    expect(PRIMITIVES_CSS).not.toMatch(/\.enni-button--[a-z]+\[disabled\]/);
+  });
+
+  test("is its own ground, not a fade of the one it had: a faded accent is a different colour in each theme", () => {
+    expect(rules.length).toBeGreaterThan(3);
+    for (const rule of rules) expect(rule).not.toContain("opacity");
+  });
+
+  test("outranks every variant's colours, so the order of the rules does not decide it", () => {
+    // `.enni-button[disabled]` is a class and an attribute. A variant colours itself with one
+    // class, and anything more specific (a hover) says it is not for a disabled button.
+    const variants = PRIMITIVES_CSS.split("\n").filter((line) => line.startsWith(".enni-button--"));
+    const coloured = variants.filter((line) => /background|color/.test(line));
+    expect(coloured.length).toBeGreaterThanOrEqual(6);
+    for (const line of coloured) {
+      const selector = line.slice(0, line.indexOf(" {"));
+      for (const part of selector.split(", ").filter((s) => s.startsWith(".enni-button--"))) {
+        expect(/^\.enni-button--[a-z]+$/.test(part) || part.includes(":not([disabled])")).toBe(
+          true,
+        );
+      }
+    }
+  });
+});
+
 test("no link falls to the browser's default colour: a bare link takes the ink around it (enni-v2 #486)", () => {
   expect(PRIMITIVES_CSS).toContain("\na { color: inherit; }\n");
   // An element selector, so every class that colours a link still wins.

@@ -29,6 +29,21 @@ test("on a phone: one step's label, the auth card and the dialog fill the screen
   expect(phone).toMatch(/\.enni-dialog \{ width: 100vw;[^}]*height: 100dvh;/);
 });
 
+test("the auth card's padding is one step on all four sides, and nothing inside adds to a side (enni-v2 #480)", () => {
+  const card = ACCOUNT_CSS.split("\n").find((line) => line.startsWith(".enni-auth {")) ?? "";
+  expect(card).toContain(" padding: var(--enni-space-6);");
+  const body = ACCOUNT_CSS.split("\n").filter((line) => line.includes(".enni-auth__body"));
+  expect(body).toHaveLength(1);
+  expect(body.join()).not.toContain("padding");
+  // The heading sat low in a line box the page's reading leading made: it takes its own size's.
+  expect(ACCOUNT_CSS).toMatch(
+    /\.enni-auth__title \{[^}]* margin: 0;[^}]* line-height: var\(--enni-leading-xl\);/,
+  );
+  // On a phone the card is the screen: one smaller step, still the same on every side.
+  const phone = ACCOUNT_CSS.slice(ACCOUNT_CSS.indexOf("@media (max-width: 40rem)"));
+  expect(phone).toMatch(/\.enni-auth \{[^}]* padding: var\(--enni-space-4\);/);
+});
+
 test("menu items are 44px targets", () => {
   expect(ACCOUNT_CSS).toMatch(/\.enni-action-menu__list button \{ width: 100%; min-height: 44px;/);
 });
@@ -61,4 +76,17 @@ test("the scrolling body leaves room for the focus ring of what it holds", () =>
 
 test("it is on the page with the other primitives", () => {
   expect(PRIMITIVES_CSS).toContain(ACCOUNT_CSS);
+});
+
+test("enni-v2 #483: an untitled card's why leads its header, and a lone action keeps to the right", () => {
+  expect(ACCOUNT_CSS).toContain(
+    ".enni-settings-card__header > .enni-settings-card__why { flex: 1 1 14rem; }",
+  );
+  expect(ACCOUNT_CSS).toContain(
+    ".enni-settings-card__header > :only-child:not(h2, p) { margin-left: auto; }",
+  );
+});
+
+test("enni-v2 #483: a row's icon sits in the tile an initial sits in", () => {
+  expect(ACCOUNT_CSS).toMatch(/\.enni-row__monogram, \.enni-row__icon \{ display: inline-flex;/);
 });

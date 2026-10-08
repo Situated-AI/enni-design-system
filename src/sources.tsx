@@ -1,7 +1,8 @@
 /**
  * Where an answer comes from (#298) — the source cards behind its citations, and its details.
  *
- * A **source card** is the app's monogram (`LI`, `GH`), the app and the item's title with its `[n]`,
+ * A **source card** is the app's own mark (enni-v2 #483: an `icon`, never two letters), the app and
+ * the item's title with its `[n]`,
  * an excerpt *only when the API returns one* (never invented on the page, #299), and the URL in mono.
  * Its `id` is what a citation links to. The **source list** is a disclosure — *Where this comes from ·
  * 4 sources* — that a citation, or the Details switch (#300), opens.
@@ -10,23 +11,25 @@
  * rubric, and the decision-support qualifier. Every word is a prop (D-114).
  */
 import type { ReactNode } from "react";
+import { Icon, type IconName } from "./icon.tsx";
 
 type SourceProps = {
   readonly id: string;
   readonly n: number;
-  readonly monogram: string;
+  /** The app's mark, or the set's neutral `app` where it has none. */
+  readonly icon: IconName;
   readonly app: string;
   readonly title: string;
   readonly url?: string;
   readonly excerpt?: string;
 };
 
-export function SourceCard({ id, n, monogram, app, title, url, excerpt }: SourceProps) {
+export function SourceCard({ id, n, icon, app, title, url, excerpt }: SourceProps) {
   return (
     <li className="enni-source" id={id} tabIndex={-1}>
       <span className="enni-source__head">
         <span className="enni-source__mark" aria-hidden="true">
-          {monogram}
+          <Icon name={icon} />
         </span>
         <span className="enni-source__names">
           <span className="enni-source__app">{app}</span>
@@ -54,7 +57,10 @@ type ListProps = {
 export function SourceList({ summary, open, children }: ListProps) {
   return (
     <details className="enni-sources" open={open}>
-      <summary>{summary}</summary>
+      <summary>
+        <Icon name="chevron" />
+        {summary}
+      </summary>
       <ul>{children}</ul>
     </details>
   );

@@ -27,6 +27,7 @@ export type ColourToken =
   | "surface"
   | "sunken"
   | "hover"
+  | "disabled"
   | "line"
   | "line-strong"
   | "ink"
@@ -47,12 +48,14 @@ export type Palette = Readonly<Record<ColourToken, string>>;
  * ink at ~62) and a deeper indigo accent (276). Names are ours, not the artifact's: its `caveat` is
  * our `care`, its `conditions` our `limited`, `border` our `line`, `fg` our `ink`. `accent-soft`
  * is not in the designs — it is the said-bubble's ground, kept so no v0.6 screen loses a token.
+ * `disabled` is the ground of a control that cannot be pressed, whatever it was (enni-v2 #480).
  */
 export const LIGHT: Palette = {
   canvas: "oklch(0.974 0.008 86)",
   surface: "oklch(0.992 0.005 88)",
   sunken: "oklch(0.955 0.01 86)",
   hover: "oklch(0.94 0.012 86)",
+  disabled: "oklch(0.925 0.008 86)",
   line: "oklch(0.898 0.01 84)",
   "line-strong": "oklch(0.76 0.016 84)",
   ink: "oklch(0.245 0.012 62)",
@@ -83,6 +86,7 @@ export const DARK: Palette = {
   surface: "oklch(0.225 0.009 62)",
   sunken: "oklch(0.165 0.008 62)",
   hover: "oklch(0.275 0.011 62)",
+  disabled: "oklch(0.285 0.008 62)",
   line: "oklch(0.33 0.012 62)",
   "line-strong": "oklch(0.48 0.016 62)",
   ink: "oklch(0.955 0.006 88)",
