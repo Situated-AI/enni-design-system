@@ -39,9 +39,14 @@ describe("an app's own mark (enni-v2 #483)", () => {
     }
   });
 
-  // A mark whose geometry cannot be checked against its owner's published one is not drawn.
-  test("slack has no mark: the caller falls back to the neutral app icon", () => {
-    expect(MARKS).not.toContain("slack" as never);
-    expect(Object.keys(MARK_PATHS).sort()).toEqual([...MARKS].sort());
+  test("the three apps a space connects each have their own mark (enni-v2 #475)", () => {
+    expect([...MARKS].sort()).toEqual(["github", "linear", "slack"]);
+  });
+
+  test("slack's mark is its four pairs, eight closed shapes, on a 24 box", () => {
+    const { box, d } = MARK_PATHS.slack;
+    expect(box).toBe(24);
+    expect(d.match(/M/g)).toHaveLength(8);
+    expect(d.match(/z/g)).toHaveLength(8);
   });
 });
