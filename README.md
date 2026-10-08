@@ -60,6 +60,7 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `badge` | `CountBadge`, `StatusBadge` |
 | `brand` | `BrandMark`, `BrandTile` |
 | `button` | `Button`, `ButtonLink`, `buttonClass`, `Chip`, `SubmitButton`, `SuggestionChip` |
+| `close-button` | `CloseButton` |
 | `confirm` | `ConfirmByTyping`, `ConfirmStep`, `confirmationMatches` |
 | `composer` | `Composer`, `TalkButton` |
 | `copy-button` | `COPY_WORDS`, `CopyButton`, `copyValue` |

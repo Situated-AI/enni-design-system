@@ -26,6 +26,7 @@ const PINNED = [
   "ChipRow",
   "ChoiceList",
   "Citation",
+  "CloseButton",
   "CodeInput",
   "CodeList",
   "Composer",

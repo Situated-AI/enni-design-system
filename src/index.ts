@@ -49,6 +49,7 @@ export {
   SubmitButton,
   SuggestionChip,
 } from "./button.tsx";
+export { CloseButton } from "./close-button.tsx";
 export { ConfirmByTyping, ConfirmStep, confirmationMatches } from "./confirm.tsx";
 export { Composer, TalkButton } from "./composer.tsx";
 export { COPY_WORDS, CopyButton, type CopyState, copyValue } from "./copy-button.tsx";

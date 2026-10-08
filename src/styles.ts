@@ -72,6 +72,7 @@ const DISCLOSURE = `
 .enni-sheet::backdrop { background: color-mix(in srgb, var(--enni-ink) 35%, transparent); }
 .enni-sheet__header { display: flex; align-items: center; justify-content: space-between; gap: var(--enni-space-3); margin-bottom: var(--enni-space-4); }
 .enni-sheet__header h2 { margin: 0; font-size: var(--enni-type-xl); }
+.enni-close { display: inline-flex; flex: none; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin: calc(-1 * var(--enni-space-2)); padding: 0; border: 0; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink-muted); font: inherit; font-size: var(--enni-type-lg); line-height: 1; cursor: pointer; }
 @media (max-width: 40rem) { .enni-sheet { width: 100vw; border-left: 0; } }
 `;
 
