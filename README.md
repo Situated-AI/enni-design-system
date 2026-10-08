@@ -74,6 +74,7 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `guided-inputs` | `AnswerChips`, `InstructionList`, `NewTabLink`, `SecretField`, `takeSecret` |
 | `help-card` | `HelpCard` |
 | `icon` | `ICONS`, `Icon` |
+| `icon-marks` | `MARKS` |
 | `skeleton` | `Skeleton`, `skeletonClass` |
 | `status` | `Orb`, `StatusMark`, `TONE_TOKENS` |
 | `progress` | `HeardBubble`, `ReadingSteps`, `RefusalCard` |

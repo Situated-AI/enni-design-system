@@ -45,6 +45,7 @@ ${EASED} { transition: ${PROPERTIES}; }
 .enni-chip:hover, .enni-toggle:hover, .enni-choice:hover, .enni-pack:hover { border-color: var(--enni-line-strong); }
 .enni-composer__send:not([disabled]):hover, .enni-close:hover { background: var(--enni-hover); }
 .enni-segmented button:hover, .enni-details > summary:hover, .enni-sources > summary:hover, .enni-guided__footer summary:hover { color: var(--enni-ink); }
+.enni-details > summary .enni-icon, .enni-sources > summary .enni-icon { transition: transform var(--enni-motion-quick) var(--enni-ease-standard); }
 .enni-card--interactive { cursor: pointer; }
 .enni-card--interactive:hover { border-color: var(--enni-line-strong); box-shadow: var(--enni-shadow-lift); transform: translateY(-1px); }
 .enni-card--interactive:active { transform: none; box-shadow: var(--enni-shadow-card); }

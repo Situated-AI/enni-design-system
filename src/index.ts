@@ -83,6 +83,7 @@ export {
 } from "./guided-inputs.tsx";
 export { HelpCard, type HelpRow } from "./help-card.tsx";
 export { ICONS, Icon, type IconName } from "./icon.tsx";
+export { MARKS, type MarkName } from "./icon-marks.ts";
 export { Skeleton, skeletonClass } from "./skeleton.tsx";
 export { type Mark, Orb, type OrbSize, StatusMark, TONE_TOKENS, type Tone } from "./status.tsx";
 export { HeardBubble, ReadingSteps, RefusalCard, type StepState } from "./progress.tsx";

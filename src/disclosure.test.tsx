@@ -9,6 +9,7 @@ import {
   Sheet,
   syncDialog,
 } from "./disclosure.tsx";
+import { PRIMITIVES_CSS } from "./styles.ts";
 import { MOTION } from "./tokens.ts";
 
 test("#300: Details can be opened from outside", () => {
@@ -24,7 +25,28 @@ test("Details is a native disclosure, closed until asked", () => {
   const html = renderToStaticMarkup(<Details summary="Details">formal verdict</Details>);
   expect(html).toContain("<details");
   expect(html).not.toContain("open");
-  expect(html).toContain("<summary>Details</summary>");
+  expect(html).toMatch(/<summary><svg class="enni-icon"[^>]*>.*<\/svg>Details<\/summary>/);
+});
+
+test("enni-v2 #483: a disclosure shows that it opens — a chevron, hidden from a reader", () => {
+  const html = renderToStaticMarkup(<Details summary="What each key may do">lines</Details>);
+  expect(html).toContain('aria-hidden="true"><path d="M6 3.5L10.5 8L6 12.5">');
+  expect(PRIMITIVES_CSS).toContain(
+    ".enni-details[open] > summary .enni-icon, .enni-sources[open] > summary .enni-icon { transform: rotate(90deg); }",
+  );
+  expect(html).not.toContain("data-tone");
+});
+
+test("enni-v2 #483: one that cannot be undone reads as destructive before it is opened", () => {
+  const html = renderToStaticMarkup(
+    <Details summary="Delete your account" tone="danger">
+      confirm
+    </Details>,
+  );
+  expect(html).toContain('<details class="enni-details" data-tone="danger">');
+  expect(PRIMITIVES_CSS).toMatch(
+    /\.enni-details\[data-tone="danger"\] > summary, [^{]*:hover \{ color: var\(--enni-danger-fg\); \}/,
+  );
 });
 
 describe("Sheet", () => {

@@ -77,3 +77,16 @@ test("the scrolling body leaves room for the focus ring of what it holds", () =>
 test("it is on the page with the other primitives", () => {
   expect(PRIMITIVES_CSS).toContain(ACCOUNT_CSS);
 });
+
+test("enni-v2 #483: an untitled card's why leads its header, and a lone action keeps to the right", () => {
+  expect(ACCOUNT_CSS).toContain(
+    ".enni-settings-card__header > .enni-settings-card__why { flex: 1 1 14rem; }",
+  );
+  expect(ACCOUNT_CSS).toContain(
+    ".enni-settings-card__header > :only-child:not(h2, p) { margin-left: auto; }",
+  );
+});
+
+test("enni-v2 #483: a row's icon sits in the tile an initial sits in", () => {
+  expect(ACCOUNT_CSS).toMatch(/\.enni-row__monogram, \.enni-row__icon \{ display: inline-flex;/);
+});

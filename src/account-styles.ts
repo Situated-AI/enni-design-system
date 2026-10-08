@@ -71,9 +71,11 @@ const SETTINGS = `
 .enni-settings-card__header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--enni-space-2); }
 .enni-settings-card__header h2 { margin: 0; font-family: var(--enni-font-sans); font-size: var(--enni-type-md); font-weight: 600; letter-spacing: normal; text-transform: none; }
 .enni-settings-card__why { margin: 0; color: var(--enni-ink-muted); }
+.enni-settings-card__header > .enni-settings-card__why { flex: 1 1 14rem; }
+.enni-settings-card__header > :only-child:not(h2, p) { margin-left: auto; }
 .enni-rows { display: grid; gap: var(--enni-space-2); margin: 0; padding: 0; list-style: none; }
 .enni-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-3); min-height: 52px; padding: var(--enni-space-2) var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); }
-.enni-row__monogram { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-sunken); color: var(--enni-ink-muted); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
+.enni-row__monogram, .enni-row__icon { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-sunken); color: var(--enni-ink-muted); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
 .enni-row__text { display: grid; flex: 1 1 12rem; min-width: 0; }
 .enni-row__title { overflow-wrap: anywhere; color: var(--enni-ink); }
 .enni-row__detail { overflow-wrap: anywhere; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }

@@ -4,7 +4,9 @@
  *
  * **`Details`** is the answer's *Details* switch (§3.12) and the connected-apps sheet's *what each
  * key may do* (§8) — a native `<details>`, so it opens with a keyboard, announces its state and
- * needs no script. *"Nothing is hidden, just ordered."*
+ * needs no script. *"Nothing is hidden, just ordered."* Its summary carries a chevron that turns as
+ * it opens (enni-v2 #483): bold text alone gave no sign that it opened. One that hides something
+ * that cannot be undone takes `tone="danger"`, and reads so before it is opened.
  *
  * **`Sheet`** is everything that is not Conversation or Today (§2). A native `<dialog>` opened with
  * `showModal()`, which is what makes it behave: focus moves in and is trapped there, `Esc` closes
@@ -13,21 +15,28 @@
  */
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { CloseButton } from "./close-button.tsx";
+import { Icon } from "./icon.tsx";
 import { MOTION } from "./tokens.ts";
 
 export function Details({
   summary,
   open,
+  tone,
   children,
 }: {
   summary: string;
+  /** What it hides cannot be undone: the summary reads as destructive (enni-v2 #483). */
+  tone?: "danger";
   /** Opened from outside — #300's switch. A person can still open or close each one. */
   open?: boolean;
   children: ReactNode;
 }) {
   return (
-    <details className="enni-details" open={open}>
-      <summary>{summary}</summary>
+    <details className="enni-details" data-tone={tone} open={open}>
+      <summary>
+        <Icon name="chevron" />
+        {summary}
+      </summary>
       {children}
     </details>
   );

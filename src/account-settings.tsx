@@ -7,10 +7,12 @@
  *   `Esc` closes it. Focus goes back to what opened it on close. On a phone it is a full-screen
  *   sheet. Back closing it is the caller's history (#116 F9), as for a sheet. It is never taller
  *   than the window: its body scrolls, and its footer — Cancel, then the commit — stays.
- * - **Settings card** is a titled group with a one-sentence *why* and a header action (*Add a
- *   passkey*, *Sign out everywhere else*).
- * - **Row** is a monogram (`PK`, initials), a title, a detail line, and whatever trails: an action,
- *   a select, a badge or a menu. `Rows` is their list.
+ * - **Settings card** is a group with a one-sentence *why* and a header action (*Add a passkey*,
+ *   *Sign out everywhere else*). Its title is optional (enni-v2 #483): a card that is the whole of
+ *   its page leaves it out, so the page's heading is not said again one line below itself.
+ * - **Row** is what it is about — an `icon` from the one set, or a person's initial as `monogram` —
+ *   then a title, a detail line, and whatever trails: an action, a select, a badge or a menu. Two
+ *   letters never stand in for an icon (enni-v2 #483). `Rows` is their list.
  * - **Action menu** is the `···` button and its menu. Destructive items go last and say so in
  *   `danger`. `Esc` closes it and returns focus to the button.
  *
@@ -19,6 +21,7 @@
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { Button } from "./button.tsx";
 import { CloseButton } from "./close-button.tsx";
+import { Icon, type IconName } from "./icon.tsx";
 import { syncDialog, useHeld, useLinger } from "./disclosure.tsx";
 
 type DialogProps = {
@@ -103,7 +106,8 @@ export function Dialog({ open, onClose, closeLabel, ...given }: DialogProps) {
 }
 
 type CardProps = {
-  readonly title: string;
+  /** Left out where the card is its page's only subject: the page's heading already says it. */
+  readonly title?: string;
   readonly why?: ReactNode;
   readonly action?: ReactNode;
   readonly children: ReactNode;
@@ -111,13 +115,17 @@ type CardProps = {
 
 export function SettingsCard({ title, why, action, children }: CardProps) {
   const heading = useId();
+  const reason = why === undefined ? null : <p className="enni-settings-card__why">{why}</p>;
   return (
-    <section className="enni-settings-card" aria-labelledby={heading}>
+    <section
+      className="enni-settings-card"
+      aria-labelledby={title === undefined ? undefined : heading}
+    >
       <header className="enni-settings-card__header">
-        <h2 id={heading}>{title}</h2>
+        {title === undefined ? reason : <h2 id={heading}>{title}</h2>}
         {action}
       </header>
-      {why === undefined ? null : <p className="enni-settings-card__why">{why}</p>}
+      {title === undefined ? null : reason}
       {children}
     </section>
   );
@@ -138,6 +146,9 @@ export function Rows({
 }
 
 type RowProps = {
+  /** What the row is about, drawn from the one set. Wins over `monogram`. */
+  readonly icon?: IconName;
+  /** A person's or a place's initial — who, never a stand-in for an icon. */
   readonly monogram?: string;
   readonly title: ReactNode;
   readonly detail?: ReactNode;
@@ -146,14 +157,26 @@ type RowProps = {
   readonly below?: ReactNode;
 };
 
-export function Row({ monogram, title, detail, trailing, below }: RowProps) {
+/** The row's leading tile: an icon, else an initial, else nothing. */
+function Leading({ icon, monogram }: Pick<RowProps, "icon" | "monogram">) {
+  if (icon !== undefined)
+    return (
+      <span className="enni-row__icon" aria-hidden="true">
+        <Icon name={icon} />
+      </span>
+    );
+  if (monogram === undefined) return null;
+  return (
+    <span className="enni-row__monogram" aria-hidden="true">
+      {monogram}
+    </span>
+  );
+}
+
+export function Row({ icon, monogram, title, detail, trailing, below }: RowProps) {
   return (
     <li className="enni-row">
-      {monogram === undefined ? null : (
-        <span className="enni-row__monogram" aria-hidden="true">
-          {monogram}
-        </span>
-      )}
+      <Leading icon={icon} monogram={monogram} />
       <span className="enni-row__text">
         <span className="enni-row__title">{title}</span>
         {detail === undefined ? null : <span className="enni-row__detail">{detail}</span>}

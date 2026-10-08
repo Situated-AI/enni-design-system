@@ -77,8 +77,8 @@ test("SettingsCard: a section named by its title, the action beside it, the why 
     >
       <Rows label="Second steps">
         <Row
-          monogram="PK"
-          title="Passkey · Dana's MacBook"
+          monogram="D"
+          title="Dana Okafor"
           detail="Added 12 Aug"
           trailing={<button type="button">Remove</button>}
         />
@@ -90,8 +90,31 @@ test("SettingsCard: a section named by its title, the action beside it, the why 
   );
   expect(html).toContain('<p class="enni-settings-card__why">Keep at least two.</p>');
   expect(html).toContain(
-    '<ul class="enni-rows" aria-label="Second steps"><li class="enni-row"><span class="enni-row__monogram" aria-hidden="true">PK</span>',
+    '<ul class="enni-rows" aria-label="Second steps"><li class="enni-row"><span class="enni-row__monogram" aria-hidden="true">D</span>',
   );
+});
+
+test("enni-v2 #483: SettingsCard without a title names nothing twice — its why leads the header", () => {
+  const html = renderToStaticMarkup(
+    <SettingsCard why="3 people." action={<button type="button">Invite</button>}>
+      <p>rows</p>
+    </SettingsCard>,
+  );
+  expect(html).toBe(
+    '<section class="enni-settings-card"><header class="enni-settings-card__header"><p class="enni-settings-card__why">3 people.</p><button type="button">Invite</button></header><p>rows</p></section>',
+  );
+  expect(html).not.toMatch(/<h\d|aria-labelledby/);
+});
+
+test("enni-v2 #483: Row draws what it is about as an icon from the set, never as letters", () => {
+  const html = renderToStaticMarkup(<Row icon="key" monogram="PK" title="Passkey" />);
+  expect(html).toMatch(
+    /^<li class="enni-row"><span class="enni-row__icon" aria-hidden="true"><svg class="enni-icon"/,
+  );
+  expect(html).not.toContain("enni-row__monogram");
+  expect(html).not.toContain(">PK<");
+  const mark = renderToStaticMarkup(<Row icon="github" title="GitHub" />);
+  expect(mark).toContain('<svg class="enni-icon enni-icon--mark"');
 });
 
 test("Row: title alone is enough", () => {
