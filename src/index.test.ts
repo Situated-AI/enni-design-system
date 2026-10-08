@@ -22,6 +22,7 @@ const PINNED = [
   "CONTROL",
   "COPY_WORDS",
   "Card",
+  "CheckGroups",
   "CheckList",
   "Chip",
   "ChipRow",

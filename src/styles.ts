@@ -133,7 +133,9 @@ const KEYFRAMES = `
  * Surfaces, marks and badges (#280). A card is lifted by `shadow-card`; the brand tile's fills are
  * the accent and its ink; a status badge is the tone triplet (ground, edge, ink) from the same
  * `enni-tone--*` rule `StatusMark` reads; a count is the accent on its soft ground; a tally's
- * segment is its tone's ink, filled, or its outline alone when nothing stands behind it.
+ * segment is its tone's ink, filled, or its outline alone when nothing stands behind it. A grouped
+ * check list's row (enni-v2 471) is glyph, name, word, its glyph in the tone's ink, with the reason
+ * and the action under the name; at phone width the word drops under the name too.
  */
 const SURFACES = `
 .enni-card { padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-card); }
@@ -148,6 +150,22 @@ a.enni-brand { min-height: 44px; }
 .enni-tally { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 3px; vertical-align: middle; }
 .enni-tally__segment { display: inline-block; width: var(--enni-space-4); height: var(--enni-space-2); border: 1px solid var(--enni-tone-ink); border-radius: var(--enni-radius-sm); background: var(--enni-tone-ink); }
 .enni-tally__segment[data-hollow="true"] { background: none; }
+.enni-checks { display: grid; gap: var(--enni-space-4); margin: var(--enni-space-2) 0; }
+.enni-checks__group { display: grid; gap: var(--enni-space-1); }
+.enni-checks__title { display: flex; align-items: baseline; gap: var(--enni-space-2); margin: 0; color: var(--enni-ink-subtle); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); letter-spacing: var(--enni-tracking-eyebrow); text-transform: uppercase; }
+.enni-checks__title:focus { outline: 2px solid var(--enni-focus); outline-offset: 2px; }
+.enni-checks__count { color: var(--enni-ink-muted); }
+.enni-checks__group > ul { display: grid; margin: 0; padding: 0; list-style: none; }
+.enni-checks__row { display: grid; grid-template-columns: var(--enni-space-5) minmax(0, 1fr) auto; column-gap: var(--enni-space-2); row-gap: var(--enni-space-1); align-items: baseline; padding: var(--enni-space-2) 0; border-top: 1px solid var(--enni-line); }
+.enni-checks__glyph { color: var(--enni-tone-ink); font-weight: 700; text-align: center; }
+.enni-checks__name { color: var(--enni-ink); overflow-wrap: anywhere; }
+.enni-checks__word { color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
+.enni-checks__reason { grid-column: 2 / -1; color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
+.enni-checks__action { grid-column: 2 / -1; justify-self: start; }
+@media (max-width: 40rem) {
+  .enni-checks__row { grid-template-columns: var(--enni-space-5) minmax(0, 1fr); }
+  .enni-checks__word, .enni-checks__reason, .enni-checks__action { grid-column: 2; }
+}
 .enni-count { display: inline-flex; align-items: center; justify-content: center; min-width: 1.25rem; padding: 0 var(--enni-space-1); border-radius: var(--enni-radius-pill); background: var(--enni-accent-soft); color: var(--enni-accent); font-size: var(--enni-type-sm); font-weight: 600; }
 `;
 

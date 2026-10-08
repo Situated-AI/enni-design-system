@@ -59,6 +59,7 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `account-settings` | `ActionMenu`, `Dialog`, `orderMenu`, `Row`, `Rows`, `SettingsCard`, `wrapTab` |
 | `badge` | `CountBadge`, `StatusBadge` |
 | `brand` | `BrandMark`, `BrandTile` |
+| `check-groups` | `CheckGroups` |
 | `button` | `Button`, `ButtonLink`, `buttonClass`, `Chip`, `SubmitButton`, `SuggestionChip` |
 | `close-button` | `CloseButton` |
 | `confirm` | `ConfirmByTyping`, `ConfirmStep`, `confirmationMatches` |

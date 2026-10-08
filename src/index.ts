@@ -38,6 +38,12 @@ export {
 } from "./account-settings.tsx";
 export { CountBadge, StatusBadge } from "./badge.tsx";
 export { Tally, type TallyPart } from "./tally.tsx";
+export {
+  type CheckGroup,
+  CheckGroups,
+  type CheckRow,
+  type CheckRowAction,
+} from "./check-groups.tsx";
 export { BrandMark, BrandTile } from "./brand.tsx";
 export {
   Button,
