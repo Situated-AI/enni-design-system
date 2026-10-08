@@ -7,7 +7,8 @@
  * `tokens.ts` and one theme switch reaches every primitive.
  *
  * **Focus is always visible** — a ring on `:focus-visible` for every control — and every target is
- * at least 44px tall, because the phone layout is half of the 54 screens.
+ * at least 44px tall, because the phone layout is half of the 54 screens. A button and a chip read
+ * `--enni-space-control`, which is 44px by touch and 36px under a fine pointer (enni-v2 #472).
  */
 
 import { ACCOUNT_CSS } from "./account-styles.ts";
@@ -40,7 +41,7 @@ code, kbd, samp { font-family: var(--enni-font-mono); }
 `;
 
 const BUTTON = `
-.enni-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--enni-space-2); min-height: 44px; padding: 0 var(--enni-space-4); border-radius: var(--enni-radius-lg); border: 1px solid transparent; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; transition: background var(--enni-motion-quick); }
+.enni-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--enni-space-2); min-height: var(--enni-space-control); padding: 0 var(--enni-space-4); border-radius: var(--enni-radius-lg); border: 1px solid transparent; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; transition: background var(--enni-motion-quick); }
 .enni-button--lg { min-height: 48px; padding: 0 var(--enni-space-5); }
 .enni-button--block { display: flex; width: 100%; }
 .enni-button--secondary { background: var(--enni-surface); color: var(--enni-ink); border-color: var(--enni-line); }
@@ -51,7 +52,7 @@ const BUTTON = `
 .enni-button--quiet:not([disabled]):hover, .enni-chip:hover { background: var(--enni-hover); }
 .enni-button--quiet { background: transparent; color: var(--enni-ink); border-color: var(--enni-line); }
 .enni-button--danger { background: var(--enni-danger-fg); color: var(--enni-surface); }
-.enni-chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--enni-space-3); border-radius: var(--enni-radius-pill); border: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink-muted); font: inherit; font-size: var(--enni-type-sm); cursor: pointer; }
+.enni-chip { display: inline-flex; align-items: center; min-height: var(--enni-space-control); padding: 0 var(--enni-space-3); border-radius: var(--enni-radius-pill); border: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink-muted); font: inherit; font-size: var(--enni-type-sm); cursor: pointer; }
 .enni-chip:hover { color: var(--enni-ink); }
 `;
 

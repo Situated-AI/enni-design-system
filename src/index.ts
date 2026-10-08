@@ -94,6 +94,7 @@ export {
   FONT,
   LEADING,
   LIGHT,
+  CONTROL,
   MEASURE,
   MOTION,
   ORB,

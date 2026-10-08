@@ -22,7 +22,8 @@ test("on a phone the pair stacks", () => {
 });
 
 test("the segmented control's options are 44px targets, and a source card shows its focus", () => {
-  expect(ANSWER_CSS).toMatch(/\.enni-segmented button \{ min-height: 44px;/);
+  // enni-v2 #472: the control token, 44px by touch and 36px under a fine pointer.
+  expect(ANSWER_CSS).toMatch(/\.enni-segmented button \{ min-height: var\(--enni-space-control\);/);
   expect(ANSWER_CSS).toContain(".enni-source:focus { outline: 2px solid var(--enni-focus);");
 });
 

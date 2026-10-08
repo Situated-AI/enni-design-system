@@ -83,7 +83,7 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `time` | `relativeTime`, `ScrollHere`, `Timestamp` |
 | `toggle` | `Toggle` |
 | `turn` | `ChipRow`, `Hint`, `Turn` |
-| `tokens` | `colour`, `DARK`, `EASE`, `FONT`, `LEADING`, `LIGHT`, `MEASURE`, `MOTION`, `ORB`, `RADIUS`, `SHADOW_DARK`, `SHADOW_LIGHT`, `SPACE`, `TOKENS_CSS`, `TRACKING`, `TYPE` |
+| `tokens` | `colour`, `CONTROL`, `DARK`, `EASE`, `FONT`, `LEADING`, `LIGHT`, `MEASURE`, `MOTION`, `ORB`, `RADIUS`, `SHADOW_DARK`, `SHADOW_LIGHT`, `SPACE`, `TOKENS_CSS`, `TRACKING`, `TYPE` |
 
 ## Guardrails
 

@@ -233,6 +233,14 @@ const orbStops = (): Record<string, string> =>
 /** The widest a line of reading runs, and the width a sheet takes on a desktop. */
 export const MEASURE = { reading: "42rem", sheet: "28rem", rail: "16.5rem" } as const;
 
+/**
+ * How tall a control is (enni-v2 #472): 44px where a finger presses it, which is the right touch
+ * target, and 36px under a fine pointer, where 44px made every action on a card as heavy as the
+ * answer above it. One custom property, `--enni-space-control`, that a button, a chip and a segment read;
+ * a field, the mic and a menu's rows keep 44px at every pointer.
+ */
+export const CONTROL = { touch: "44px", fine: "36px" } as const;
+
 const declarations = (prefix: string, table: Readonly<Record<string, string>>): string[] =>
   Object.entries(table).map(([name, value]) => `--enni-${prefix}${name}: ${value};`);
 
@@ -259,6 +267,7 @@ export function scaleCss(): string {
     ...declarations("ease-", EASE),
     ...declarations("orb-", orbStops()),
     ...declarations("measure-", MEASURE),
+    `--enni-space-control: ${CONTROL.touch};`,
   ].join(" ");
 }
 
@@ -273,6 +282,7 @@ export const TOKENS_CSS = [
   `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { ${themeCss(DARK, SHADOW_DARK)} } }`,
   `:root[data-theme="dark"] { color-scheme: dark; ${themeCss(DARK, SHADOW_DARK)} }`,
   `:root[data-theme="light"] { color-scheme: light; }`,
+  `@media (pointer: fine) { :root { --enni-space-control: ${CONTROL.fine}; } }`,
   `@media (prefers-reduced-motion: reduce) { :root { ${Object.keys(MOTION)
     .map((name) => `--enni-motion-${name}: 0ms;`)
     .join(" ")} } }`,

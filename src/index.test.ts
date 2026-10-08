@@ -19,6 +19,7 @@ const PINNED = [
   "BrandTile",
   "Button",
   "ButtonLink",
+  "CONTROL",
   "COPY_WORDS",
   "Card",
   "CheckList",
