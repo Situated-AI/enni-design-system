@@ -7,7 +7,8 @@ export const ANSWER_CSS = `
 .enni-answer-card__body { display: grid; gap: var(--enni-space-4); padding: var(--enni-space-4); }
 .enni-answer-card__status { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-2); margin: 0; }
 .enni-answer-card__key { padding: 2px var(--enni-space-2); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-sm); color: var(--enni-ink-subtle); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); letter-spacing: 0.04em; text-transform: uppercase; }
-.enni-answer-card__title { color: var(--enni-ink-muted); font-size: var(--enni-type-sm); text-decoration: underline; text-decoration-color: var(--enni-line); text-underline-offset: 2px; }
+.enni-answer-card__title { color: var(--enni-ink); font-weight: 600; text-decoration: none; }
+a.enni-answer-card__title:hover, a:hover > .enni-answer-card__title { text-decoration: underline; text-underline-offset: 2px; }
 .enni-answer-card__sentence { margin: 0; color: var(--enni-ink); }
 .enni-answer-section { display: grid; gap: var(--enni-space-1); }
 .enni-answer-section__title { margin: 0; color: var(--enni-ink-subtle); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); letter-spacing: var(--enni-tracking-eyebrow); text-transform: uppercase; }

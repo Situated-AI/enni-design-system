@@ -81,3 +81,13 @@ describe("the primitives' stylesheet", () => {
     expect(PRIMITIVES_CSS.match(/min-height: 44px/g)?.length).toBeGreaterThanOrEqual(3);
   });
 });
+
+test("the composer's main action is Send, solid at every width; the mic never takes its place (enni-v2 #486)", () => {
+  expect(PRIMITIVES_CSS).toMatch(
+    /\.enni-composer__send \{[^}]*background: var\(--enni-accent\); color: var\(--enni-accent-ink\);/,
+  );
+  // No width at which the talk button is filled: it was the solid one on a phone only.
+  expect(PRIMITIVES_CSS).not.toMatch(
+    /\.enni-talk:not\(\[data-listening="true"\]\) \{[^}]*background/,
+  );
+});

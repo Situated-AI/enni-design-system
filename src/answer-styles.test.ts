@@ -25,3 +25,10 @@ test("the segmented control's options are 44px targets, and a source card shows 
   expect(ANSWER_CSS).toMatch(/\.enni-segmented button \{ min-height: 44px;/);
   expect(ANSWER_CSS).toContain(".enni-source:focus { outline: 2px solid var(--enni-focus);");
 });
+
+test("an item's title on the card is a title: ink, 600, underlined only as a link under the pointer (enni-v2 #486)", () => {
+  expect(ANSWER_CSS).toContain(
+    ".enni-answer-card__title { color: var(--enni-ink); font-weight: 600; text-decoration: none; }",
+  );
+  expect(ANSWER_CSS).toMatch(/a\.enni-answer-card__title:hover[^{]*\{ text-decoration: underline;/);
+});

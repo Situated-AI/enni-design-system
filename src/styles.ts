@@ -150,8 +150,9 @@ a.enni-brand { min-height: 44px; }
 
 /**
  * The composer (#283): a rounded field on a surface, the round talk button beside it, **Send**, and
- * the hint under them — the desktop's keys, or the phone's. The talk button is outlined at rest on a
- * desktop and filled on a phone, as the designs draw it, and an accent ring while it listens.
+ * the hint under them — the desktop's keys, or the phone's. The talk button is outlined at rest at
+ * every width and an accent ring while it listens; **Send** is the one solid control, so the
+ * composer's main action is the same at a phone's width as at a desk's (enni-v2 #486).
  */
 const COMPOSER = `
 .enni-composer { position: sticky; bottom: 0; display: grid; gap: var(--enni-space-1); padding: var(--enni-space-3) 0 var(--enni-space-2); border-top: 1px solid var(--enni-line); background: var(--enni-canvas); }
@@ -163,13 +164,13 @@ const COMPOSER = `
 .enni-talk:not([disabled]):hover { background: var(--enni-hover); }
 .enni-talk[data-listening="true"] { border-color: var(--enni-accent); background: var(--enni-accent-soft); color: var(--enni-accent); animation: enni-listen var(--enni-motion-calm) var(--enni-ease-standard) infinite; --enni-tone-ink: var(--enni-accent); }
 .enni-talk[disabled], .enni-composer__send[disabled] { cursor: not-allowed; opacity: 0.6; }
-.enni-composer__send { flex-shrink: 0; min-height: 44px; padding: 0 var(--enni-space-3); border: 0; border-radius: var(--enni-radius-lg); background: none; color: var(--enni-accent); font: inherit; font-weight: 600; cursor: pointer; }
+.enni-composer__send { flex-shrink: 0; min-height: 44px; padding: 0 var(--enni-space-4); border: 0; border-radius: var(--enni-radius-lg); background: var(--enni-accent); color: var(--enni-accent-ink); font: inherit; font-weight: 600; cursor: pointer; }
+.enni-composer__send:not([disabled]):hover { background: var(--enni-accent-hover); }
 .enni-composer__hint { margin: 0; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
 .enni-composer__hint--narrow { display: none; }
 @media (max-width: 40rem) {
   .enni-composer__hint--wide { display: none; }
   .enni-composer__hint--narrow { display: inline; }
-  .enni-talk:not([data-listening="true"]) { border-color: var(--enni-accent); background: var(--enni-accent); color: var(--enni-accent-ink); }
 }
 `;
 
