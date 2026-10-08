@@ -59,13 +59,14 @@ const INPUTS = `
 `;
 
 const SETTINGS = `
-.enni-dialog { width: min(calc(100vw - 2 * var(--enni-space-4)), 28rem); max-height: calc(100dvh - 2 * var(--enni-space-4)); padding: var(--enni-space-5); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-lift); color: var(--enni-ink); }
+.enni-dialog { width: min(calc(100vw - 2 * var(--enni-space-4)), 28rem); max-height: calc(100dvh - 2 * var(--enni-space-4)); padding: var(--enni-space-5); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-lift); color: var(--enni-ink); overflow: hidden; }
+.enni-dialog[open] { display: flex; flex-direction: column; }
 .enni-dialog::backdrop { background: color-mix(in srgb, var(--enni-ink) 35%, transparent); }
-.enni-dialog__header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--enni-space-3); }
+.enni-dialog__header { display: flex; flex: none; align-items: flex-start; justify-content: space-between; gap: var(--enni-space-3); }
 .enni-dialog__header h2 { margin: 0; font-family: var(--enni-font-sans); font-size: var(--enni-type-xl); letter-spacing: normal; text-transform: none; }
-.enni-dialog__close { min-width: 44px; min-height: 44px; margin: calc(-1 * var(--enni-space-2)); border: 0; background: none; color: var(--enni-ink-muted); font: inherit; font-size: var(--enni-type-lg); cursor: pointer; }
-.enni-dialog__lede { margin-top: var(--enni-space-2); color: var(--enni-ink-muted); }
-.enni-dialog__body { display: grid; gap: var(--enni-space-4); margin-top: var(--enni-space-4); }
+.enni-dialog__lede { flex: none; margin-top: var(--enni-space-2); color: var(--enni-ink-muted); }
+.enni-dialog__body { display: grid; flex: 1 1 auto; align-content: start; gap: var(--enni-space-4); min-height: 0; margin: var(--enni-space-3) calc(-1 * var(--enni-space-1)) 0; padding: var(--enni-space-1); overflow-y: auto; }
+.enni-dialog__footer { display: flex; flex: none; flex-wrap: wrap; justify-content: flex-end; gap: var(--enni-space-2); margin-top: var(--enni-space-3); }
 .enni-settings-card { display: grid; gap: var(--enni-space-3); padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-card); }
 .enni-settings-card__header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--enni-space-2); }
 .enni-settings-card__header h2 { margin: 0; font-family: var(--enni-font-sans); font-size: var(--enni-type-md); font-weight: 600; letter-spacing: normal; text-transform: none; }
@@ -83,6 +84,7 @@ const SETTINGS = `
 .enni-action-menu__list button { width: 100%; min-height: 44px; padding: 0 var(--enni-space-3); border: 0; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink); font: inherit; text-align: left; cursor: pointer; }
 .enni-action-menu__list button:hover, .enni-action-menu__list button:focus-visible { background: var(--enni-hover); }
 .enni-action-menu__list button[data-danger="true"] { color: var(--enni-danger-fg); }
+.enni-action-menu__list button[aria-current="true"] { font-weight: 600; }
 @media (max-width: 40rem) {
   .enni-steps li:not([data-state="current"]) .enni-steps__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .enni-auth { width: 100%; min-height: 100dvh; margin: 0; border: 0; border-radius: 0; box-shadow: none; }

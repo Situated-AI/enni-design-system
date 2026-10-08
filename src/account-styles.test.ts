@@ -29,9 +29,34 @@ test("on a phone: one step's label, the auth card and the dialog fill the screen
   expect(phone).toMatch(/\.enni-dialog \{ width: 100vw;[^}]*height: 100dvh;/);
 });
 
-test("menu items and the close button are 44px targets", () => {
+test("menu items are 44px targets", () => {
   expect(ACCOUNT_CSS).toMatch(/\.enni-action-menu__list button \{ width: 100%; min-height: 44px;/);
-  expect(ACCOUNT_CSS).toMatch(/\.enni-dialog__close \{ min-width: 44px; min-height: 44px;/);
+});
+
+const rule = (selector: string) =>
+  ACCOUNT_CSS.split("\n").find((line) => line.startsWith(`${selector} {`)) ?? "";
+
+test("a dialog is never taller than the window: its body scrolls and its footer stays (enni-v2 #473)", () => {
+  // The window's own height less a margin — in dvh, so a phone's toolbars count.
+  expect(rule(".enni-dialog")).toContain("max-height: calc(100dvh - 2 * var(--enni-space-4));");
+  // The dialog itself never scrolls: that is what took the commit below the fold.
+  expect(rule(".enni-dialog")).toContain("overflow: hidden;");
+  // A column only while open — `display` on the closed rule would show a closed dialog.
+  expect(rule(".enni-dialog[open]")).toBe(
+    ".enni-dialog[open] { display: flex; flex-direction: column; }",
+  );
+  expect(rule(".enni-dialog")).not.toContain("display:");
+  // The body gives way and scrolls; the header, the lede and the footer never shrink.
+  expect(rule(".enni-dialog__body")).toMatch(
+    /flex: 1 1 auto;.* min-height: 0;.* overflow-y: auto;/,
+  );
+  for (const fixed of [".enni-dialog__header", ".enni-dialog__lede", ".enni-dialog__footer"])
+    expect(rule(fixed)).toContain(" flex: none;");
+  expect(rule(".enni-dialog__footer")).not.toContain("overflow");
+});
+
+test("the scrolling body leaves room for the focus ring of what it holds", () => {
+  expect(rule(".enni-dialog__body")).toContain(" padding: var(--enni-space-1);");
 });
 
 test("it is on the page with the other primitives", () => {

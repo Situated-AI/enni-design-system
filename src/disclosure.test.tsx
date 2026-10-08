@@ -1,6 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import { renderToStaticMarkup } from "react-dom/server";
-import { Details, EXIT_MS, Sheet, syncDialog } from "./disclosure.tsx";
+import {
+  Details,
+  EXIT_MS,
+  heldWhile,
+  lingerMs,
+  prefersStill,
+  Sheet,
+  syncDialog,
+} from "./disclosure.tsx";
 import { MOTION } from "./tokens.ts";
 
 test("#300: Details can be opened from outside", () => {
@@ -22,19 +30,23 @@ test("Details is a native disclosure, closed until asked", () => {
 describe("Sheet", () => {
   const html = (open: boolean) =>
     renderToStaticMarkup(
-      <Sheet title="Connected apps" open={open} onClose={() => {}}>
+      <Sheet title="Connected apps" closeLabel="Shut" open={open} onClose={() => {}}>
         <p>Linear</p>
       </Sheet>,
     );
+
+  test("it closes with the one close control, named by the word it is given (enni-v2 #473)", () => {
+    expect(html(true)).toContain(
+      '<button type="button" class="enni-close" aria-label="Shut"><span aria-hidden="true">×</span></button>',
+    );
+    // No word of its own: the design system carries no vocabulary (D-114).
+    expect(html(true)).not.toContain("Close");
+  });
 
   test("is a dialog labelled by its own heading", () => {
     expect(html(true)).toMatch(
       /<dialog class="enni-sheet" aria-labelledby="([^"]+)" data-open="(true|false)">[\s\S]*<h2 id="\1">Connected apps<\/h2>/,
     );
-  });
-
-  test("its close button names what it closes", () => {
-    expect(html(true)).toContain('aria-label="Close Connected apps"');
   });
 
   test("closed, it holds no content — nothing behind it is read or focused", () => {
@@ -72,4 +84,33 @@ describe("syncDialog", () => {
 
 test("a sheet's content lingers for exactly as long as the sheet takes to leave (enni-v2 #428)", () => {
   expect(`${EXIT_MS}ms`).toBe(MOTION.exit);
+  expect(lingerMs(false)).toBe(EXIT_MS);
+});
+
+describe("what an overlay shows while it leaves (enni-v2 #473)", () => {
+  test("open, it shows what it is given; closing, what it last showed", () => {
+    const store = { current: "" };
+    expect(heldWhile(store, true, "Today")).toBe("Today");
+    // The caller cleared its state to close: the sheet still says Today on its way out.
+    expect(heldWhile(store, false, "")).toBe("Today");
+    expect(heldWhile(store, true, "Connected apps")).toBe("Connected apps");
+  });
+
+  test("a reader who switched motion off waits for nothing", () => {
+    expect(lingerMs(true)).toBe(0);
+    const asked: string[] = [];
+    const page = (matches: boolean) => ({
+      matchMedia: (query: string) => {
+        asked.push(query);
+        return { matches };
+      },
+    });
+    expect(prefersStill(page(true))).toBe(true);
+    expect(prefersStill(page(false))).toBe(false);
+    expect(asked[0]).toBe("(prefers-reduced-motion: reduce)");
+  });
+
+  test("where nothing can be asked — a server — motion is assumed", () => {
+    expect(prefersStill({})).toBe(false);
+  });
 });

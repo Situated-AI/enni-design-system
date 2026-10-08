@@ -59,7 +59,9 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `account-settings` | `ActionMenu`, `Dialog`, `orderMenu`, `Row`, `Rows`, `SettingsCard`, `wrapTab` |
 | `badge` | `CountBadge`, `StatusBadge` |
 | `brand` | `BrandMark`, `BrandTile` |
+| `check-groups` | `CheckGroups` |
 | `button` | `Button`, `ButtonLink`, `buttonClass`, `Chip`, `SubmitButton`, `SuggestionChip` |
+| `close-button` | `CloseButton` |
 | `confirm` | `ConfirmByTyping`, `ConfirmStep`, `confirmationMatches` |
 | `composer` | `Composer`, `TalkButton` |
 | `copy-button` | `COPY_WORDS`, `CopyButton`, `copyValue` |
@@ -78,10 +80,11 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `sources` | `DetailsBlock`, `SourceCard`, `SourceList` |
 | `styles` | `PRIMITIVES_CSS` |
 | `surface` | `Card`, `CheckList`, `Eyebrow` |
+| `tally` | `Tally` |
 | `time` | `relativeTime`, `ScrollHere`, `Timestamp` |
 | `toggle` | `Toggle` |
 | `turn` | `ChipRow`, `Hint`, `Turn` |
-| `tokens` | `colour`, `DARK`, `EASE`, `FONT`, `LEADING`, `LIGHT`, `MEASURE`, `MOTION`, `ORB`, `RADIUS`, `SHADOW_DARK`, `SHADOW_LIGHT`, `SPACE`, `TOKENS_CSS`, `TRACKING`, `TYPE` |
+| `tokens` | `colour`, `CONTROL`, `DARK`, `EASE`, `FONT`, `LEADING`, `LIGHT`, `MEASURE`, `MOTION`, `ORB`, `RADIUS`, `SHADOW_DARK`, `SHADOW_LIGHT`, `SPACE`, `TOKENS_CSS`, `TRACKING`, `TYPE` |
 
 ## Guardrails
 

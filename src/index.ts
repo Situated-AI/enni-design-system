@@ -37,6 +37,13 @@ export {
   wrapTab,
 } from "./account-settings.tsx";
 export { CountBadge, StatusBadge } from "./badge.tsx";
+export { Tally, type TallyPart } from "./tally.tsx";
+export {
+  type CheckGroup,
+  CheckGroups,
+  type CheckRow,
+  type CheckRowAction,
+} from "./check-groups.tsx";
 export { BrandMark, BrandTile } from "./brand.tsx";
 export {
   Button,
@@ -48,6 +55,7 @@ export {
   SubmitButton,
   SuggestionChip,
 } from "./button.tsx";
+export { CloseButton } from "./close-button.tsx";
 export { ConfirmByTyping, ConfirmStep, confirmationMatches } from "./confirm.tsx";
 export { Composer, TalkButton } from "./composer.tsx";
 export { COPY_WORDS, CopyButton, type CopyState, copyValue } from "./copy-button.tsx";
@@ -92,6 +100,7 @@ export {
   FONT,
   LEADING,
   LIGHT,
+  CONTROL,
   MEASURE,
   MOTION,
   ORB,

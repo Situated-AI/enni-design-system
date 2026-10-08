@@ -24,6 +24,50 @@ test("Dialog: a native dialog named by its title, with a named close button", ()
   expect(html).not.toContain("body");
 });
 
+const committing = (open: boolean) =>
+  renderToStaticMarkup(
+    <Dialog
+      title="Your name"
+      open={open}
+      onClose={ignore}
+      closeLabel="Close"
+      cancelLabel="Cancel"
+      commit={
+        <button type="submit" form="name-form">
+          Save
+        </button>
+      }
+    >
+      <form id="name-form">fields</form>
+    </Dialog>,
+  );
+
+test("Dialog: it closes with the one close control a sheet has (enni-v2 #473)", () => {
+  expect(committing(true)).toContain(
+    '<button type="button" class="enni-close" aria-label="Close"><span aria-hidden="true">×</span></button>',
+  );
+});
+
+test("Dialog: a commit sits in a footer outside the scrolling body, Cancel before it (enni-v2 #473)", () => {
+  expect(committing(true)).toContain(
+    '<div class="enni-dialog__body"><form id="name-form">fields</form></div>' +
+      '<footer class="enni-dialog__footer"><button type="button" class="enni-button enni-button--quiet">Cancel</button>' +
+      '<button type="submit" form="name-form">Save</button></footer></dialog>',
+  );
+  // Closed, the footer is no more reachable than the body.
+  expect(committing(false)).not.toContain("enni-dialog__footer");
+});
+
+test("Dialog: with nothing to commit there is no footer, and no Cancel", () => {
+  const html = renderToStaticMarkup(
+    <Dialog title="Search" open onClose={ignore} closeLabel="Close">
+      <p>results</p>
+    </Dialog>,
+  );
+  expect(html).not.toContain("enni-dialog__footer");
+  expect(html).toContain('<div class="enni-dialog__body"><p>results</p></div></dialog>');
+});
+
 test("SettingsCard: a section named by its title, the action beside it, the why under it", () => {
   const html = renderToStaticMarkup(
     <SettingsCard
@@ -72,6 +116,19 @@ test("ActionMenu: a named button that says it opens a menu, closed until pressed
     'aria-label="Actions for Sam Reyes" aria-haspopup="menu" aria-expanded="false"',
   );
   expect(html).not.toContain('role="menu"');
+});
+
+test("ActionMenu: a trigger is what the button shows, and its name is still the label (enni-v2 #481)", () => {
+  const html = renderToStaticMarkup(
+    <ActionMenu
+      label="Meridian Payments · Switch space"
+      trigger={<span>Meridian Payments</span>}
+      items={[{ label: "Home", onSelect: ignore }]}
+    />,
+  );
+  expect(html).toContain('aria-label="Meridian Payments · Switch space" aria-haspopup="menu"');
+  expect(html).toContain("<span>Meridian Payments</span></button>");
+  expect(html).not.toContain("···");
 });
 
 test("the destructive items go last, whatever order they were given in", () => {

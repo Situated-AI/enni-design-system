@@ -5,7 +5,8 @@
  *
  * - **Dialog** is a native modal `<dialog>`: the page behind is inert, so focus stays inside, and
  *   `Esc` closes it. Focus goes back to what opened it on close. On a phone it is a full-screen
- *   sheet. Back closing it is the caller's history (#116 F9), as for a sheet.
+ *   sheet. Back closing it is the caller's history (#116 F9), as for a sheet. It is never taller
+ *   than the window: its body scrolls, and its footer — Cancel, then the commit — stays.
  * - **Settings card** is a titled group with a one-sentence *why* and a header action (*Add a
  *   passkey*, *Sign out everywhere else*).
  * - **Row** is a monogram (`PK`, initials), a title, a detail line, and whatever trails: an action,
@@ -17,7 +18,8 @@
  */
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { Button } from "./button.tsx";
-import { syncDialog, useLinger } from "./disclosure.tsx";
+import { CloseButton } from "./close-button.tsx";
+import { syncDialog, useHeld, useLinger } from "./disclosure.tsx";
 
 type DialogProps = {
   readonly title: string;
@@ -27,7 +29,16 @@ type DialogProps = {
   /** The close button's name: *"Close"*. */
   readonly closeLabel: string;
   readonly children: ReactNode;
-};
+} & DialogFooter;
+
+/**
+ * A dialog that commits says so in its footer, and the footer always has the way back beside it
+ * (enni-v2 #473): `commit` cannot be given without `cancelLabel`. The commit is the caller's
+ * button — a form's submit names its form with `form=` — and Cancel is the dialog's `onClose`.
+ */
+type DialogFooter =
+  | { readonly commit: ReactNode; readonly cancelLabel: string }
+  | { readonly commit?: undefined; readonly cancelLabel?: undefined };
 
 /** Where focus was when the dialog opened, so closing gives it back. */
 function useReturnFocus(open: boolean): void {
@@ -58,10 +69,11 @@ export function wrapTab(event: KeyboardEvent<HTMLElement>): void {
   event.preventDefault();
 }
 
-export function Dialog({ title, lede, open, onClose, closeLabel, children }: DialogProps) {
+export function Dialog({ open, onClose, closeLabel, ...given }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const heading = useId();
   const shown = useLinger(open);
+  const { title, lede, children, commit, cancelLabel } = useHeld(open, given);
   useReturnFocus(open);
   useEffect(() => syncDialog(ref.current, open), [open]);
   return (
@@ -76,17 +88,16 @@ export function Dialog({ title, lede, open, onClose, closeLabel, children }: Dia
     >
       <header className="enni-dialog__header">
         <h2 id={heading}>{title}</h2>
-        <button
-          type="button"
-          className="enni-dialog__close"
-          aria-label={closeLabel}
-          onClick={onClose}
-        >
-          ×
-        </button>
+        <CloseButton label={closeLabel} onClick={onClose} />
       </header>
       {lede === undefined ? null : <div className="enni-dialog__lede">{lede}</div>}
       {shown ? <div className="enni-dialog__body">{children}</div> : null}
+      {shown && commit !== undefined ? (
+        <footer className="enni-dialog__footer">
+          <Button onClick={onClose}>{cancelLabel}</Button>
+          {commit}
+        </footer>
+      ) : null}
     </dialog>
   );
 }
@@ -157,6 +168,8 @@ export type MenuItem = {
   readonly label: string;
   readonly onSelect: () => void;
   readonly danger?: boolean;
+  /** The one of a set that is chosen now (enni-v2 #481): said as `aria-current`, drawn heavier. */
+  readonly current?: boolean;
 };
 
 /** Destructive items last, the rest in the order given — so the reflexive pick is the harmless one. */
@@ -179,9 +192,14 @@ type MenuProps = {
   /** The button's name: *"Actions for Sam Reyes"*. */
   readonly label: string;
   readonly items: readonly MenuItem[];
+  /**
+   * What the button shows, in place of `···` (enni-v2 #481): a menu opened from a name, as the
+   * rail's space is. `label` is still the accessible name, so it should begin with what is shown.
+   */
+  readonly trigger?: ReactNode;
 };
 
-export function ActionMenu({ label, items }: MenuProps) {
+export function ActionMenu({ label, items, trigger }: MenuProps) {
   const [open, setOpen] = useState(false);
   const button = useRef<HTMLButtonElement>(null);
   const menu = useId();
@@ -202,7 +220,7 @@ export function ActionMenu({ label, items }: MenuProps) {
         aria-controls={menu}
         onClick={() => setOpen((o) => !o)}
       >
-        ···
+        {trigger ?? "···"}
       </Button>
       {open ? (
         <div
@@ -218,6 +236,7 @@ export function ActionMenu({ label, items }: MenuProps) {
               type="button"
               role="menuitem"
               data-danger={item.danger === true}
+              aria-current={item.current === true ? "true" : undefined}
               onClick={() => {
                 close();
                 item.onSelect();

@@ -22,6 +22,14 @@ test("on a phone the pair stacks", () => {
 });
 
 test("the segmented control's options are 44px targets, and a source card shows its focus", () => {
-  expect(ANSWER_CSS).toMatch(/\.enni-segmented button \{ min-height: 44px;/);
+  // enni-v2 #472: the control token, 44px by touch and 36px under a fine pointer.
+  expect(ANSWER_CSS).toMatch(/\.enni-segmented button \{ min-height: var\(--enni-space-control\);/);
   expect(ANSWER_CSS).toContain(".enni-source:focus { outline: 2px solid var(--enni-focus);");
+});
+
+test("an item's title on the card is a title: ink, 600, underlined only as a link under the pointer (enni-v2 #486)", () => {
+  expect(ANSWER_CSS).toContain(
+    ".enni-answer-card__title { color: var(--enni-ink); font-weight: 600; text-decoration: none; }",
+  );
+  expect(ANSWER_CSS).toMatch(/a\.enni-answer-card__title:hover[^{]*\{ text-decoration: underline;/);
 });

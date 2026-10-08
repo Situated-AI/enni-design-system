@@ -26,7 +26,7 @@ const EASED = [
   ".enni-pack",
   ".enni-segmented button",
   ".enni-action-menu__list button",
-  ".enni-dialog__close",
+  ".enni-close",
   ".enni-toggle",
   ".enni-new-tab",
   ".enni-card--interactive",
@@ -43,7 +43,7 @@ const STATES = `
 ${EASED} { transition: ${PROPERTIES}; }
 .enni-button:not([disabled]):active, .enni-chip:active, .enni-talk:not([disabled]):active, .enni-composer__send:not([disabled]):active { transform: scale(0.97); }
 .enni-chip:hover, .enni-toggle:hover, .enni-choice:hover, .enni-pack:hover { border-color: var(--enni-line-strong); }
-.enni-composer__send:not([disabled]):hover, .enni-dialog__close:hover { background: var(--enni-hover); }
+.enni-composer__send:not([disabled]):hover, .enni-close:hover { background: var(--enni-hover); }
 .enni-segmented button:hover, .enni-details > summary:hover, .enni-sources > summary:hover, .enni-guided__footer summary:hover { color: var(--enni-ink); }
 .enni-card--interactive { cursor: pointer; }
 .enni-card--interactive:hover { border-color: var(--enni-line-strong); box-shadow: var(--enni-shadow-lift); transform: translateY(-1px); }

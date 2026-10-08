@@ -2,7 +2,8 @@ import { describe, expect, test } from "bun:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Orb, StatusMark, TONE_TOKENS, type Tone } from "./status.tsx";
 import { PRIMITIVES_CSS } from "./styles.ts";
-import { LIGHT, ORB } from "./tokens.ts";
+import { contrastRatio } from "./contrast.ts";
+import { DARK, LIGHT, ORB } from "./tokens.ts";
 
 const TONES = Object.keys(TONE_TOKENS) as Tone[];
 
@@ -79,6 +80,17 @@ describe("tones", () => {
       expect(Object.keys(LIGHT)).toContain(TONE_TOKENS[tone].edge);
       expect(Object.keys(ORB)).toContain(tone);
     }
+  });
+
+  /** enni-v2 #464: *not connected* and *nothing read* were drawn in the colour of *blocked*. */
+  test("neutral has no hue: it is not danger's colour, nor limited's, and reads at AA in both themes", () => {
+    const { ink, ground } = TONE_TOKENS.neutral;
+    for (const palette of [LIGHT, DARK]) {
+      expect(palette[ink]).not.toBe(palette["danger-fg"]);
+      expect(palette[ink]).not.toBe(palette["limited-fg"]);
+      expect(contrastRatio(palette[ink], palette[ground])).toBeGreaterThanOrEqual(4.5);
+    }
+    expect(TONE_TOKENS.limited.ink).not.toBe(ink);
   });
 
   test("every tone has a rule in the stylesheet", () => {

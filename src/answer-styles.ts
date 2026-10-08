@@ -7,7 +7,8 @@ export const ANSWER_CSS = `
 .enni-answer-card__body { display: grid; gap: var(--enni-space-4); padding: var(--enni-space-4); }
 .enni-answer-card__status { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-2); margin: 0; }
 .enni-answer-card__key { padding: 2px var(--enni-space-2); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-sm); color: var(--enni-ink-subtle); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); letter-spacing: 0.04em; text-transform: uppercase; }
-.enni-answer-card__title { color: var(--enni-ink-muted); font-size: var(--enni-type-sm); text-decoration: underline; text-decoration-color: var(--enni-line); text-underline-offset: 2px; }
+.enni-answer-card__title { color: var(--enni-ink); font-weight: 600; text-decoration: none; }
+a.enni-answer-card__title:hover, a:hover > .enni-answer-card__title { text-decoration: underline; text-underline-offset: 2px; }
 .enni-answer-card__sentence { margin: 0; color: var(--enni-ink); }
 .enni-answer-section { display: grid; gap: var(--enni-space-1); }
 .enni-answer-section__title { margin: 0; color: var(--enni-ink-subtle); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); letter-spacing: var(--enni-tracking-eyebrow); text-transform: uppercase; }
@@ -20,8 +21,8 @@ export const ANSWER_CSS = `
 .enni-answer-actions > :last-child { margin-left: auto; }
 .enni-segmented { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-2); min-width: 0; min-inline-size: 0; margin: 0; padding: 0; border: 0; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
 .enni-segmented__options { display: inline-flex; padding: 2px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); }
-.enni-segmented button { min-height: 44px; padding: 0 var(--enni-space-2); border: 1px solid transparent; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink-muted); font: inherit; cursor: pointer; }
-.enni-filter label { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--enni-space-2); border: 1px solid transparent; border-radius: var(--enni-radius-md); color: var(--enni-ink-muted); cursor: pointer; }
+.enni-segmented button { min-height: var(--enni-space-control); padding: 0 var(--enni-space-2); border: 1px solid transparent; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink-muted); font: inherit; cursor: pointer; }
+.enni-filter label { display: inline-flex; align-items: center; min-height: var(--enni-space-control); padding: 0 var(--enni-space-2); border: 1px solid transparent; border-radius: var(--enni-radius-md); color: var(--enni-ink-muted); cursor: pointer; }
 .enni-filter label:has(input:checked) { border-color: var(--enni-line-strong); background: var(--enni-sunken); color: var(--enni-ink); font-weight: 600; }
 .enni-filter--chips .enni-segmented__options { flex-wrap: wrap; gap: var(--enni-space-2); padding: 0; border: 0; }
 .enni-filter--chips label { border-color: var(--enni-line); border-radius: var(--enni-radius-pill); background: var(--enni-surface); }

@@ -16,6 +16,7 @@ import {
   SHADOW_LIGHT,
   SPACE,
   scaleCss,
+  CONTROL,
   TOKENS_CSS,
   TRACKING,
   TYPE,
@@ -144,5 +145,21 @@ describe("typography (#278)", () => {
 
   test("the eyebrow's tracking is declared", () => {
     expect(scaleCss()).toContain(`--enni-tracking-eyebrow: ${TRACKING.eyebrow};`);
+  });
+});
+
+describe("the control height (enni-v2 #472)", () => {
+  test("44px by default, so touch keeps its target; 36px only under a fine pointer", () => {
+    const [root] = TOKENS_CSS.split("\n");
+    expect(root).toContain("--enni-space-control: 44px;");
+    expect(TOKENS_CSS).toContain(
+      "@media (pointer: fine) { :root { --enni-space-control: 36px; } }",
+    );
+    expect(TOKENS_CSS.match(/--enni-space-control:/g)).toHaveLength(2);
+  });
+
+  test("the two sizes are the table's, and the dense one is still a comfortable pointer target", () => {
+    expect(CONTROL).toEqual({ touch: "44px", fine: "36px" });
+    expect(Number.parseInt(CONTROL.fine, 10)).toBeGreaterThanOrEqual(32);
   });
 });

@@ -65,6 +65,15 @@ describe("TalkButton", () => {
     expect(html).toMatch(/>Stop<\/button>$/);
   });
 
+  test("sendDisabled holds Send alone: the field stays open for the next question (enni-v2 #463)", () => {
+    const held = renderToStaticMarkup(<Composer {...BASE} pending sendDisabled />);
+    expect(held).toMatch(/<button[^>]*type="submit"[^>]*disabled=""/);
+    expect(held).not.toMatch(/<textarea[^>]*disabled/);
+    expect(renderToStaticMarkup(<Composer {...BASE} />)).not.toMatch(
+      /<button[^>]*type="submit"[^>]*disabled/,
+    );
+  });
+
   test("disabled: cannot open", () => {
     expect(
       renderToStaticMarkup(<TalkButton label="Talk" listening={false} disabled onClick={ignore} />),

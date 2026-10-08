@@ -7,7 +7,8 @@
  * `tokens.ts` and one theme switch reaches every primitive.
  *
  * **Focus is always visible** — a ring on `:focus-visible` for every control — and every target is
- * at least 44px tall, because the phone layout is half of the 54 screens.
+ * at least 44px tall, because the phone layout is half of the 54 screens. A button and a chip read
+ * `--enni-space-control`, which is 44px by touch and 36px under a fine pointer (enni-v2 #472).
  */
 
 import { ACCOUNT_CSS } from "./account-styles.ts";
@@ -20,6 +21,7 @@ import { TONE_TOKENS } from "./status.tsx";
 const BASE = `
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; background: var(--enni-canvas); color: var(--enni-ink); font-family: var(--enni-font-sans); font-size: var(--enni-type-md); line-height: var(--enni-leading-md); }
+a { color: inherit; }
 :focus-visible { outline: 2px solid var(--enni-focus); outline-offset: 2px; }
 .enni-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 `;
@@ -39,7 +41,7 @@ code, kbd, samp { font-family: var(--enni-font-mono); }
 `;
 
 const BUTTON = `
-.enni-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--enni-space-2); min-height: 44px; padding: 0 var(--enni-space-4); border-radius: var(--enni-radius-lg); border: 1px solid transparent; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; transition: background var(--enni-motion-quick); }
+.enni-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--enni-space-2); min-height: var(--enni-space-control); padding: 0 var(--enni-space-4); border-radius: var(--enni-radius-lg); border: 1px solid transparent; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; transition: background var(--enni-motion-quick); }
 .enni-button--lg { min-height: 48px; padding: 0 var(--enni-space-5); }
 .enni-button--block { display: flex; width: 100%; }
 .enni-button--secondary { background: var(--enni-surface); color: var(--enni-ink); border-color: var(--enni-line); }
@@ -50,7 +52,7 @@ const BUTTON = `
 .enni-button--quiet:not([disabled]):hover, .enni-chip:hover { background: var(--enni-hover); }
 .enni-button--quiet { background: transparent; color: var(--enni-ink); border-color: var(--enni-line); }
 .enni-button--danger { background: var(--enni-danger-fg); color: var(--enni-surface); }
-.enni-chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--enni-space-3); border-radius: var(--enni-radius-pill); border: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink-muted); font: inherit; font-size: var(--enni-type-sm); cursor: pointer; }
+.enni-chip { display: inline-flex; align-items: center; min-height: var(--enni-space-control); padding: 0 var(--enni-space-3); border-radius: var(--enni-radius-pill); border: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink-muted); font: inherit; font-size: var(--enni-type-sm); cursor: pointer; }
 .enni-chip:hover { color: var(--enni-ink); }
 `;
 
@@ -71,6 +73,7 @@ const DISCLOSURE = `
 .enni-sheet::backdrop { background: color-mix(in srgb, var(--enni-ink) 35%, transparent); }
 .enni-sheet__header { display: flex; align-items: center; justify-content: space-between; gap: var(--enni-space-3); margin-bottom: var(--enni-space-4); }
 .enni-sheet__header h2 { margin: 0; font-size: var(--enni-type-xl); }
+.enni-close { display: inline-flex; flex: none; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin: calc(-1 * var(--enni-space-2)); padding: 0; border: 0; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink-muted); font: inherit; font-size: var(--enni-type-lg); line-height: 1; cursor: pointer; }
 @media (max-width: 40rem) { .enni-sheet { width: 100vw; border-left: 0; } }
 `;
 
@@ -129,7 +132,10 @@ const KEYFRAMES = `
 /**
  * Surfaces, marks and badges (#280). A card is lifted by `shadow-card`; the brand tile's fills are
  * the accent and its ink; a status badge is the tone triplet (ground, edge, ink) from the same
- * `enni-tone--*` rule `StatusMark` reads; a count is the accent on its soft ground.
+ * `enni-tone--*` rule `StatusMark` reads; a count is the accent on its soft ground; a tally's
+ * segment is its tone's ink, filled, or its outline alone when nothing stands behind it. A grouped
+ * check list's row (enni-v2 471) is glyph, name, word, its glyph in the tone's ink, with the reason
+ * and the action under the name; at phone width the word drops under the name too.
  */
 const SURFACES = `
 .enni-card { padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-card); }
@@ -141,13 +147,33 @@ a.enni-brand { min-height: 44px; }
 .enni-brand__ground { fill: var(--enni-accent); }
 .enni-brand__bar { fill: var(--enni-accent-ink); }
 .enni-badge { display: inline-flex; align-items: center; gap: var(--enni-space-2); padding: var(--enni-space-1) var(--enni-space-3); border: 1px solid var(--enni-tone-edge); border-radius: var(--enni-radius-lg); background: var(--enni-tone-ground); color: var(--enni-tone-ink); font-size: var(--enni-type-sm); font-weight: 600; white-space: nowrap; }
+.enni-tally { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 3px; vertical-align: middle; }
+.enni-tally__segment { display: inline-block; width: var(--enni-space-4); height: var(--enni-space-2); border: 1px solid var(--enni-tone-ink); border-radius: var(--enni-radius-sm); background: var(--enni-tone-ink); }
+.enni-tally__segment[data-hollow="true"] { background: none; }
+.enni-checks { display: grid; gap: var(--enni-space-4); margin: var(--enni-space-2) 0; }
+.enni-checks__group { display: grid; gap: var(--enni-space-1); }
+.enni-checks__title { display: flex; align-items: baseline; gap: var(--enni-space-2); margin: 0; color: var(--enni-ink-subtle); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); letter-spacing: var(--enni-tracking-eyebrow); text-transform: uppercase; }
+.enni-checks__title:focus { outline: 2px solid var(--enni-focus); outline-offset: 2px; }
+.enni-checks__count { color: var(--enni-ink-muted); }
+.enni-checks__group > ul { display: grid; margin: 0; padding: 0; list-style: none; }
+.enni-checks__row { display: grid; grid-template-columns: var(--enni-space-5) minmax(0, 1fr) auto; column-gap: var(--enni-space-2); row-gap: var(--enni-space-1); align-items: baseline; padding: var(--enni-space-2) 0; border-top: 1px solid var(--enni-line); }
+.enni-checks__glyph { color: var(--enni-tone-ink); font-weight: 700; text-align: center; }
+.enni-checks__name { color: var(--enni-ink); overflow-wrap: anywhere; }
+.enni-checks__word { color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
+.enni-checks__reason { grid-column: 2 / -1; color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
+.enni-checks__action { grid-column: 2 / -1; justify-self: start; }
+@media (max-width: 40rem) {
+  .enni-checks__row { grid-template-columns: var(--enni-space-5) minmax(0, 1fr); }
+  .enni-checks__word, .enni-checks__reason, .enni-checks__action { grid-column: 2; }
+}
 .enni-count { display: inline-flex; align-items: center; justify-content: center; min-width: 1.25rem; padding: 0 var(--enni-space-1); border-radius: var(--enni-radius-pill); background: var(--enni-accent-soft); color: var(--enni-accent); font-size: var(--enni-type-sm); font-weight: 600; }
 `;
 
 /**
  * The composer (#283): a rounded field on a surface, the round talk button beside it, **Send**, and
- * the hint under them — the desktop's keys, or the phone's. The talk button is outlined at rest on a
- * desktop and filled on a phone, as the designs draw it, and an accent ring while it listens.
+ * the hint under them — the desktop's keys, or the phone's. The talk button is outlined at rest at
+ * every width and an accent ring while it listens; **Send** is the one solid control, so the
+ * composer's main action is the same at a phone's width as at a desk's (enni-v2 #486).
  */
 const COMPOSER = `
 .enni-composer { position: sticky; bottom: 0; display: grid; gap: var(--enni-space-1); padding: var(--enni-space-3) 0 var(--enni-space-2); border-top: 1px solid var(--enni-line); background: var(--enni-canvas); }
@@ -159,13 +185,13 @@ const COMPOSER = `
 .enni-talk:not([disabled]):hover { background: var(--enni-hover); }
 .enni-talk[data-listening="true"] { border-color: var(--enni-accent); background: var(--enni-accent-soft); color: var(--enni-accent); animation: enni-listen var(--enni-motion-calm) var(--enni-ease-standard) infinite; --enni-tone-ink: var(--enni-accent); }
 .enni-talk[disabled], .enni-composer__send[disabled] { cursor: not-allowed; opacity: 0.6; }
-.enni-composer__send { flex-shrink: 0; min-height: 44px; padding: 0 var(--enni-space-3); border: 0; border-radius: var(--enni-radius-lg); background: none; color: var(--enni-accent); font: inherit; font-weight: 600; cursor: pointer; }
+.enni-composer__send { flex-shrink: 0; min-height: 44px; padding: 0 var(--enni-space-4); border: 0; border-radius: var(--enni-radius-lg); background: var(--enni-accent); color: var(--enni-accent-ink); font: inherit; font-weight: 600; cursor: pointer; }
+.enni-composer__send:not([disabled]):hover { background: var(--enni-accent-hover); }
 .enni-composer__hint { margin: 0; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
 .enni-composer__hint--narrow { display: none; }
 @media (max-width: 40rem) {
   .enni-composer__hint--wide { display: none; }
   .enni-composer__hint--narrow { display: inline; }
-  .enni-talk:not([data-listening="true"]) { border-color: var(--enni-accent); background: var(--enni-accent); color: var(--enni-accent-ink); }
 }
 `;
 

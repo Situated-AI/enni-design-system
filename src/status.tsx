@@ -7,13 +7,13 @@
  * a shape a colourblind reader can see, the word as text a screen reader says. A mark with no word
  * is not a quieter mark; it is the F2 finding again.
  *
- * `Tone` names the same five meanings core's `TONES` does. They meet in the web app, where a
+ * `Tone` names the same six meanings core's `TONES` does. They meet in the web app, where a
  * mismatch is a type error rather than a silent grey.
  */
 import type { ReactNode } from "react";
 import type { ColourToken } from "./tokens.ts";
 
-export type Tone = "accent" | "ready" | "care" | "limited" | "danger";
+export type Tone = "accent" | "ready" | "care" | "limited" | "danger" | "neutral";
 
 type ToneTokens = { ink: ColourToken; ground: ColourToken; edge: ColourToken };
 
@@ -24,6 +24,9 @@ export const TONE_TOKENS: Readonly<Record<Tone, ToneTokens>> = {
   care: { ink: "care-fg", ground: "care-bg", edge: "care-border" },
   limited: { ink: "limited-fg", ground: "limited-bg", edge: "limited-border" },
   danger: { ink: "danger-fg", ground: "danger-bg", edge: "danger-border" },
+  // enni-v2 #464: unknown, or off. No hue at all — `limited` is the designs' red (hue 30), so a
+  // thing that is only *not connected* or *not read* was drawn in the colour of a blocked one.
+  neutral: { ink: "ink-muted", ground: "sunken", edge: "line-strong" },
 };
 
 export type Mark = {

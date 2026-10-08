@@ -12,7 +12,7 @@
  * stacking and focus (#116 F9) starts from the platform's answer rather than a hand-rolled one.
  */
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
-import { Button } from "./button.tsx";
+import { CloseButton } from "./close-button.tsx";
 import { MOTION } from "./tokens.ts";
 
 export function Details({
@@ -35,6 +35,8 @@ export function Details({
 
 type SheetProps = {
   readonly title: string;
+  /** The close button's name: *"Close"* (enni-v2 #473: the word is the caller's, D-114). */
+  readonly closeLabel: string;
   readonly open: boolean;
   /** Called on every way out — the close button, `Esc`, or the backdrop's own cancel. */
   readonly onClose: () => void;
@@ -66,16 +68,38 @@ export function useLinger(open: boolean): boolean {
       setKept(true);
       return;
     }
-    const timer = setTimeout(() => setKept(false), EXIT_MS);
+    const timer = setTimeout(() => setKept(false), lingerMs(prefersStill(globalThis)));
     return () => clearTimeout(timer);
   }, [open]);
   return open || kept;
 }
 
-export function Sheet({ title, open, onClose, children }: SheetProps) {
+/** How long content outlives `open`: the exit, or nothing for a reader who switched motion off. */
+export const lingerMs = (still: boolean): number => (still ? 0 : EXIT_MS);
+
+type Asks = { readonly matchMedia?: (query: string) => { readonly matches: boolean } };
+
+/** Whether this reader asked for no motion — `false` where nothing can be asked (a server). */
+export const prefersStill = (page: Asks): boolean =>
+  page.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+/**
+ * What an overlay shows: what it is given while it is open, and what it last showed while it leaves
+ * (enni-v2 #473). A caller says *closed* by clearing the state its title and content are drawn
+ * from, so lingering alone kept nothing: the panel left with its close button and no content.
+ */
+export function heldWhile<T>(store: { current: T }, open: boolean, given: T): T {
+  if (open) store.current = given;
+  return store.current;
+}
+
+export const useHeld = <T,>(open: boolean, given: T): T => heldWhile(useRef(given), open, given);
+
+export function Sheet({ open, onClose, closeLabel, ...given }: SheetProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const heading = useId();
   const shown = useLinger(open);
+  const { title, children } = useHeld(open, given);
   useEffect(() => syncDialog(ref.current, open), [open]);
   return (
     <dialog
@@ -88,9 +112,7 @@ export function Sheet({ title, open, onClose, children }: SheetProps) {
     >
       <header className="enni-sheet__header">
         <h2 id={heading}>{title}</h2>
-        <Button onClick={onClose} aria-label={`Close ${title}`}>
-          Close
-        </Button>
+        <CloseButton label={closeLabel} onClick={onClose} />
       </header>
       {shown ? children : null}
     </dialog>

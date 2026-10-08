@@ -187,16 +187,19 @@ export const TRACKING = { eyebrow: "0.12em", display: "-0.025em" } as const;
 /**
  * The orb's sphere (#279): a radial gradient per tone, lit from 35% 30% — a `glow` highlight, the
  * tone's ink through the middle, a `deep` shade at the edge. The designs draw the accent, care and
- * ready spheres; limited and danger take the same stops on their hue (30). The stops are the same in
+ * ready spheres; limited and danger take the same stops on their hue (30); neutral is hueless. The stops are the same in
  * both themes, as the designs have them — the middle is the themed ink.
  */
-export const ORB: Readonly<Record<"accent" | Status, { glow: string; deep: string }>> = {
-  accent: { glow: "oklch(0.92 0.04 276)", deep: "oklch(0.3 0.09 276)" },
-  ready: { glow: "oklch(0.95 0.03 152)", deep: "oklch(0.3 0.06 152)" },
-  care: { glow: "oklch(0.96 0.04 72)", deep: "oklch(0.32 0.08 72)" },
-  limited: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
-  danger: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
-};
+export const ORB: Readonly<Record<"accent" | "neutral" | Status, { glow: string; deep: string }>> =
+  {
+    accent: { glow: "oklch(0.92 0.04 276)", deep: "oklch(0.3 0.09 276)" },
+    ready: { glow: "oklch(0.95 0.03 152)", deep: "oklch(0.3 0.06 152)" },
+    care: { glow: "oklch(0.96 0.04 72)", deep: "oklch(0.32 0.08 72)" },
+    limited: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
+    danger: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
+    // enni-v2 #464: unknown or off has no hue; its stops sit on the palette's warm grey (hue 62).
+    neutral: { glow: "oklch(0.95 0.01 62)", deep: "oklch(0.3 0.014 62)" },
+  };
 
 /**
  * Motion a reader can switch off: `prefers-reduced-motion` zeroes every one in `TOKENS_CSS`.
@@ -230,6 +233,14 @@ const orbStops = (): Record<string, string> =>
 /** The widest a line of reading runs, and the width a sheet takes on a desktop. */
 export const MEASURE = { reading: "42rem", sheet: "28rem", rail: "16.5rem" } as const;
 
+/**
+ * How tall a control is (enni-v2 #472): 44px where a finger presses it, which is the right touch
+ * target, and 36px under a fine pointer, where 44px made every action on a card as heavy as the
+ * answer above it. One custom property, `--enni-space-control`, that a button, a chip and a segment read;
+ * a field, the mic and a menu's rows keep 44px at every pointer.
+ */
+export const CONTROL = { touch: "44px", fine: "36px" } as const;
+
 const declarations = (prefix: string, table: Readonly<Record<string, string>>): string[] =>
   Object.entries(table).map(([name, value]) => `--enni-${prefix}${name}: ${value};`);
 
@@ -256,6 +267,7 @@ export function scaleCss(): string {
     ...declarations("ease-", EASE),
     ...declarations("orb-", orbStops()),
     ...declarations("measure-", MEASURE),
+    `--enni-space-control: ${CONTROL.touch};`,
   ].join(" ");
 }
 
@@ -270,6 +282,7 @@ export const TOKENS_CSS = [
   `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { ${themeCss(DARK, SHADOW_DARK)} } }`,
   `:root[data-theme="dark"] { color-scheme: dark; ${themeCss(DARK, SHADOW_DARK)} }`,
   `:root[data-theme="light"] { color-scheme: light; }`,
+  `@media (pointer: fine) { :root { --enni-space-control: ${CONTROL.fine}; } }`,
   `@media (prefers-reduced-motion: reduce) { :root { ${Object.keys(MOTION)
     .map((name) => `--enni-motion-${name}: 0ms;`)
     .join(" ")} } }`,
