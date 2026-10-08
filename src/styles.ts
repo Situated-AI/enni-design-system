@@ -20,6 +20,7 @@ import { TONE_TOKENS } from "./status.tsx";
 const BASE = `
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; background: var(--enni-canvas); color: var(--enni-ink); font-family: var(--enni-font-sans); font-size: var(--enni-type-md); line-height: var(--enni-leading-md); }
+a { color: inherit; }
 :focus-visible { outline: 2px solid var(--enni-focus); outline-offset: 2px; }
 .enni-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 `;

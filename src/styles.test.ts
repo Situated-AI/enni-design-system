@@ -91,3 +91,11 @@ test("the composer's main action is Send, solid at every width; the mic never ta
     /\.enni-talk:not\(\[data-listening="true"\]\) \{[^}]*background/,
   );
 });
+
+test("no link falls to the browser's default colour: a bare link takes the ink around it (enni-v2 #486)", () => {
+  expect(PRIMITIVES_CSS).toContain("\na { color: inherit; }\n");
+  // An element selector, so every class that colours a link still wins.
+  expect(PRIMITIVES_CSS.indexOf("\na { color: inherit; }")).toBeLessThan(
+    PRIMITIVES_CSS.indexOf(".enni-button"),
+  );
+});
