@@ -66,6 +66,14 @@ describe.each([
     // #280: the count badge — the accent on its soft ground.
     expect(contrastRatio(palette.accent, palette["accent-soft"])).toBeGreaterThanOrEqual(AA);
   });
+
+  test("a disabled control's label still reads, and its ground is neither the accent nor a surface (enni-v2 #480)", () => {
+    expect(contrastRatio(palette["ink-subtle"], palette.disabled)).toBeGreaterThanOrEqual(AA);
+    // Told from a primary button at a glance, and from a secondary one by more than its label.
+    expect(contrastRatio(palette.disabled, palette.accent)).toBeGreaterThanOrEqual(3);
+    expect(palette.disabled).not.toBe(palette.surface);
+    expect(palette.disabled).not.toBe(palette.canvas);
+  });
 });
 
 describe("the stylesheet is generated from the tables", () => {

@@ -46,7 +46,7 @@ const BUTTON = `
 .enni-button--block { display: flex; width: 100%; }
 .enni-button--secondary { background: var(--enni-surface); color: var(--enni-ink); border-color: var(--enni-line); }
 .enni-button--secondary:not([disabled]):hover { background: var(--enni-hover); }
-.enni-button[disabled] { cursor: not-allowed; opacity: 0.6; }
+.enni-button[disabled], .enni-talk[disabled], .enni-composer__send[disabled] { border-color: var(--enni-line); background: var(--enni-disabled); color: var(--enni-ink-subtle); cursor: not-allowed; }
 .enni-button--primary { background: var(--enni-accent); color: var(--enni-accent-ink); }
 .enni-button--primary:not([disabled]):hover { background: var(--enni-accent-hover); }
 .enni-button--quiet:not([disabled]):hover, .enni-chip:hover { background: var(--enni-hover); }
@@ -185,7 +185,6 @@ const COMPOSER = `
 .enni-talk .enni-icon { width: 20px; height: 20px; }
 .enni-talk:not([disabled]):hover { background: var(--enni-hover); }
 .enni-talk[data-listening="true"] { border-color: var(--enni-accent); background: var(--enni-accent-soft); color: var(--enni-accent); animation: enni-listen var(--enni-motion-calm) var(--enni-ease-standard) infinite; --enni-tone-ink: var(--enni-accent); }
-.enni-talk[disabled], .enni-composer__send[disabled] { cursor: not-allowed; opacity: 0.6; }
 .enni-composer__send { flex-shrink: 0; min-height: 44px; padding: 0 var(--enni-space-4); border: 0; border-radius: var(--enni-radius-lg); background: var(--enni-accent); color: var(--enni-accent-ink); font: inherit; font-weight: 600; cursor: pointer; }
 .enni-composer__send:not([disabled]):hover { background: var(--enni-accent-hover); }
 .enni-composer__hint { margin: 0; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
