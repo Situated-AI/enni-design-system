@@ -119,10 +119,13 @@ export function Sheet({ open, onClose, closeLabel, ...given }: SheetProps) {
       data-open={open}
       onClose={onClose}
     >
-      <header className="enni-sheet__header">
-        <h2 id={heading}>{title}</h2>
-        <CloseButton label={closeLabel} onClick={onClose} />
-      </header>
+      {/* enni-v2 #531: closed, it has no heading in the page, as it has no content. */}
+      {shown ? (
+        <header className="enni-sheet__header">
+          <h2 id={heading}>{title}</h2>
+          <CloseButton label={closeLabel} onClick={onClose} />
+        </header>
+      ) : null}
       {shown ? children : null}
     </dialog>
   );

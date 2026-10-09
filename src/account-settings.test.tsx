@@ -16,10 +16,10 @@ test("Dialog: a native dialog named by its title, with a named close button", ()
       <p>body</p>
     </Dialog>,
   );
+  // enni-v2 #531: closed, it leaves no heading in the page either.
   expect(html).toMatch(
-    /<dialog class="enni-dialog" aria-labelledby="([^"]+)" data-open="false"><header class="enni-dialog__header"><h2 id="\1">Invite someone<\/h2>/,
+    /^<dialog class="enni-dialog" aria-labelledby="[^"]+" data-open="false"><\/dialog>$/,
   );
-  expect(html).toContain('aria-label="Close"');
   // Closed, its body isn't rendered — nothing inside is reachable.
   expect(html).not.toContain("body");
 });

@@ -136,3 +136,16 @@ describe("what an overlay shows while it leaves (enni-v2 #473)", () => {
     expect(prefersStill({})).toBe(false);
   });
 });
+
+describe("closed, a sheet leaves nothing in the page (enni-v2 #531)", () => {
+  test("no heading, no close control, no content: an empty dialog", () => {
+    const html = renderToStaticMarkup(
+      <Sheet title="Connected apps" closeLabel="Shut" open={false} onClose={() => {}}>
+        <p>Linear</p>
+      </Sheet>,
+    );
+    expect(html).toMatch(
+      /^<dialog class="enni-sheet" aria-labelledby="[^"]+" data-open="false"><\/dialog>$/,
+    );
+  });
+});
