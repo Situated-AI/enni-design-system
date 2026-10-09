@@ -12,7 +12,11 @@
  * integration. `github` is GitHub's own 16px mark from Octicons (MIT); `linear` is the 24px mark
  * as Simple Icons publishes it (CC0). Both were compared, byte for byte, with those packages.
  * `slack` is the 24px mark from Simple Icons 9.21.0 (CC0), read from the package on npm: later
- * releases no longer carry it, so that release is the source it is held to. Slack's media kit
+ * releases no longer carry it, so that release is the source it is held to. On 2026-10-09 it was
+ * compared with `Slack_Mark_Monochrome_Black.svg` from Slack's own Logos collection and is the same
+ * mark, scaled to fill the box: eight shapes, each starting within 0.002 of Slack's (enni-v2 #541).
+ * Slack's file leaves 0.6 of the mark's width clear on each side; the space around it here is the
+ * caller's tile. Slack's media kit
  * offers the mark in one colour, black or white, which is the form drawn here; the operator chose
  * it over the four-colour mark so the three apps read alike (enni-v2 #475). The names and marks
  * remain their owners' trademarks. A mark that cannot be drawn this way does not get one: the caller falls back to the
