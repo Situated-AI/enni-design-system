@@ -61,3 +61,9 @@ describe("how the primitives move (enni-v2 #428)", () => {
     expect(PRIMITIVES_CSS.endsWith(MOTION_CSS)).toBe(true);
   });
 });
+
+test("what is behind a sheet or a dialog is softened, unless less transparency was asked for (enni-v2 #532)", () => {
+  expect(MOTION_CSS).toContain(
+    "@media (prefers-reduced-transparency: no-preference) {\n  .enni-sheet::backdrop, .enni-dialog::backdrop { -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }\n}",
+  );
+});

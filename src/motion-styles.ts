@@ -75,6 +75,11 @@ const LEAVING = `
 .enni-sheet[open], .enni-dialog[open] { opacity: 1; transform: none; transition: ${moves("enter", "out")}; }
 .enni-sheet::backdrop, .enni-dialog::backdrop { opacity: 0; transition: ${moves("exit", "standard")}; }
 .enni-sheet[open]::backdrop, .enni-dialog[open]::backdrop { opacity: 1; }
+/* enni-v2 issue 532: what is behind a sheet is softened, so the sheet reads as in front of it. Not
+   where a person has asked for less transparency. */
+@media (prefers-reduced-transparency: no-preference) {
+  .enni-sheet::backdrop, .enni-dialog::backdrop { -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+}
 @starting-style {
   .enni-sheet[open] { opacity: 0; transform: translateX(var(--enni-space-4)); }
   .enni-dialog[open] { opacity: 0; transform: translateY(var(--enni-space-2)); }

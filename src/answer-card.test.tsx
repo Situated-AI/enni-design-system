@@ -8,6 +8,7 @@ import {
   Citation,
   Segmented,
 } from "./answer-card.tsx";
+import { ANSWER_CSS } from "./answer-styles.ts";
 import { StatusBadge } from "./badge.tsx";
 
 const card = (extra: Partial<Parameters<typeof AnswerCard>[0]> = {}) =>
@@ -143,4 +144,10 @@ describe("Segmented — each option's outcome, once known (enni-v2 #468)", () =>
     expect(html).toContain('aria-pressed="false" aria-busy="true">Deploying</button>');
     expect(html.match(/enni-segmented__mark/g)).toHaveLength(2);
   });
+});
+
+test("the card's sentence is a size up from Enni's voice: 21px (enni-v2 #532)", () => {
+  expect(ANSWER_CSS).toContain(
+    ".enni-answer-card__sentence { margin: 0; color: var(--enni-ink); font-size: 1.3125rem; line-height: 1.35; }",
+  );
 });

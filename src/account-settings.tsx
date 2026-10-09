@@ -89,11 +89,15 @@ export function Dialog({ open, onClose, closeLabel, ...given }: DialogProps) {
       onClose={onClose}
       onKeyDown={wrapTab}
     >
-      <header className="enni-dialog__header">
-        <h2 id={heading}>{title}</h2>
-        <CloseButton label={closeLabel} onClick={onClose} />
-      </header>
-      {lede === undefined ? null : <div className="enni-dialog__lede">{lede}</div>}
+      {/* enni-v2 #531: closed, it has no heading. One left in the page was read out of place, and
+          with nothing to name it yet: "Remove ?". */}
+      {shown ? (
+        <header className="enni-dialog__header">
+          <h2 id={heading}>{title}</h2>
+          <CloseButton label={closeLabel} onClick={onClose} />
+        </header>
+      ) : null}
+      {shown && lede !== undefined ? <div className="enni-dialog__lede">{lede}</div> : null}
       {shown ? <div className="enni-dialog__body">{children}</div> : null}
       {shown && commit !== undefined ? (
         <footer className="enni-dialog__footer">
