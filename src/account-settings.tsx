@@ -83,7 +83,10 @@ export function Dialog({ open, onClose, closeLabel, ...given }: DialogProps) {
     <dialog
       ref={ref}
       className="enni-dialog"
-      aria-labelledby={heading}
+      // enni-v2 #582: named only by a heading that is drawn. Closed, there is none, and a reference
+      // written into the server's page could outlive the id it named: where the browser makes its
+      // ids again, the label kept the server's and the heading, drawn on opening, took the new one.
+      aria-labelledby={shown ? heading : undefined}
       // What the dialog was asked to be — so a screenshot can wait for `showModal` to catch up.
       data-open={open}
       onClose={onClose}
@@ -244,7 +247,7 @@ export function ActionMenu({ label, items, trigger }: MenuProps) {
         aria-label={label}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-controls={menu}
+        aria-controls={open ? menu : undefined}
         onClick={() => setOpen((o) => !o)}
       >
         {trigger ?? "···"}

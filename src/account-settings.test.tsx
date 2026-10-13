@@ -17,9 +17,7 @@ test("Dialog: a native dialog named by its title, with a named close button", ()
     </Dialog>,
   );
   // enni-v2 #531: closed, it leaves no heading in the page either.
-  expect(html).toMatch(
-    /^<dialog class="enni-dialog" aria-labelledby="[^"]+" data-open="false"><\/dialog>$/,
-  );
+  expect(html).toMatch(/^<dialog class="enni-dialog" data-open="false"><\/dialog>$/);
   // Closed, its body isn't rendered — nothing inside is reachable.
   expect(html).not.toContain("body");
 });
@@ -165,4 +163,36 @@ test("the destructive items go last, whatever order they were given in", () => {
     "Sign them out everywhere",
     "Remove Sam",
   ]);
+});
+
+/** Every id a piece of markup refers to, that the same markup does not hold (enni-v2 #582). */
+const dangling = (html: string): string[] =>
+  [...html.matchAll(/(?:aria-labelledby|aria-describedby|aria-controls)="([^"]+)"/g)]
+    .flatMap((m) => (m[1] as string).split(/\s+/))
+    .filter((id) => !html.includes(`id="${id}"`));
+
+test("a closed dialog refers to no heading, since it draws none (enni-v2 #582)", () => {
+  const closed = renderToStaticMarkup(
+    <Dialog open={false} onClose={() => {}} title="Your name" closeLabel="Close">
+      body
+    </Dialog>,
+  );
+  expect(closed).not.toContain("aria-labelledby");
+  expect(dangling(closed)).toEqual([]);
+});
+
+test("an open dialog is named by the heading it draws", () => {
+  const open = renderToStaticMarkup(
+    <Dialog open onClose={() => {}} title="Your name" closeLabel="Close">
+      body
+    </Dialog>,
+  );
+  expect(open).toContain("aria-labelledby");
+  expect(dangling(open)).toEqual([]);
+});
+
+test("a closed action menu controls nothing, since there is no menu yet (enni-v2 #582)", () => {
+  const closed = renderToStaticMarkup(<ActionMenu label="More" items={[]} />);
+  expect(closed).not.toContain("aria-controls");
+  expect(dangling(closed)).toEqual([]);
 });

@@ -144,8 +144,23 @@ describe("closed, a sheet leaves nothing in the page (enni-v2 #531)", () => {
         <p>Linear</p>
       </Sheet>,
     );
-    expect(html).toMatch(
-      /^<dialog class="enni-sheet" aria-labelledby="[^"]+" data-open="false"><\/dialog>$/,
-    );
+    expect(html).toMatch(/^<dialog class="enni-sheet" data-open="false"><\/dialog>$/);
   });
+});
+
+test("a closed sheet refers to no heading, and an open one to the heading it draws (enni-v2 #582)", () => {
+  const closed = renderToStaticMarkup(
+    <Sheet open={false} onClose={() => {}} title="Settings" closeLabel="Close">
+      body
+    </Sheet>,
+  );
+  expect(closed).not.toContain("aria-labelledby");
+  const open = renderToStaticMarkup(
+    <Sheet open onClose={() => {}} title="Settings" closeLabel="Close">
+      body
+    </Sheet>,
+  );
+  const id = /aria-labelledby="([^"]+)"/.exec(open)?.[1];
+  expect(id).toBeDefined();
+  expect(open).toContain(`id="${id}"`);
 });
