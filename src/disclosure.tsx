@@ -15,6 +15,7 @@
  */
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { CloseButton } from "./close-button.tsx";
+import { useClosing } from "./dialog-closing.ts";
 import { Icon } from "./icon.tsx";
 import { MOTION } from "./tokens.ts";
 
@@ -110,6 +111,7 @@ export function Sheet({ open, onClose, closeLabel, ...given }: SheetProps) {
   const shown = useLinger(open);
   const { title, children } = useHeld(open, given);
   useEffect(() => syncDialog(ref.current, open), [open]);
+  const closing = useClosing(onClose);
   return (
     <dialog
       ref={ref}
@@ -120,7 +122,7 @@ export function Sheet({ open, onClose, closeLabel, ...given }: SheetProps) {
       aria-labelledby={shown ? heading : undefined}
       // What the sheet was asked to be — so a screenshot can wait for `showModal` to catch up.
       data-open={open}
-      onClose={onClose}
+      {...closing}
     >
       {/* enni-v2 #531: closed, it has no heading in the page, as it has no content. */}
       {shown ? (

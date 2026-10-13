@@ -21,6 +21,7 @@
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { Button } from "./button.tsx";
 import { CloseButton } from "./close-button.tsx";
+import { useClosing } from "./dialog-closing.ts";
 import { Icon, type IconName } from "./icon.tsx";
 import { syncDialog, useHeld, useLinger } from "./disclosure.tsx";
 
@@ -79,6 +80,7 @@ export function Dialog({ open, onClose, closeLabel, ...given }: DialogProps) {
   const { title, lede, children, commit, cancelLabel } = useHeld(open, given);
   useReturnFocus(open);
   useEffect(() => syncDialog(ref.current, open), [open]);
+  const closing = useClosing(onClose);
   return (
     <dialog
       ref={ref}
@@ -89,7 +91,7 @@ export function Dialog({ open, onClose, closeLabel, ...given }: DialogProps) {
       aria-labelledby={shown ? heading : undefined}
       // What the dialog was asked to be — so a screenshot can wait for `showModal` to catch up.
       data-open={open}
-      onClose={onClose}
+      {...closing}
       onKeyDown={wrapTab}
     >
       {/* enni-v2 #531: closed, it has no heading. One left in the page was read out of place, and
