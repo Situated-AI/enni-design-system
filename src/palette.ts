@@ -204,3 +204,32 @@ export const ORB: Readonly<Record<"accent" | "neutral" | Status, { glow: string;
     // enni-v2 #464: unknown or off has no hue of its own; its stops sit on the slate.
     neutral: { glow: "oklch(0.96 0.006 257)", deep: "oklch(0.3 0.03 262)" },
   };
+
+/** The tones the brand's mark is painted in (`brand.tsx`), from its layers down to its rings. */
+export type BrandTone =
+  | "lavender"
+  | "lilac"
+  | "violet"
+  | "iris"
+  | "indigo"
+  | "plum"
+  | "ink"
+  | "ring";
+
+/**
+ * The brand's mark (v0.6.3): three isometric layers, lavender, violet and indigo, where each
+ * overlap is a tone of its own (`lilac` the lavender over the violet, `iris` the violet over the
+ * indigo) rather than a translucency, so the mark reads the same on any ground. Down its middle a
+ * chain of three dots in white `ring`s: violet, `plum` and `ink`, the light theme's slate ink. Taken
+ * from the operator's artwork; the same in both themes, since the mark carries its own ground.
+ */
+export const BRAND: Readonly<Record<BrandTone, string>> = {
+  lavender: "oklch(0.808 0.094 285)",
+  lilac: "oklch(0.623 0.201 280)",
+  violet: "oklch(0.516 0.266 273)",
+  iris: "oklch(0.401 0.213 274)",
+  indigo: "oklch(0.313 0.171 274)",
+  plum: "oklch(0.335 0.183 274)",
+  ink: "oklch(0.208 0.04 266)",
+  ring: "oklch(1 0 0)",
+};

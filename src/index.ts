@@ -48,7 +48,13 @@ export {
   type CheckRow,
   type CheckRowAction,
 } from "./check-groups.tsx";
-export { BrandMark, BrandTile } from "./brand.tsx";
+export { BrandLogo, BrandMark, BrandTile } from "./brand.tsx";
+export {
+  BRAND_ICON_SVG,
+  BRAND_LOGO_DARK_SVG,
+  BRAND_LOGO_SVG,
+  BRAND_MARK_SVG,
+} from "./brand-mark.ts";
 export {
   Button,
   ButtonLink,
@@ -105,6 +111,8 @@ export { relativeTime, ScrollHere, Timestamp } from "./time.tsx";
 export { Toggle, Toggles } from "./toggle.tsx";
 export { ChipRow, Hint, Turn } from "./turn.tsx";
 export {
+  BRAND,
+  type BrandTone,
   type ColourToken,
   colour,
   DARK,
@@ -131,4 +139,4 @@ export {
 } from "./tokens.ts";
 
 /** Contrast between two tokens, for a product that tints one over another (enni-v2 #532). */
-export { contrastRatio, linearSrgb, luminance, parseOklch } from "./contrast.ts";
+export { contrastRatio, linearSrgb, luminance, parseOklch, srgbHex } from "./contrast.ts";

@@ -13,6 +13,7 @@
  * holds the scales, the motion and the stylesheet they make.
  */
 import {
+  BRAND,
   type ColourToken,
   type Elevation,
   ORB,
@@ -27,6 +28,8 @@ import {
 } from "./palette.ts";
 
 export {
+  BRAND,
+  type BrandTone,
   type ColourToken,
   DARK,
   type Elevation,
@@ -193,6 +196,7 @@ export function scaleCss(): string {
     ...declarations("motion-", MOTION),
     ...declarations("ease-", EASE),
     ...declarations("orb-", orbStops()),
+    ...declarations("brand-", BRAND),
     ...declarations("measure-", MEASURE),
     `--enni-space-control: ${CONTROL.touch};`,
   ].join(" ");

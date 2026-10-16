@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { contrastRatio, parseOklch } from "./contrast.ts";
 import {
+  BRAND,
   type ColourToken,
   DARK,
   LIGHT,
@@ -128,4 +129,20 @@ test("a code block and a switch's thumb are the same in both themes: dark code, 
 test("the orb's stops are OKLCH, one pair per tone", () => {
   for (const { glow, deep } of Object.values(ORB))
     for (const stop of [glow, deep]) expect(stop).toMatch(PLAIN);
+});
+
+test("the brand's tones are plain OKLCH, its layers step down in lightness, its ink is the slate ink", () => {
+  for (const tone of Object.values(BRAND)) expect(tone).toMatch(PLAIN);
+  const layers = (["lavender", "lilac", "violet", "iris", "indigo"] as const).map(
+    (tone) => parseOklch(BRAND[tone])[0],
+  );
+  expect([...layers].sort((a, b) => b - a)).toEqual(layers);
+  expect(BRAND.ink).toBe(LIGHT.ink);
+  expect(BRAND.ring).toBe("oklch(1 0 0)");
+});
+
+test("the brand's ink dot holds apart from its white ring, and the ring from every layer it sits on", () => {
+  expect(contrastRatio(BRAND.ink, BRAND.ring)).toBeGreaterThanOrEqual(AA);
+  for (const tone of ["violet", "plum", "indigo", "iris"] as const)
+    expect(contrastRatio(BRAND[tone], BRAND.ring)).toBeGreaterThanOrEqual(3);
 });

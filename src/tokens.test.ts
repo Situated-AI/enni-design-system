@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import {
+  BRAND,
   colour,
   DARK,
   EASE,
@@ -69,6 +70,11 @@ describe("the stylesheet is generated from the tables", () => {
       expect(scaleCss()).toContain(`--enni-orb-${tone}-glow: ${glow};`);
       expect(scaleCss()).toContain(`--enni-orb-${tone}-deep: ${deep};`);
     }
+  });
+
+  test("the brand's tones are declared once, outside the themes: the mark is the same in both", () => {
+    for (const [tone, value] of Object.entries(BRAND))
+      expect(scaleCss()).toContain(`--enni-brand-${tone}: ${value};`);
   });
 
   test("the glow, glass and scrim are declared per theme (enni-v2 #635)", () => {

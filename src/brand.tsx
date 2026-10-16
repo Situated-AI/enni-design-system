@@ -1,43 +1,73 @@
 /**
- * The brand mark (#280): the tile with its three bars — an *E* — and the wordmark beside it.
+ * The brand (#280; redrawn in v0.6.3 from the operator's artwork): the mark — three isometric layers
+ * and a chain of three dots — and the wordmark beside it, both drawn as paths in `brand-mark.ts`,
+ * which also makes the standalone SVG strings a favicon or an OG image is built from.
  *
- * Since 0.6.1 it is the landing's (`.lp-brand`, enni-v2 #637): an ink tile on a 28px grid, its outer
- * bars the canvas and the middle one the violet, the wordmark 19px bold, and the tile turns a little
- * on the spring when the mark is a link under a pointer. It is drawn, not an image file, so it
- * follows the theme: every fill is a class over a token in `styles.ts`, never a colour here. The name is a
- * prop (D-114): this package carries no product words, not even its own name. With `href` the mark
- * is the way home — a link whose accessible name is the wordmark.
+ * Every fill here is a class over a `--enni-brand-*` token (`styles.ts`), never a colour: the mark
+ * is the same in both themes, since it carries its own ground, and the wordmark is `currentColor`,
+ * the theme's ink. The name is a prop (D-114): it is the accessible name, and the drawn letters are
+ * hidden from assistive technology. With `href` the mark is the way home — a link named by it.
  */
+import { LOCKUP, MARK_SHAPES, WORDMARK, wordmarkPath } from "./brand-mark.ts";
 
 type BrandProps = {
   readonly name: string;
   readonly href?: string;
 };
 
-/** The tile alone — the auth card's title mark (#289). */
+const markPaths = () =>
+  MARK_SHAPES.map(({ tone, d }, i) => (
+    // biome-ignore lint/suspicious/noArrayIndexKey: the shapes are a fixed drawing, never reordered
+    <path key={i} className={`enni-brand__${tone}`} d={d} />
+  ));
+
+/** The mark alone — the auth card's title mark (#289), and the square app icon's drawing. */
 export function BrandTile() {
   return (
-    <svg className="enni-brand__tile" width="22" height="22" viewBox="0 0 28 28" aria-hidden="true">
-      <rect className="enni-brand__ground" width="28" height="28" rx="8" />
-      <rect className="enni-brand__bar" x="8" y="8" width="12" height="2.6" rx="1.3" />
-      <rect
-        className="enni-brand__bar enni-brand__bar--accent"
-        x="8"
-        y="12.7"
-        width="8"
-        height="2.6"
-        rx="1.3"
-      />
-      <rect className="enni-brand__bar" x="8" y="17.4" width="12" height="2.6" rx="1.3" />
+    <svg className="enni-brand__tile" width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
+      {markPaths()}
     </svg>
   );
 }
 
+/** The four letters, in the ink around them. */
+function Wordmark() {
+  return (
+    <svg
+      className="enni-brand__word"
+      viewBox={`0 0 ${WORDMARK.width} ${WORDMARK.height}`}
+      aria-hidden="true"
+    >
+      <path d={wordmarkPath()} />
+    </svg>
+  );
+}
+
+/** Mark and wordmark as one drawing, for where the lockup is shown large: a hero, a sign-in page. */
+export function BrandLogo({ name }: { readonly name: string }) {
+  return (
+    <svg
+      className="enni-brand-logo"
+      viewBox={`0 0 ${LOCKUP.width} ${LOCKUP.height}`}
+      role="img"
+      aria-label={name}
+    >
+      {markPaths()}
+      <path className="enni-brand__word" d={wordmarkPath(LOCKUP.x, LOCKUP.y)} />
+    </svg>
+  );
+}
+
+/**
+ * The header's brand: the mark, which turns a little under a pointer when it is a link, then the
+ * wordmark.
+ */
 export function BrandMark({ name, href }: BrandProps) {
   const inner = (
     <>
       <BrandTile />
-      <span className="enni-brand__name">{name}</span>
+      <Wordmark />
+      <span className="enni-visually-hidden">{name}</span>
     </>
   );
   return href === undefined ? (

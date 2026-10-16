@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { contrastRatio, linearSrgb, luminance, parseOklch } from "./contrast.ts";
+import { contrastRatio, linearSrgb, luminance, parseOklch, srgbHex } from "./contrast.ts";
 
 describe("parseOklch", () => {
   test("reads lightness, chroma and hue", () => {
@@ -38,5 +38,17 @@ describe("contrastRatio", () => {
 
   test("a colour on itself is 1", () => {
     expect(contrastRatio("oklch(0.5 0.1 276)", "oklch(0.5 0.1 276)")).toBeCloseTo(1, 5);
+  });
+});
+
+describe("srgbHex", () => {
+  test("white, black and the slate ink come back as the hex they were converted from", () => {
+    expect(srgbHex("oklch(1 0 0)")).toBe("#FFFFFF");
+    expect(srgbHex("oklch(0 0 0)")).toBe("#000000");
+    expect(srgbHex("oklch(0.208 0.04 266)")).toBe("#0F172A");
+  });
+
+  test("it is always six upper-case digits, even out of gamut", () => {
+    expect(srgbHex("oklch(0.7 0.4 150)")).toMatch(/^#[0-9A-F]{6}$/);
   });
 });
