@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { renderToStaticMarkup } from "react-dom/server";
-import { HeardBubble, ReadingSteps, RefusalCard } from "./progress.tsx";
+import { HeardBubble, ReadingSteps, RefusalCard, Thinking } from "./progress.tsx";
 
 describe("ReadingSteps", () => {
   const html = renderToStaticMarkup(
@@ -28,7 +28,9 @@ describe("ReadingSteps", () => {
     expect(html).toContain(
       '<span class="enni-steps__glyph" aria-hidden="true">!</span>Couldn&#x27;t read Slack',
     );
-    expect(html).toContain('<span class="enni-steps__glyph" aria-hidden="true">·</span>Checking');
+    expect(html).toContain(
+      '<span class="enni-steps__glyph" aria-hidden="true"><span class="enni-spin"></span></span>Checking',
+    );
   });
 });
 
@@ -65,5 +67,11 @@ test("#311: a RefusalCard can carry two actions and a footnote — the conversat
   );
   expect(renderToStaticMarkup(<RefusalCard title="t" sentence="s" />)).not.toContain(
     "enni-refusal__actions",
+  );
+});
+
+test("enni-v2 #637: Thinking is the landing's reading line — a spinner hidden from a reader, and the words", () => {
+  expect(renderToStaticMarkup(<Thinking text="Reading the issue…" />)).toBe(
+    '<p class="enni-thinking" role="status" aria-live="polite"><span class="enni-spin" aria-hidden="true"></span><span>Reading the issue…</span></p>',
   );
 });

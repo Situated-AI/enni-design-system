@@ -16,7 +16,7 @@ This is [`Situated-AI/enni-v2`](https://github.com/Situated-AI/enni-v2)'s `packa
 ## Using it
 
 ```json
-"dependencies": { "@enni/ui": "github:situated-ai/enni-design-system#v0.6.0" }
+"dependencies": { "@enni/ui": "github:situated-ai/enni-design-system#v0.6.1" }
 ```
 
 Put the two stylesheets on the page once, in the root layout, then use the components:
@@ -42,10 +42,21 @@ and what is selected. The primary button is ink (`--enni-btn`, `--enni-btn-ink`,
 block has `--enni-code-bg`, `-ink` and `-dim`. Every ink is held to WCAG AA on the grounds it is
 drawn on, in both themes, by `palette.test.ts`.
 
+## Components
+
+Since 0.6.1 the landing's components are the primitives (enni-v2 #637), so the landing and the app
+share one set: the button (`primary` ink with a sheen, `ghost`, `glow`, `sm`, `arrow`), the card
+(`interactive`), the verdict chip (`StatusBadge dot`), `Pill`, `Tag`, the fields (`Field valid`,
+`TextareaField`, `SelectField`, `ActionField`), `Faq`, the dark code panel (`CopyField`,
+`CodeBlock`, `Terminal`), `Tabs`, `Meter` (`title`, `figure`), `Toggle` (`tone`) and `Toggles`,
+`Thinking`, `BrandMark`, and the landing window's answer (`AnswerReasons`, `AnswerWho`,
+`AnswerSection boxed`, `AnswerCard arriving`). A code block is dark in both themes (`code-*`).
+
 ## Motion
 
 `EASE.spring` is the landing's spring, a `linear()` curve, run on `--enni-motion-spring` (500ms) or
-`--enni-motion-spring-long` (800ms); like every duration, reduced motion zeroes both.
+`--enni-motion-spring-long` (800ms); like every duration, reduced motion zeroes both. `spring-styles.ts` puts the landing's springs on
+the primitives, and under reduced motion nothing scales, lifts, turns or loops.
 
 `motion-styles.ts` is the last part of `PRIMITIVES_CSS`. Every control eases between its states and
 gives under a press; a sheet and a dialog fade out as well as in; a disclosure opens over its own
@@ -65,20 +76,21 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 
 | Module | Exports |
 |---|---|
-| `answer-card` | `AnswerActions`, `AnswerCard`, `AnswerPair`, `AnswerSection`, `Citation`, `Segmented` |
+| `answer-card` | `AnswerActions`, `AnswerCard`, `AnswerPair`, `AnswerReasons`, `AnswerSection`, `AnswerWho`, `Citation`, `Segmented` |
 | `account-flow` | `AuthCard`, `Notice`, `Steps` |
 | `account-inputs` | `ChoiceList`, `CodeInput`, `CodeList`, `CopyField`, `codeDigits`, `DevicePrompt`, `groupCode`, `groupKey`, `QrBlock` |
 | `account-settings` | `ActionMenu`, `Dialog`, `orderMenu`, `Row`, `Rows`, `SettingsCard`, `wrapTab` |
-| `badge` | `CountBadge`, `StatusBadge` |
+| `badge` | `CountBadge`, `Pill`, `StatusBadge`, `Tag` |
 | `brand` | `BrandMark`, `BrandTile` |
 | `check-groups` | `CheckGroups` |
 | `button` | `Button`, `ButtonLink`, `buttonClass`, `Chip`, `SubmitButton`, `SuggestionChip` |
 | `close-button` | `CloseButton` |
+| `code-block` | `CodeBlock`, `Terminal` |
 | `confirm` | `ConfirmByTyping`, `ConfirmStep`, `confirmationMatches` |
 | `composer` | `Composer`, `TalkButton` |
 | `copy-button` | `COPY_WORDS`, `CopyButton`, `copyValue` |
-| `disclosure` | `Details`, `Sheet`, `syncDialog` |
-| `field` | `describedBy`, `Field` |
+| `disclosure` | `Details`, `Faq`, `Sheet`, `syncDialog` |
+| `field` | `ActionField`, `describedBy`, `Field`, `SelectField`, `TextareaField` |
 | `billing-cards` | `Meter`, `PlanCard`, `SummaryCard`, `SummaryGrid` |
 | `billing-choices` | `HostedCardField`, `PackChooser`, `ReceiptRows` |
 | `filter` | `Filter` |
@@ -89,13 +101,14 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `icon-marks` | `MARKS` |
 | `skeleton` | `Skeleton`, `skeletonClass` |
 | `status` | `Orb`, `StatusMark`, `TONE_TOKENS` |
-| `progress` | `HeardBubble`, `ReadingSteps`, `RefusalCard` |
+| `progress` | `HeardBubble`, `ReadingSteps`, `RefusalCard`, `Thinking` |
 | `sources` | `DetailsBlock`, `SourceCard`, `SourceList` |
 | `styles` | `PRIMITIVES_CSS` |
 | `surface` | `Card`, `CheckList`, `Eyebrow` |
+| `tabs` | `moveTab`, `Tabs` |
 | `tally` | `Tally` |
 | `time` | `relativeTime`, `ScrollHere`, `Timestamp` |
-| `toggle` | `Toggle` |
+| `toggle` | `Toggle`, `Toggles` |
 | `turn` | `ChipRow`, `Hint`, `Turn` |
 | `tokens` | `colour`, `CONTROL`, `DARK`, `EASE`, `FONT`, `LEADING`, `LIGHT`, `MEASURE`, `MOTION`, `ORB`, `RADIUS`, `SHADOW_DARK`, `SHADOW_LIGHT`, `SPACE`, `TOKENS_CSS`, `TRACKING`, `TRANSLUCENT_DARK`, `TRANSLUCENT_LIGHT`, `TYPE` |
 

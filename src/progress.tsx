@@ -1,9 +1,11 @@
 /**
  * The moments around an answer (#298) — reading your apps, a refusal, and what was heard.
  *
- * **Reading steps** are each source settling on its own: `·` while it is read, `✓` when it was, `!`
- * when it could not be. Not a spinner (§3): a list that grows as the pipeline hears back, in one
- * polite live region. The glyph is a shape beside the words; the words say which.
+ * **Reading steps** are each source settling on its own: the landing's small spinner while it is
+ * read (enni-v2 #637), `✓` when it was, `!` when it could not be. Not one spinner for the whole
+ * wait (§3): a list that grows as the pipeline hears back, in one polite live region, in the
+ * landing's mono reading line (`.lp-thinking`). The glyph is a shape beside the words; the words
+ * say which. **`Thinking`** is that line alone — the spinner and what Enni is reading now.
  *
  * A **refusal card** is *Not enough to go on*, its sentence and a way forward — with **no badge**,
  * because a refusal has no verdict (D-77).
@@ -15,7 +17,11 @@ import type { ReactNode } from "react";
 
 export type StepState = "pending" | "read" | "failed";
 
-const GLYPH: Readonly<Record<StepState, string>> = { pending: "·", read: "✓", failed: "!" };
+const GLYPH: Readonly<Record<StepState, ReactNode>> = {
+  pending: <span className="enni-spin" />,
+  read: "✓",
+  failed: "!",
+};
 
 type Step = { readonly id: string; readonly state: StepState; readonly text: string };
 
@@ -42,6 +48,16 @@ export function ReadingSteps({
         </li>
       ))}
     </ul>
+  );
+}
+
+/** What Enni is reading now, beside the spinner, in a polite live region. */
+export function Thinking({ text }: { readonly text: string }) {
+  return (
+    <p className="enni-thinking" role="status" aria-live="polite">
+      <span className="enni-spin" aria-hidden="true" />
+      <span>{text}</span>
+    </p>
   );
 }
 

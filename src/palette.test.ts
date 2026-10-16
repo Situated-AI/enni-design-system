@@ -104,6 +104,11 @@ describe.each([
     expect(contrastRatio(palette["code-dim"], palette["code-bg"])).toBeGreaterThanOrEqual(AA);
   });
 
+  test.each(["code-accent", "code-ready", "code-care", "code-danger"] as const)(
+    "a terminal's %s reads on the code ground (enni-v2 #637)",
+    (ink) => expect(contrastRatio(palette[ink], palette["code-bg"])).toBeGreaterThanOrEqual(AA),
+  );
+
   test("a disabled control's label still reads, and its ground is neither a button nor a surface (enni-v2 #480)", () => {
     expect(contrastRatio(palette["ink-subtle"], palette.disabled)).toBeGreaterThanOrEqual(AA);
     // Told from a primary button at a glance, and from a secondary one by more than its label.
@@ -112,6 +117,12 @@ describe.each([
     expect(palette.disabled).not.toBe(palette.surface);
     expect(palette.disabled).not.toBe(palette.canvas);
   });
+});
+
+test("a code block and a switch's thumb are the same in both themes: dark code, a white thumb (enni-v2 #637)", () => {
+  const fixed: ColourToken[] = ["code-ink", "code-accent", "code-ready", "code-care", "knob"];
+  for (const token of fixed) expect(DARK[token]).toBe(LIGHT[token]);
+  expect(LIGHT.knob).toBe("oklch(1 0 0)");
 });
 
 test("the orb's stops are OKLCH, one pair per tone", () => {

@@ -12,7 +12,9 @@ describe("the primitives' stylesheet", () => {
     const named = [...PRIMITIVES_CSS.matchAll(/var\(--enni-([a-z-]+)\)/g)].map((m) => m[1] ?? "");
     const colours = named.filter(
       (n) =>
-        !/^(space|radius|font|type|motion|measure|tone|shadow|leading|tracking|ease|orb)-/.test(n),
+        !/^(space|radius|font|type|motion|measure|tone|shadow|leading|tracking|ease|orb)-|^angle$/.test(
+          n,
+        ),
     );
     expect(colours.length).toBeGreaterThan(10);
     const tokens = [...Object.keys(LIGHT), ...Object.keys(TRANSLUCENT_LIGHT)];
@@ -88,11 +90,11 @@ describe("the primitives' stylesheet", () => {
 });
 
 test("the primary button is ink, and the violet is kept for links, focus and what is selected (enni-v2 #635)", () => {
-  expect(PRIMITIVES_CSS).toContain(
-    ".enni-button--primary { background: var(--enni-btn); color: var(--enni-btn-ink); }",
+  expect(PRIMITIVES_CSS).toMatch(
+    /\.enni-button--primary \{[^}]*background: var\(--enni-btn\); color: var\(--enni-btn-ink\);/,
   );
-  expect(PRIMITIVES_CSS).toContain(
-    ".enni-button--primary:not([disabled]):hover { background: var(--enni-btn-hover); }",
+  expect(PRIMITIVES_CSS).toMatch(
+    /\.enni-button--primary:not\(\[disabled\]\):hover \{ background: var\(--enni-btn-hover\);/,
   );
   expect(PRIMITIVES_CSS).toContain(":focus-visible");
   expect(PRIMITIVES_CSS).toMatch(/:focus-visible[^}]*var\(--enni-(accent|focus)\)/);

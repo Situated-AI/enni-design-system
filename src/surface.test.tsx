@@ -16,6 +16,12 @@ describe("Card", () => {
     );
     expect(html).toBe('<section class="enni-card" aria-label="A real answer">x</section>');
   });
+
+  test("an interactive card carries the class the spring's lift is drawn on (enni-v2 #637)", () => {
+    expect(renderToStaticMarkup(<Card interactive>x</Card>)).toBe(
+      '<div class="enni-card enni-card--interactive">x</div>',
+    );
+  });
 });
 
 test("an Eyebrow is a paragraph, written as the sentence it is — the capitals are CSS", () => {

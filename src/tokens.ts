@@ -109,7 +109,9 @@ export const TRACKING = { eyebrow: "0.12em", display: "-0.025em" } as const;
  * `stagger` the step between items of a list arriving, `calm` the listening pulse, `breath` the
  * reading orb's (#279, the designs' `--duration-slow` and `presence-breath`; enni-v2 #428).
  * `spring` and `spring-long` are the landing's durations for what moves on `EASE.spring`: a press
- * or a hover's lift, and a larger move such as a card or a panel (enni-v2 #635).
+ * or a hover's lift, and a larger move such as a card or a panel (enni-v2 #635). `spin` is one turn
+ * of a spinner, `ring` one pulse of a live status dot, `orbit` one turn of the glow button's edge
+ * (the landing's 0.7s, 2.2s and 4s; enni-v2 #637).
  */
 export const MOTION = {
   quick: "120ms",
@@ -120,6 +122,9 @@ export const MOTION = {
   breath: "4500ms",
   spring: "500ms",
   "spring-long": "800ms",
+  spin: "700ms",
+  ring: "2200ms",
+  orbit: "4000ms",
 } as const;
 
 /**
@@ -163,7 +168,7 @@ export function paletteCss(palette: Palette): string {
 
 /**
  * One theme's properties: its palette, what stays translucent (`--enni-glow`, `-glass`, `-scrim`)
- * and its elevation (`--enni-shadow-card`, `-lift`).
+ * and its elevation (`--enni-shadow-rest`, `-card`, `-lift`).
  */
 export function themeCss(palette: Palette, shadow: Elevation, translucent: Translucent): string {
   return [

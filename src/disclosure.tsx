@@ -6,7 +6,12 @@
  * key may do* (§8) — a native `<details>`, so it opens with a keyboard, announces its state and
  * needs no script. *"Nothing is hidden, just ordered."* Its summary carries a chevron that turns as
  * it opens (enni-v2 #483): bold text alone gave no sign that it opened. One that hides something
- * that cannot be undone takes `tone="danger"`, and reads so before it is opened.
+ * that cannot be undone takes `tone="danger"`, and reads so before it is opened. Since 0.6.1 it is
+ * drawn as the landing's `.lp-disc` (enni-v2 #637), and its chevron turns on the spring.
+ *
+ * **`Faq`** is the landing's questions (`.lp-faq`): one native `<details>` per question, between
+ * hairlines, its `+` turning to a `×` on the spring as it opens, and the answer sliding open where
+ * the browser animates `::details-content`. It opens with no script, as `Details` does.
  *
  * **`Sheet`** is everything that is not Conversation or Today (§2). A native `<dialog>` opened with
  * `showModal()`, which is what makes it behave: focus moves in and is trapped there, `Esc` closes
@@ -40,6 +45,27 @@ export function Details({
       </summary>
       {children}
     </details>
+  );
+}
+
+export type FaqItem = { readonly question: string; readonly answer: ReactNode };
+
+export function Faq({
+  items,
+  label,
+}: {
+  readonly items: readonly FaqItem[];
+  readonly label?: string;
+}) {
+  return (
+    <section className="enni-faq" aria-label={label}>
+      {items.map((item) => (
+        <details key={item.question}>
+          <summary>{item.question}</summary>
+          <div className="enni-faq__answer">{item.answer}</div>
+        </details>
+      ))}
+    </section>
   );
 }
 

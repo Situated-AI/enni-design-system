@@ -6,7 +6,9 @@
  * - **SummaryCard** answers one question: a title, one large figure, a muted line, one action.
  *   B01's four — *Your plan*, *This month*, *Credits*, *Payment* — sit in a **SummaryGrid**.
  * - **Meter** is a count against an allowance — a native `<meter>` for a screen reader, beside the drawn bar. At B11 it turns *care* and **says so in words**
- *   (*13 questions left this month*): colour is never the only signal (D-115).
+ *   (*13 questions left this month*): colour is never the only signal (D-115). Since 0.6.1 it is the
+ *   landing's `.lp-meter` (enni-v2 #637): a 6px bar on the hairline, filled from the accent to the
+ *   ready ink; with a `title` it stands alone, boxed, its title and its figure above the bar.
  * - **PlanCard** is a plan in plain words. The current one is marked by a tag and drawn on `sunken`
  *   with `line-strong`; the action is the caller's, so only the upgrade is ever the accent (B02).
  */
@@ -67,12 +69,23 @@ type MeterProps = {
   readonly caption: ReactNode;
   /** `care` when it is running low: the bar's colour, and the caption already says it in words. */
   readonly tone?: "accent" | "care";
+  /** Standing alone (the landing's): the box, and this title above the bar (enni-v2 #637). */
+  readonly title?: string;
+  /** Beside the title, large: *7 of 12*. */
+  readonly figure?: ReactNode;
 };
 
-export function Meter({ label, value, max, caption, tone = "accent" }: MeterProps) {
+export function Meter({ label, value, max, caption, tone = "accent", title, figure }: MeterProps) {
   const share = max <= 0 ? 0 : Math.min(1, Math.max(0, value / max));
+  const boxed = title === undefined ? "" : " enni-meter--boxed";
   return (
-    <div className={`enni-meter enni-meter--${tone}`}>
+    <div className={`enni-meter enni-meter--${tone}${boxed}`}>
+      {title === undefined ? null : (
+        <p className="enni-meter__row" aria-hidden="true">
+          <span>{title}</span>
+          {figure === undefined ? null : <b>{figure}</b>}
+        </p>
+      )}
       <meter className="enni-visually-hidden" aria-label={label} min={0} max={max} value={value} />
       <div className="enni-meter__track" aria-hidden="true">
         <span className="enni-meter__fill" style={{ width: `${(share * 100).toFixed(1)}%` }} />

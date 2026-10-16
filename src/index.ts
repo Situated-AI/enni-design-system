@@ -10,8 +10,11 @@ export {
   AnswerActions,
   AnswerCard,
   AnswerPair,
+  AnswerReasons,
   AnswerSection,
+  AnswerWho,
   Citation,
+  type Reason,
   Segmented,
   type SegmentedOption,
 } from "./answer-card.tsx";
@@ -37,7 +40,7 @@ export {
   SettingsCard,
   wrapTab,
 } from "./account-settings.tsx";
-export { CountBadge, StatusBadge } from "./badge.tsx";
+export { CountBadge, Pill, StatusBadge, Tag } from "./badge.tsx";
 export { Tally, type TallyPart } from "./tally.tsx";
 export {
   type CheckGroup,
@@ -57,11 +60,18 @@ export {
   SuggestionChip,
 } from "./button.tsx";
 export { CloseButton } from "./close-button.tsx";
+export {
+  CodeBlock,
+  Terminal,
+  type TermLine,
+  type TermPart,
+  type TermTone,
+} from "./code-block.tsx";
 export { ConfirmByTyping, ConfirmStep, confirmationMatches } from "./confirm.tsx";
 export { Composer, TalkButton } from "./composer.tsx";
 export { COPY_WORDS, CopyButton, type CopyState, copyValue } from "./copy-button.tsx";
-export { Details, Sheet, syncDialog } from "./disclosure.tsx";
-export { describedBy, Field } from "./field.tsx";
+export { Details, Faq, type FaqItem, Sheet, syncDialog } from "./disclosure.tsx";
+export { ActionField, describedBy, Field, SelectField, TextareaField } from "./field.tsx";
 export { Meter, PlanCard, SummaryCard, SummaryGrid } from "./billing-cards.tsx";
 export {
   HostedCardField,
@@ -86,12 +96,13 @@ export { ICONS, Icon, type IconName } from "./icon.tsx";
 export { MARKS, type MarkName } from "./icon-marks.ts";
 export { Skeleton, skeletonClass } from "./skeleton.tsx";
 export { type Mark, Orb, type OrbSize, StatusMark, TONE_TOKENS, type Tone } from "./status.tsx";
-export { HeardBubble, ReadingSteps, RefusalCard, type StepState } from "./progress.tsx";
+export { HeardBubble, ReadingSteps, RefusalCard, type StepState, Thinking } from "./progress.tsx";
 export { DetailsBlock, SourceCard, SourceList } from "./sources.tsx";
 export { PRIMITIVES_CSS } from "./styles.ts";
 export { Card, CheckList, Eyebrow } from "./surface.tsx";
+export { moveTab, type TabItem, Tabs } from "./tabs.tsx";
 export { relativeTime, ScrollHere, Timestamp } from "./time.tsx";
-export { Toggle } from "./toggle.tsx";
+export { Toggle, Toggles } from "./toggle.tsx";
 export { ChipRow, Hint, Turn } from "./turn.tsx";
 export {
   type ColourToken,

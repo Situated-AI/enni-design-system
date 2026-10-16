@@ -15,7 +15,11 @@
  * **What the landing paints translucent** is flattened here onto the dark surface (`#111726`), so a
  * status ground is one colour the contrast test can measure: the mockup's `rgba(74,222,128,.10)`
  * green is the `ready-bg` it paints on a card. What must stay translucent — the glow, glass and
- * scrim — is `TRANSLUCENT_*`, declared beside the palette.
+ * scrim — is `TRANSLUCENT_*`, declared beside the palette, with `shade`, a switch thumb's shadow.
+ *
+ * **A code block is dark in both themes** (enni-v2 #637, v0.6.1): `code-bg`, `-ink`, `-dim` and the
+ * landing terminal's four inks (`code-accent`, `-ready`, `-care`, `-danger`) are dark-ground values
+ * in the light as in the dark. `knob` is a switch's thumb, white in both.
  *
  * Two of the landing's values are nudged, and only where AA asked: light `ink-subtle` (`#64748B`,
  * L 0.554) is L 0.54, so it reads on the hover and disabled grounds as well as on white.
@@ -44,7 +48,8 @@ export type ColourToken =
   | "btn"
   | "btn-ink"
   | "btn-hover"
-  | `code-${"bg" | "ink" | "dim"}`
+  | `code-${"bg" | "ink" | "dim" | "accent" | "ready" | "care" | "danger"}`
+  | "knob"
   | `${Status}-${"bg" | "border" | "fg"}`
   | "focus";
 
@@ -79,6 +84,11 @@ export const LIGHT: Palette = {
   "code-bg": "oklch(0.17 0.022 267)",
   "code-ink": "oklch(0.929 0.013 256)",
   "code-dim": "oklch(0.632 0.044 264)",
+  "code-accent": "oklch(0.786 0.114 287)",
+  "code-ready": "oklch(0.8 0.182 152)",
+  "code-care": "oklch(0.854 0.109 77)",
+  "code-danger": "oklch(0.711 0.166 22)",
+  knob: "oklch(1 0 0)",
   "ready-bg": "oklch(0.963 0.02 160)",
   "ready-border": "oklch(0.835 0.08 157)",
   "ready-fg": "oklch(0.527 0.137 150)",
@@ -117,6 +127,11 @@ export const DARK: Palette = {
   "code-bg": "oklch(0.146 0.018 267)",
   "code-ink": "oklch(0.929 0.013 256)",
   "code-dim": "oklch(0.578 0.047 263)",
+  "code-accent": "oklch(0.786 0.114 287)",
+  "code-ready": "oklch(0.8 0.182 152)",
+  "code-care": "oklch(0.854 0.109 77)",
+  "code-danger": "oklch(0.711 0.166 22)",
+  knob: "oklch(1 0 0)",
   "ready-bg": "oklch(0.273 0.027 212)",
   "ready-border": "oklch(0.433 0.071 163)",
   "ready-fg": "oklch(0.8 0.182 152)",
@@ -134,33 +149,41 @@ export const DARK: Palette = {
 
 /**
  * What stays translucent, per theme: `glow` the violet haze under a primary action, `glass` a bar
- * the page scrolls beneath, `scrim` what a sheet or a dialog lays over the page behind it.
+ * the page scrolls beneath, `scrim` what a sheet or a dialog lays over the page behind it, `shade`
+ * the shadow under a switch's thumb.
  */
-export type Translucent = Readonly<Record<"glow" | "glass" | "scrim", string>>;
+export type Translucent = Readonly<Record<"glow" | "glass" | "scrim" | "shade", string>>;
 
 export const TRANSLUCENT_LIGHT: Translucent = {
   glow: "oklch(0.578 0.235 278 / 0.22)",
   glass: "oklch(1 0 0 / 0.72)",
   scrim: "oklch(0.208 0.04 266 / 0.38)",
+  shade: "oklch(0 0 0 / 0.25)",
 };
 
 export const TRANSLUCENT_DARK: Translucent = {
   glow: "oklch(0.663 0.188 285 / 0.3)",
   glass: "oklch(0.207 0.031 267 / 0.66)",
   scrim: "oklch(0 0 0 / 0.6)",
+  shade: "oklch(0 0 0 / 0.25)",
 };
 
-/** Elevation, per theme: `card` for a resting surface, `lift` for a sheet above the page. */
-export type Elevation = Readonly<Record<"card" | "lift", string>>;
+/**
+ * Elevation, per theme: `rest` for a card at rest (the landing's `--card-shadow`, a hairline), `card`
+ * for a raised surface or a card under a hover (its `--shadow`), `lift` for a sheet above the page.
+ */
+export type Elevation = Readonly<Record<"rest" | "card" | "lift", string>>;
 
 /** The landing's `--shadow`, on its slate ink; `lift` is the same shadow, deeper. */
 export const SHADOW_LIGHT: Elevation = {
+  rest: "0 1px 2px oklch(0.208 0.04 266 / 0.03)",
   card: "0 1px 2px oklch(0.208 0.04 266 / 0.04), 0 12px 40px -16px oklch(0.208 0.04 266 / 0.18)",
   lift: "0 1px 2px oklch(0.208 0.04 266 / 0.05), 0 26px 64px -30px oklch(0.208 0.04 266 / 0.32)",
 };
 
 /** The landing's dark `--shadow`: a hairline of light on top, and black beneath. */
 export const SHADOW_DARK: Elevation = {
+  rest: "0 1px 2px oklch(0.208 0.04 266 / 0.03)",
   card: "inset 0 1px 0 oklch(1 0 0 / 0.03), 0 20px 50px -20px oklch(0 0 0 / 0.7)",
   lift: "inset 0 1px 0 oklch(1 0 0 / 0.04), 0 26px 64px -30px oklch(0 0 0 / 0.8)",
 };

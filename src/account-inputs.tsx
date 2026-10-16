@@ -10,7 +10,9 @@
  *   the digits (`codeDigits`), and shows them grouped (`groupCode`).
  * - **Code list** is the recovery codes in a mono two-column grid, with *Download as a file* and
  *   *Copy all* (A05).
- * - **Copy field** is a mono value with a Copy button and a live word for what happened.
+ * - **Copy field** is a mono value with a Copy button and a live word for what happened. Since 0.6.1
+ *   it is the landing's code panel (`.lp-code`, enni-v2 #637): dark in both themes, its button the
+ *   landing's `.lp-copy`.
  * - **QR block** is the code, the instruction, and the typed key in a copy field under *Can't scan?*
  *   The QR is drawn by the caller and passed in.
  * - **Device prompt** is a drawing of the OS passkey sheet, shown before the real one appears. It is
@@ -184,9 +186,9 @@ export function CopyField({ value, label, copyLabel }: CopyFieldProps) {
     <div className="enni-copy-field">
       <span className="enni-visually-hidden">{label}: </span>
       <code id={id}>{value}</code>
-      <Button aria-describedby={id} onClick={copy}>
+      <button aria-describedby={id} type="button" className="enni-copy" onClick={copy}>
         {copyLabel}
-      </Button>
+      </button>
       <span className="enni-copy-field__status" role="status" aria-live="polite">
         {COPY_WORDS[state]}
       </span>
