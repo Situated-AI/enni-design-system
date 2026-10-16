@@ -19,7 +19,9 @@
 import type { ReactNode } from "react";
 import type { Mark, Tone } from "./status.tsx";
 
-type StatusBadgeProps = Omit<Mark, "moving"> & {
+type StatusBadgeProps = Omit<Mark, "moving" | "glyph"> & {
+  /** The status glyph. Absent, the chip is the dot and the word only, as the landing draws it (0.6.2). */
+  readonly glyph?: Mark["glyph"];
   /** The landing's live dot before the glyph (enni-v2 #637): decoration, hidden from a reader. */
   readonly dot?: boolean;
 };
@@ -28,9 +30,11 @@ export function StatusBadge({ glyph, word, tone, dot }: StatusBadgeProps) {
   return (
     <span className={`enni-badge enni-tone--${tone}`}>
       {dot === true ? <span className="enni-badge__dot" aria-hidden="true" /> : null}
-      <span className="enni-badge__glyph" aria-hidden="true">
-        {glyph}
-      </span>
+      {glyph === undefined ? null : (
+        <span className="enni-badge__glyph" aria-hidden="true">
+          {glyph}
+        </span>
+      )}
       <span>{word}</span>
     </span>
   );

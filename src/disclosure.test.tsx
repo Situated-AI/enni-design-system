@@ -191,3 +191,18 @@ describe("Faq (enni-v2 #637)", () => {
     expect(PRIMITIVES_CSS).toContain(".enni-faq summary:hover { color: var(--enni-accent); }");
   });
 });
+
+describe("0.6.2: Faq's first-paint question", () => {
+  const items = [
+    { question: "One?", answer: "a" },
+    { question: "Two?", answer: "b" },
+  ];
+  test("defaultOpen opens that question, and only it", () => {
+    const html = renderToStaticMarkup(<Faq items={items} defaultOpen={0} />);
+    expect(html.match(/<details open="">/g)).toHaveLength(1);
+    expect(html.indexOf('<details open="">')).toBeLessThan(html.indexOf("One?"));
+  });
+  test("without it, every question starts closed", () => {
+    expect(renderToStaticMarkup(<Faq items={items} />)).not.toContain("open");
+  });
+});
