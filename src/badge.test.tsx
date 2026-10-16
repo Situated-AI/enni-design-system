@@ -60,3 +60,12 @@ describe("the landing's chip, pill and tag (enni-v2 #637)", () => {
     expect(renderToStaticMarkup(<Tag tone="accent">Live</Tag>)).toContain("enni-tone--accent");
   });
 });
+
+describe("0.6.2: a chip without its glyph", () => {
+  test("the dot and the word only, as the landing draws a verdict", () => {
+    const html = renderToStaticMarkup(<StatusBadge word="Needs care" tone="care" dot />);
+    expect(html).not.toContain("enni-badge__glyph");
+    expect(html).toContain("enni-badge__dot");
+    expect(html).toContain("Needs care");
+  });
+});

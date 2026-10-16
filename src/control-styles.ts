@@ -19,7 +19,7 @@ const BUTTON = `
 .enni-button:focus-visible { outline: 2px solid var(--enni-focus); outline-offset: 3px; }
 .enni-button > svg { flex: none; width: 16px; height: 16px; }
 .enni-button--sm { padding: 0 14px; border-radius: calc(var(--enni-radius-base) - 2px); font-size: 0.875rem; }
-.enni-button--lg { min-height: 48px; padding: 0 var(--enni-space-5); }
+.enni-button--lg { min-height: 44px; padding: 0 var(--enni-space-5); }
 .enni-button--block { display: flex; width: 100%; }
 .enni-button--secondary { background: var(--enni-surface); color: var(--enni-ink); border-color: var(--enni-line-strong); }
 .enni-button--secondary:not([disabled]):hover { border-color: var(--enni-accent); }

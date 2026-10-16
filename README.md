@@ -16,7 +16,7 @@ This is [`Situated-AI/enni-v2`](https://github.com/Situated-AI/enni-v2)'s `packa
 ## Using it
 
 ```json
-"dependencies": { "@enni/ui": "github:situated-ai/enni-design-system#v0.6.1" }
+"dependencies": { "@enni/ui": "github:situated-ai/enni-design-system#v0.6.2" }
 ```
 
 Put the two stylesheets on the page once, in the root layout, then use the components:
@@ -44,7 +44,8 @@ drawn on, in both themes, by `palette.test.ts`.
 
 ## Components
 
-Since 0.6.1 the landing's components are the primitives (enni-v2 #637), so the landing and the app
+Since 0.6.2 the landing's 44px call to action is `lg`, `Faq` takes `defaultOpen` and a `StatusBadge`
+may omit its glyph (enni-v2 #640). Since 0.6.1 the landing's components are the primitives (enni-v2 #637), so the landing and the app
 share one set: the button (`primary` ink with a sheen, `ghost`, `glow`, `sm`, `arrow`), the card
 (`interactive`), the verdict chip (`StatusBadge dot`), `Pill`, `Tag`, the fields (`Field valid`,
 `TextareaField`, `SelectField`, `ActionField`), `Faq`, the dark code panel (`CopyField`,

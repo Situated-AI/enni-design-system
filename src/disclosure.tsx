@@ -53,14 +53,17 @@ export type FaqItem = { readonly question: string; readonly answer: ReactNode };
 export function Faq({
   items,
   label,
+  defaultOpen,
 }: {
   readonly items: readonly FaqItem[];
   readonly label?: string;
+  /** The index of the question open on first paint, as the landing opens its first (0.6.2). */
+  readonly defaultOpen?: number;
 }) {
   return (
     <section className="enni-faq" aria-label={label}>
-      {items.map((item) => (
-        <details key={item.question}>
+      {items.map((item, i) => (
+        <details key={item.question} open={i === defaultOpen ? true : undefined}>
           <summary>{item.question}</summary>
           <div className="enni-faq__answer">{item.answer}</div>
         </details>
