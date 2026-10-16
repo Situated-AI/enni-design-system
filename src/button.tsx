@@ -5,7 +5,7 @@
  * in flight it stays in the tab order, says so to a screen reader with `aria-busy`, and refuses a
  * second press — so *"I pressed it twice"* is never two requests.
  *
- * **Variants and sizes (#280).** `primary` is filled accent; `secondary` is outlined on a surface
+ * **Variants and sizes (#280).** `primary` is filled ink (`btn`, enni-v2 #635); `secondary` is outlined on a surface
  * (the landing's *Try it on a sample space*); `quiet` is outlined on nothing; `danger` is the
  * destructive one. `lg` is the landing's call to action, and `block` fills the width, as the
  * phone's calls to action do. A call to action that goes somewhere is a `ButtonLink` — an `<a>`,
