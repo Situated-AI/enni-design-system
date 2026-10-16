@@ -16,7 +16,7 @@ This is [`Situated-AI/enni-v2`](https://github.com/Situated-AI/enni-v2)'s `packa
 ## Using it
 
 ```json
-"dependencies": { "@enni/ui": "github:situated-ai/enni-design-system#v0.2.0" }
+"dependencies": { "@enni/ui": "github:situated-ai/enni-design-system#v0.6.0" }
 ```
 
 Put the two stylesheets on the page once, in the root layout, then use the components:
@@ -33,7 +33,19 @@ The package ships TypeScript source (`exports: ./src/index.ts`). A Next app list
 `transpilePackages`. Dark mode follows the reader's system preference unless the root element
 carries `data-theme="light"` or `"dark"`, and `prefers-reduced-motion` zeroes every duration.
 
+## Colour
+
+Since 0.6.0 the palette is the landing's (enni-v2 D-297, #635), in `palette.ts`: white and slate in
+the light, obsidian with hairline lines in the dark, and one violet accent kept for links, focus
+and what is selected. The primary button is ink (`--enni-btn`, `--enni-btn-ink`,
+`--enni-btn-hover`). `--enni-glow`, `--enni-glass` and `--enni-scrim` stay translucent; a code
+block has `--enni-code-bg`, `-ink` and `-dim`. Every ink is held to WCAG AA on the grounds it is
+drawn on, in both themes, by `palette.test.ts`.
+
 ## Motion
+
+`EASE.spring` is the landing's spring, a `linear()` curve, run on `--enni-motion-spring` (500ms) or
+`--enni-motion-spring-long` (800ms); like every duration, reduced motion zeroes both.
 
 `motion-styles.ts` is the last part of `PRIMITIVES_CSS`. Every control eases between its states and
 gives under a press; a sheet and a dialog fade out as well as in; a disclosure opens over its own
@@ -85,7 +97,7 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `time` | `relativeTime`, `ScrollHere`, `Timestamp` |
 | `toggle` | `Toggle` |
 | `turn` | `ChipRow`, `Hint`, `Turn` |
-| `tokens` | `colour`, `CONTROL`, `DARK`, `EASE`, `FONT`, `LEADING`, `LIGHT`, `MEASURE`, `MOTION`, `ORB`, `RADIUS`, `SHADOW_DARK`, `SHADOW_LIGHT`, `SPACE`, `TOKENS_CSS`, `TRACKING`, `TYPE` |
+| `tokens` | `colour`, `CONTROL`, `DARK`, `EASE`, `FONT`, `LEADING`, `LIGHT`, `MEASURE`, `MOTION`, `ORB`, `RADIUS`, `SHADOW_DARK`, `SHADOW_LIGHT`, `SPACE`, `TOKENS_CSS`, `TRACKING`, `TRANSLUCENT_DARK`, `TRANSLUCENT_LIGHT`, `TYPE` |
 
 ## Guardrails
 

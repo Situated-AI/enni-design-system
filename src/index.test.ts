@@ -98,6 +98,8 @@ const PINNED = [
   "TOKENS_CSS",
   "TONE_TOKENS",
   "TRACKING",
+  "TRANSLUCENT_DARK",
+  "TRANSLUCENT_LIGHT",
   "TYPE",
   "TalkButton",
   "Tally",
