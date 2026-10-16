@@ -61,7 +61,7 @@ const INPUTS = `
 const SETTINGS = `
 .enni-dialog { width: min(calc(100vw - 2 * var(--enni-space-4)), 28rem); max-height: calc(100dvh - 2 * var(--enni-space-4)); padding: var(--enni-space-5); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-lift); color: var(--enni-ink); overflow: hidden; }
 .enni-dialog[open] { display: flex; flex-direction: column; }
-.enni-dialog::backdrop { background: color-mix(in srgb, var(--enni-ink) 35%, transparent); }
+.enni-dialog::backdrop { background: var(--enni-scrim); }
 .enni-dialog__header { display: flex; flex: none; align-items: flex-start; justify-content: space-between; gap: var(--enni-space-3); }
 .enni-dialog__header h2 { margin: 0; font-family: var(--enni-font-sans); font-size: var(--enni-type-xl); letter-spacing: normal; text-transform: none; }
 .enni-dialog__lede { flex: none; margin-top: var(--enni-space-2); color: var(--enni-ink-muted); }

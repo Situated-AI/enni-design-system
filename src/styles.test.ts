@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { PRIMITIVES_CSS } from "./styles.ts";
-import { CONTROL, LIGHT } from "./tokens.ts";
+import { CONTROL, LIGHT, TRANSLUCENT_LIGHT } from "./tokens.ts";
 
 describe("the primitives' stylesheet", () => {
   test("names no colour by value — the palette lives in tokens.ts alone", () => {
@@ -15,7 +15,8 @@ describe("the primitives' stylesheet", () => {
         !/^(space|radius|font|type|motion|measure|tone|shadow|leading|tracking|ease|orb)-/.test(n),
     );
     expect(colours.length).toBeGreaterThan(10);
-    for (const name of colours) expect(Object.keys(LIGHT)).toContain(name);
+    const tokens = [...Object.keys(LIGHT), ...Object.keys(TRANSLUCENT_LIGHT)];
+    for (const name of colours) expect(tokens).toContain(name);
   });
 
   test("Enni's voice is the serif, and a control inside it stays the sans (#278)", () => {
@@ -84,6 +85,22 @@ describe("the primitives' stylesheet", () => {
   test("controls are at least 44px tall", () => {
     expect(PRIMITIVES_CSS.match(/min-height: 44px/g)?.length).toBeGreaterThanOrEqual(3);
   });
+});
+
+test("the primary button is ink, and the violet is kept for links, focus and what is selected (enni-v2 #635)", () => {
+  expect(PRIMITIVES_CSS).toContain(
+    ".enni-button--primary { background: var(--enni-btn); color: var(--enni-btn-ink); }",
+  );
+  expect(PRIMITIVES_CSS).toContain(
+    ".enni-button--primary:not([disabled]):hover { background: var(--enni-btn-hover); }",
+  );
+  expect(PRIMITIVES_CSS).toContain(":focus-visible");
+  expect(PRIMITIVES_CSS).toMatch(/:focus-visible[^}]*var\(--enni-(accent|focus)\)/);
+});
+
+test("a sheet's and a dialog's backdrop is the scrim, a token of each theme (enni-v2 #635)", () => {
+  expect(PRIMITIVES_CSS).toContain(".enni-sheet::backdrop { background: var(--enni-scrim); }");
+  expect(PRIMITIVES_CSS).toContain(".enni-dialog::backdrop { background: var(--enni-scrim); }");
 });
 
 test("the composer's main action is Send, solid at every width; the mic never takes its place (enni-v2 #486)", () => {

@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import { ACCOUNT_CSS } from "./account-styles.ts";
-import { LIGHT } from "./tokens.ts";
+import { LIGHT, TRANSLUCENT_LIGHT } from "./tokens.ts";
 import { PRIMITIVES_CSS } from "./styles.ts";
 
 test("names no colour by value — the palette lives in tokens.ts alone", () => {
@@ -13,7 +13,8 @@ test("every colour it names is a token that exists", () => {
     (n) => !/^(space|radius|font|type|leading|tracking|shadow|motion|ease)-/.test(n),
   );
   expect(colours.length).toBeGreaterThan(20);
-  for (const name of colours) expect(Object.keys(LIGHT)).toContain(name);
+  const tokens = [...Object.keys(LIGHT), ...Object.keys(TRANSLUCENT_LIGHT)];
+  for (const name of colours) expect(tokens).toContain(name);
 });
 
 test("a chosen card is border-strong on sunken", () => {

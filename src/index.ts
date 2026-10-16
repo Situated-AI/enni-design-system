@@ -113,6 +113,9 @@ export {
   SPACE,
   TOKENS_CSS,
   TRACKING,
+  TRANSLUCENT_DARK,
+  TRANSLUCENT_LIGHT,
+  type Translucent,
   TYPE,
 } from "./tokens.ts";
 

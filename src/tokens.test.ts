@@ -1,15 +1,13 @@
 import { describe, expect, test } from "bun:test";
-import { contrastRatio } from "./contrast.ts";
 import {
-  type ColourToken,
   colour,
   DARK,
+  EASE,
   FONT,
   LEADING,
   LIGHT,
   MOTION,
   ORB,
-  type Palette,
   paletteCss,
   RADIUS,
   SHADOW_DARK,
@@ -19,62 +17,10 @@ import {
   CONTROL,
   TOKENS_CSS,
   TRACKING,
+  TRANSLUCENT_DARK,
+  TRANSLUCENT_LIGHT,
   TYPE,
 } from "./tokens.ts";
-
-describe("the two themes", () => {
-  test("name the same tokens, so a primitive never finds one missing in the dark", () => {
-    expect(Object.keys(DARK).sort()).toEqual(Object.keys(LIGHT).sort());
-    expect(Object.keys(SHADOW_DARK).sort()).toEqual(Object.keys(SHADOW_LIGHT).sort());
-  });
-
-  test("every value is oklch(L C H) — one notation, the designs' own, so a diff reads as a colour change", () => {
-    for (const value of [...Object.values(LIGHT), ...Object.values(DARK)]) {
-      expect(value).toMatch(/^oklch\(0?\.\d+ 0?\.\d+ \d+\)$/);
-    }
-  });
-
-  test("the themes differ where it matters: canvas and ink swap ends", () => {
-    expect(LIGHT.canvas).not.toBe(DARK.canvas);
-    expect(LIGHT.ink).not.toBe(DARK.ink);
-  });
-});
-
-/** WCAG AA for body text (#277). */
-const AA = 4.5;
-const STATUSES = ["ready", "care", "limited", "danger"] as const;
-const READING: ColourToken[] = ["ink", "ink-muted", "ink-subtle"];
-
-describe.each([
-  ["light", LIGHT],
-  ["dark", DARK],
-] as [string, Palette][])("AA contrast in the %s theme", (_, palette) => {
-  test.each([...STATUSES])("%s: its ink reads on its ground", (status) => {
-    expect(contrastRatio(palette[`${status}-fg`], palette[`${status}-bg`])).toBeGreaterThanOrEqual(
-      AA,
-    );
-  });
-
-  test.each(READING)("%s reads on the canvas and on a surface", (ink) => {
-    expect(contrastRatio(palette[ink], palette.canvas)).toBeGreaterThanOrEqual(AA);
-    expect(contrastRatio(palette[ink], palette.surface)).toBeGreaterThanOrEqual(AA);
-  });
-
-  test("a primary button's label reads on the accent, and the said bubble's ink on its ground", () => {
-    expect(contrastRatio(palette["accent-ink"], palette.accent)).toBeGreaterThanOrEqual(AA);
-    expect(contrastRatio(palette.ink, palette["accent-soft"])).toBeGreaterThanOrEqual(AA);
-    // #280: the count badge — the accent on its soft ground.
-    expect(contrastRatio(palette.accent, palette["accent-soft"])).toBeGreaterThanOrEqual(AA);
-  });
-
-  test("a disabled control's label still reads, and its ground is neither the accent nor a surface (enni-v2 #480)", () => {
-    expect(contrastRatio(palette["ink-subtle"], palette.disabled)).toBeGreaterThanOrEqual(AA);
-    // Told from a primary button at a glance, and from a secondary one by more than its label.
-    expect(contrastRatio(palette.disabled, palette.accent)).toBeGreaterThanOrEqual(3);
-    expect(palette.disabled).not.toBe(palette.surface);
-    expect(palette.disabled).not.toBe(palette.canvas);
-  });
-});
 
 describe("the stylesheet is generated from the tables", () => {
   test("every palette token is declared as a custom property", () => {
@@ -118,12 +64,40 @@ describe("the stylesheet is generated from the tables", () => {
     for (const name of Object.keys(MOTION)) expect(still).toContain(`--enni-motion-${name}: 0ms;`);
   });
 
-  test("the orb's stops are declared per tone, in OKLCH", () => {
+  test("the orb's stops are declared per tone", () => {
     for (const [tone, { glow, deep }] of Object.entries(ORB)) {
       expect(scaleCss()).toContain(`--enni-orb-${tone}-glow: ${glow};`);
       expect(scaleCss()).toContain(`--enni-orb-${tone}-deep: ${deep};`);
-      for (const stop of [glow, deep]) expect(stop).toMatch(/^oklch\(0?\.\d+ 0?\.\d+ \d+\)$/);
     }
+  });
+
+  test("the glow, glass and scrim are declared per theme (enni-v2 #635)", () => {
+    const [root, preferred, chosen] = TOKENS_CSS.split("\n");
+    for (const [name, value] of Object.entries(TRANSLUCENT_LIGHT))
+      expect(root).toContain(`--enni-${name}: ${value};`);
+    for (const [name, value] of Object.entries(TRANSLUCENT_DARK)) {
+      expect(preferred).toContain(`--enni-${name}: ${value};`);
+      expect(chosen).toContain(`--enni-${name}: ${value};`);
+    }
+  });
+});
+
+describe("the spring (enni-v2 #635)", () => {
+  test("is the landing's linear() curve, overshooting a little and ending at rest", () => {
+    expect(EASE.spring).toStartWith("linear(0, ");
+    expect(EASE.spring).toEndWith(", 1)");
+    const stops = EASE.spring.slice("linear(".length, -1).split(", ");
+    const peaks = stops.map((stop) => Number(stop.split(" ")[0]));
+    expect(Math.max(...peaks)).toBeWithin(1.01, 1.1);
+    expect(scaleCss()).toContain(`--enni-ease-spring: ${EASE.spring};`);
+  });
+
+  test("has its two durations, which reduced motion zeroes with the rest", () => {
+    expect(MOTION.spring).toBe("500ms");
+    expect(MOTION["spring-long"]).toBe("800ms");
+    const still = TOKENS_CSS.split("\n").find((line) => line.includes("reduced-motion")) ?? "";
+    expect(still).toContain("--enni-motion-spring: 0ms;");
+    expect(still).toContain("--enni-motion-spring-long: 0ms;");
   });
 });
 

@@ -47,8 +47,8 @@ const BUTTON = `
 .enni-button--secondary { background: var(--enni-surface); color: var(--enni-ink); border-color: var(--enni-line); }
 .enni-button--secondary:not([disabled]):hover { background: var(--enni-hover); }
 .enni-button[disabled], .enni-talk[disabled], .enni-composer__send[disabled] { border-color: var(--enni-line); background: var(--enni-disabled); color: var(--enni-ink-subtle); cursor: not-allowed; }
-.enni-button--primary { background: var(--enni-accent); color: var(--enni-accent-ink); }
-.enni-button--primary:not([disabled]):hover { background: var(--enni-accent-hover); }
+.enni-button--primary { background: var(--enni-btn); color: var(--enni-btn-ink); }
+.enni-button--primary:not([disabled]):hover { background: var(--enni-btn-hover); }
 .enni-button--quiet:not([disabled]):hover, .enni-chip:hover { background: var(--enni-hover); }
 .enni-button--quiet { background: transparent; color: var(--enni-ink); border-color: var(--enni-line); }
 .enni-button--danger { background: var(--enni-danger-fg); color: var(--enni-surface); }
@@ -74,7 +74,7 @@ const DISCLOSURE = `
 .enni-details[data-tone="danger"] > summary, .enni-details[data-tone="danger"] > summary:hover { color: var(--enni-danger-fg); }
 .enni-icon--mark { color: var(--enni-ink); }
 .enni-sheet { box-shadow: var(--enni-shadow-lift); width: min(100vw, var(--enni-measure-sheet)); max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0 0 0 auto; padding: var(--enni-space-5); border: 0; border-left: 1px solid var(--enni-line); background: var(--enni-surface); color: var(--enni-ink); }
-.enni-sheet::backdrop { background: color-mix(in srgb, var(--enni-ink) 35%, transparent); }
+.enni-sheet::backdrop { background: var(--enni-scrim); }
 .enni-sheet__header { display: flex; align-items: center; justify-content: space-between; gap: var(--enni-space-3); margin-bottom: var(--enni-space-4); }
 .enni-sheet__header h2 { margin: 0; font-size: var(--enni-type-xl); }
 .enni-close { display: inline-flex; flex: none; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin: calc(-1 * var(--enni-space-2)); padding: 0; border: 0; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink-muted); font: inherit; font-size: var(--enni-type-lg); line-height: 1; cursor: pointer; }

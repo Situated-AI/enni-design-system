@@ -7,123 +7,38 @@
  * types a colour. The web app puts it on the page once, in its root layout.
  *
  * **Two themes, one set of names.** Dark follows the reader's system preference; a token that
- * exists in one theme exists in the other, and `tokens.test.ts` holds them equal.
+ * exists in one theme exists in the other, and `palette.test.ts` holds them equal.
  *
- * **Purple is Enni.** The spec's orb is *"Purple: ready"*, so the accent is the product's own
- * colour. Each status — ready, care, limited, danger — draws as a triplet: a `-bg` ground, a
- * `-border` edge and a `-fg` ink (#277). None is ever the only thing that carries a status (#111):
- * each has a glyph and a word beside it, in `status.tsx`.
- *
- * **The redesign's values (#277, D-134)** — OKLCH, read from the final designs' `:root` and `.dark`
- * blocks; the artifact is a reference, not a source, so nothing here is Tailwind.
+ * **The colours are the landing's** (enni-v2 #635, v0.6.0) and live in `palette.ts`; this module
+ * holds the scales, the motion and the stylesheet they make.
  */
+import {
+  type ColourToken,
+  type Elevation,
+  ORB,
+  type Palette,
+  type Translucent,
+  DARK,
+  LIGHT,
+  SHADOW_DARK,
+  SHADOW_LIGHT,
+  TRANSLUCENT_DARK,
+  TRANSLUCENT_LIGHT,
+} from "./palette.ts";
 
-/** The statuses that draw as a triplet: a ground, an edge and an ink (#277). */
-type Status = "ready" | "care" | "limited" | "danger";
-
-/** A colour token's name, without the `--enni-` prefix. */
-export type ColourToken =
-  | "canvas"
-  | "surface"
-  | "sunken"
-  | "hover"
-  | "disabled"
-  | "line"
-  | "line-strong"
-  | "ink"
-  | "ink-muted"
-  | "ink-subtle"
-  | "accent"
-  | "accent-hover"
-  | "accent-ink"
-  | "accent-soft"
-  | "lavender"
-  | `${Status}-${"bg" | "border" | "fg"}`
-  | "focus";
-
-export type Palette = Readonly<Record<ColourToken, string>>;
-
-/**
- * The redesign's palette (#277), in OKLCH as the designs draw it: a warm neutral canvas (hue ~86,
- * ink at ~62) and a deeper indigo accent (276). Names are ours, not the artifact's: its `caveat` is
- * our `care`, its `conditions` our `limited`, `border` our `line`, `fg` our `ink`. `accent-soft`
- * is not in the designs — it is the said-bubble's ground, kept so no v0.6 screen loses a token.
- * `disabled` is the ground of a control that cannot be pressed, whatever it was (enni-v2 #480).
- */
-export const LIGHT: Palette = {
-  canvas: "oklch(0.974 0.008 86)",
-  surface: "oklch(0.992 0.005 88)",
-  sunken: "oklch(0.955 0.01 86)",
-  hover: "oklch(0.94 0.012 86)",
-  disabled: "oklch(0.925 0.008 86)",
-  line: "oklch(0.898 0.01 84)",
-  "line-strong": "oklch(0.76 0.016 84)",
-  ink: "oklch(0.245 0.012 62)",
-  "ink-muted": "oklch(0.44 0.014 62)",
-  "ink-subtle": "oklch(0.51 0.014 62)",
-  accent: "oklch(0.4 0.095 276)",
-  "accent-hover": "oklch(0.34 0.095 276)",
-  "accent-ink": "oklch(0.992 0.005 88)",
-  "accent-soft": "oklch(0.94 0.03 276)",
-  lavender: "oklch(0.5 0.075 298)",
-  "ready-bg": "oklch(0.945 0.022 152)",
-  "ready-border": "oklch(0.82 0.07 152)",
-  "ready-fg": "oklch(0.44 0.07 152)",
-  "care-bg": "oklch(0.955 0.035 72)",
-  "care-border": "oklch(0.84 0.09 72)",
-  "care-fg": "oklch(0.45 0.09 72)",
-  "limited-bg": "oklch(0.945 0.03 30)",
-  "limited-border": "oklch(0.81 0.09 30)",
-  "limited-fg": "oklch(0.46 0.13 30)",
-  "danger-bg": "oklch(0.945 0.03 30)",
-  "danger-border": "oklch(0.81 0.09 30)",
-  "danger-fg": "oklch(0.46 0.13 30)",
-  focus: "oklch(0.4 0.095 276)",
-};
-
-export const DARK: Palette = {
-  canvas: "oklch(0.19 0.008 62)",
-  surface: "oklch(0.225 0.009 62)",
-  sunken: "oklch(0.165 0.008 62)",
-  hover: "oklch(0.275 0.011 62)",
-  disabled: "oklch(0.285 0.008 62)",
-  line: "oklch(0.33 0.012 62)",
-  "line-strong": "oklch(0.48 0.016 62)",
-  ink: "oklch(0.955 0.006 88)",
-  "ink-muted": "oklch(0.79 0.01 80)",
-  "ink-subtle": "oklch(0.73 0.011 76)",
-  accent: "oklch(0.72 0.11 276)",
-  "accent-hover": "oklch(0.79 0.11 276)",
-  "accent-ink": "oklch(0.19 0.008 62)",
-  "accent-soft": "oklch(0.3 0.05 276)",
-  lavender: "oklch(0.76 0.08 298)",
-  "ready-bg": "oklch(0.27 0.03 152)",
-  "ready-border": "oklch(0.44 0.06 152)",
-  "ready-fg": "oklch(0.86 0.08 152)",
-  "care-bg": "oklch(0.28 0.035 72)",
-  "care-border": "oklch(0.46 0.07 72)",
-  "care-fg": "oklch(0.88 0.09 72)",
-  "limited-bg": "oklch(0.27 0.035 30)",
-  "limited-border": "oklch(0.45 0.08 30)",
-  "limited-fg": "oklch(0.83 0.09 30)",
-  "danger-bg": "oklch(0.27 0.035 30)",
-  "danger-border": "oklch(0.45 0.08 30)",
-  "danger-fg": "oklch(0.83 0.09 30)",
-  focus: "oklch(0.72 0.11 276)",
-};
-
-/** Elevation, per theme: `card` for a resting surface, `lift` for a sheet above the page. */
-export type Elevation = Readonly<Record<"card" | "lift", string>>;
-
-export const SHADOW_LIGHT: Elevation = {
-  card: "0 1px 2px oklch(0.3 0.02 62 / 0.05), 0 14px 34px -22px oklch(0.3 0.02 62 / 0.35)",
-  lift: "0 26px 64px -34px oklch(0.32 0.06 276 / 0.4)",
-};
-
-export const SHADOW_DARK: Elevation = {
-  card: "0 1px 2px oklch(0 0 0 / 0.3), 0 14px 34px -22px oklch(0 0 0 / 0.7)",
-  lift: "0 26px 64px -34px oklch(0 0 0 / 0.8)",
-};
+export {
+  type ColourToken,
+  DARK,
+  type Elevation,
+  LIGHT,
+  ORB,
+  type Palette,
+  SHADOW_DARK,
+  SHADOW_LIGHT,
+  type Translucent,
+  TRANSLUCENT_DARK,
+  TRANSLUCENT_LIGHT,
+} from "./palette.ts";
 
 /** A 4px grid. Named by step, so a gap is chosen from the scale rather than invented. */
 export const SPACE = {
@@ -189,27 +104,12 @@ export const LEADING: Readonly<Record<keyof typeof TYPE, string>> = {
 export const TRACKING = { eyebrow: "0.12em", display: "-0.025em" } as const;
 
 /**
- * The orb's sphere (#279): a radial gradient per tone, lit from 35% 30% — a `glow` highlight, the
- * tone's ink through the middle, a `deep` shade at the edge. The designs draw the accent, care and
- * ready spheres; limited and danger take the same stops on their hue (30); neutral is hueless. The stops are the same in
- * both themes, as the designs have them — the middle is the themed ink.
- */
-export const ORB: Readonly<Record<"accent" | "neutral" | Status, { glow: string; deep: string }>> =
-  {
-    accent: { glow: "oklch(0.92 0.04 276)", deep: "oklch(0.3 0.09 276)" },
-    ready: { glow: "oklch(0.95 0.03 152)", deep: "oklch(0.3 0.06 152)" },
-    care: { glow: "oklch(0.96 0.04 72)", deep: "oklch(0.32 0.08 72)" },
-    limited: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
-    danger: { glow: "oklch(0.95 0.03 30)", deep: "oklch(0.3 0.08 30)" },
-    // enni-v2 #464: unknown or off has no hue; its stops sit on the palette's warm grey (hue 62).
-    neutral: { glow: "oklch(0.95 0.01 62)", deep: "oklch(0.3 0.014 62)" },
-  };
-
-/**
  * Motion a reader can switch off: `prefers-reduced-motion` zeroes every one in `TOKENS_CSS`.
  * `quick` is a control changing state, `exit` a sheet leaving, `enter` a turn or a sheet arriving,
  * `stagger` the step between items of a list arriving, `calm` the listening pulse, `breath` the
  * reading orb's (#279, the designs' `--duration-slow` and `presence-breath`; enni-v2 #428).
+ * `spring` and `spring-long` are the landing's durations for what moves on `EASE.spring`: a press
+ * or a hover's lift, and a larger move such as a card or a panel (enni-v2 #635).
  */
 export const MOTION = {
   quick: "120ms",
@@ -218,12 +118,20 @@ export const MOTION = {
   stagger: "40ms",
   calm: "1600ms",
   breath: "4500ms",
+  spring: "500ms",
+  "spring-long": "800ms",
 } as const;
 
-/** `standard` for a change of state; `out` for what arrives and should settle gently. */
+/**
+ * `standard` for a change of state; `out` for what arrives and should settle gently; `spring` the
+ * landing's spring (damping 15, stiffness 150) as its mockup wrote it, a `linear()` curve that
+ * overshoots a little and settles — for a press and a hover, on `motion-spring`.
+ */
 export const EASE = {
   standard: "cubic-bezier(0.2, 0, 0, 1)",
   out: "cubic-bezier(0.16, 1, 0.3, 1)",
+  spring:
+    "linear(0, 0.0074, 0.0294 2.2%, 0.1172 4.6%, 0.5104 11.6%, 0.6843 15.2%, 0.8129 18.8%, 0.9112 22.6%, 0.9765 26.4%, 1.0167 30.2%, 1.0378 34.4%, 1.0419 38.2%, 1.0379 42.6%, 1.0129 53.4%, 1.0005 64.4%, 0.9967 74.8%, 1)",
 } as const;
 
 const orbStops = (): Record<string, string> =>
@@ -253,10 +161,20 @@ export function paletteCss(palette: Palette): string {
   return declarations("", palette).join(" ");
 }
 
-/** One theme's properties: its palette and its elevation (`--enni-shadow-card`, `-lift`). */
-export function themeCss(palette: Palette, shadow: Elevation): string {
-  return [paletteCss(palette), ...declarations("shadow-", shadow)].join(" ");
+/**
+ * One theme's properties: its palette, what stays translucent (`--enni-glow`, `-glass`, `-scrim`)
+ * and its elevation (`--enni-shadow-card`, `-lift`).
+ */
+export function themeCss(palette: Palette, shadow: Elevation, translucent: Translucent): string {
+  return [
+    paletteCss(palette),
+    ...declarations("", translucent),
+    ...declarations("shadow-", shadow),
+  ].join(" ");
 }
+
+const LIGHT_THEME = themeCss(LIGHT, SHADOW_LIGHT, TRANSLUCENT_LIGHT);
+const DARK_THEME = themeCss(DARK, SHADOW_DARK, TRANSLUCENT_DARK);
 
 /** Everything that does not change with the theme. */
 export function scaleCss(): string {
@@ -282,9 +200,9 @@ export function scaleCss(): string {
  * overrides the system preference, and no attribute follows it.
  */
 export const TOKENS_CSS = [
-  `:root { color-scheme: light dark; ${scaleCss()} ${themeCss(LIGHT, SHADOW_LIGHT)} }`,
-  `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { ${themeCss(DARK, SHADOW_DARK)} } }`,
-  `:root[data-theme="dark"] { color-scheme: dark; ${themeCss(DARK, SHADOW_DARK)} }`,
+  `:root { color-scheme: light dark; ${scaleCss()} ${LIGHT_THEME} }`,
+  `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { ${DARK_THEME} } }`,
+  `:root[data-theme="dark"] { color-scheme: dark; ${DARK_THEME} }`,
   `:root[data-theme="light"] { color-scheme: light; }`,
   `@media (pointer: fine) { :root { --enni-space-control: ${CONTROL.fine}; } }`,
   `@media (prefers-reduced-motion: reduce) { :root { ${Object.keys(MOTION)
