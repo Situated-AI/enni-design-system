@@ -45,3 +45,14 @@ export function contrastRatio(one: string, other: string): number {
   ];
   return (light + 0.05) / (dark + 0.05);
 }
+
+/**
+ * A palette value as `#RRGGBB` (gamma-encoded sRGB, clipped like the rest): for what cannot read
+ * OKLCH or a custom property — a favicon, an app icon, an image renderer (the brand's SVG strings).
+ */
+export function srgbHex(value: string): string {
+  const encode = (channel: number) =>
+    channel <= 0.0031308 ? 12.92 * channel : 1.055 * channel ** (1 / 2.4) - 0.055;
+  const bytes = linearSrgb(value).map((channel) => Math.round(encode(channel) * 255));
+  return `#${bytes.map((byte) => byte.toString(16).padStart(2, "0")).join("")}`.toUpperCase();
+}

@@ -18,6 +18,7 @@ import { CONTROL_CSS } from "./control-styles.ts";
 import { GUIDED_CSS } from "./guided-styles.ts";
 import { KIT_CSS } from "./kit-styles.ts";
 import { MOTION_CSS } from "./motion-styles.ts";
+import { BRAND } from "./palette.ts";
 import { TONE_TOKENS } from "./status.tsx";
 
 const BASE = `
@@ -123,25 +124,31 @@ const KEYFRAMES = `
 .enni-enter { animation: enni-enter var(--enni-motion-enter) var(--enni-ease-standard) both; }
 `;
 
+/** One rule per brand tone: the mark's paths are classed by tone, and each paints its token. */
+const BRAND_FILLS = Object.keys(BRAND)
+  .map((tone) => `.enni-brand__${tone} { fill: var(--enni-brand-${tone}); }`)
+  .join("\n");
+
 /**
  * Surfaces and marks (#280). A card is the landing's (enni-v2 #637): 26px in, a 16px radius, the
- * hairline `shadow-rest` at rest; the brand tile is the landing's ink tile, its bars the canvas and
- * the middle one the accent (the badges and the count are `control-styles.ts`'); a tally's
- * segment is its tone's ink, filled, or its outline alone when nothing stands behind it. A grouped
- * check list's row (enni-v2 471) is glyph, name, word, its glyph in the tone's ink, with the reason
- * and the action under the name; at phone width the word drops under the name too.
+ * hairline `shadow-rest` at rest; the brand's mark (v0.6.3) is painted by tone, the same in both
+ * themes, its wordmark in the ink around it (the badges and the count are `control-styles.ts`'); a
+ * tally's segment is its tone's ink, filled, or its outline alone when nothing stands behind it. A
+ * grouped check list's row (enni-v2 471) is glyph, name, word, its glyph in the tone's ink, with
+ * the reason and the action under the name; at phone width the word drops under the name too.
  */
 const SURFACES = `
 .enni-card { padding: 26px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-xl); background: var(--enni-surface); box-shadow: var(--enni-shadow-rest); }
 .enni-checklist { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--enni-space-1); color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
 .enni-checklist li { display: flex; align-items: baseline; gap: var(--enni-space-2); }
 .enni-checklist__mark { font-family: var(--enni-font-mono); }
-.enni-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--enni-ink); font-size: 1.1875rem; font-weight: 700; letter-spacing: -0.03em; text-decoration: none; }
-.enni-brand > .enni-brand__tile { flex: none; width: 28px; height: 28px; }
+.enni-brand { display: inline-flex; align-items: center; gap: 2px; color: var(--enni-ink); text-decoration: none; }
+.enni-brand > .enni-brand__tile { flex: none; width: 30px; height: 30px; }
 a.enni-brand { min-height: 44px; }
-.enni-brand__ground { fill: var(--enni-ink); }
-.enni-brand__bar { fill: var(--enni-canvas); }
-.enni-brand__bar--accent { fill: var(--enni-accent); }
+.enni-brand > .enni-brand__word { flex: none; width: auto; height: 16.5px; }
+.enni-brand__word { fill: currentColor; }
+.enni-brand-logo { display: block; width: auto; height: 64px; color: var(--enni-ink); }
+${BRAND_FILLS}
 .enni-tally { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-1); vertical-align: middle; }
 .enni-tally__segment { display: inline-block; width: var(--enni-space-4); height: 7px; border: 1px solid var(--enni-tone-ink); border-radius: var(--enni-radius-pill); background: var(--enni-tone-ink); }
 .enni-tally__segment[data-hollow="true"] { background: none; }

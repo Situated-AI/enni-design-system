@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { PRIMITIVES_CSS } from "./styles.ts";
-import { CONTROL, LIGHT, TRANSLUCENT_LIGHT } from "./tokens.ts";
+import { BRAND, CONTROL, LIGHT, TRANSLUCENT_LIGHT } from "./tokens.ts";
 
 describe("the primitives' stylesheet", () => {
   test("names no colour by value — the palette lives in tokens.ts alone", () => {
@@ -17,7 +17,11 @@ describe("the primitives' stylesheet", () => {
         ),
     );
     expect(colours.length).toBeGreaterThan(10);
-    const tokens = [...Object.keys(LIGHT), ...Object.keys(TRANSLUCENT_LIGHT)];
+    const tokens = [
+      ...Object.keys(LIGHT),
+      ...Object.keys(TRANSLUCENT_LIGHT),
+      ...Object.keys(BRAND).map((tone) => `brand-${tone}`),
+    ];
     for (const name of colours) expect(tokens).toContain(name);
   });
 

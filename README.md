@@ -16,7 +16,7 @@ This is [`Situated-AI/enni-v2`](https://github.com/Situated-AI/enni-v2)'s `packa
 ## Using it
 
 ```json
-"dependencies": { "@enni/ui": "github:situated-ai/enni-design-system#v0.6.2" }
+"dependencies": { "@enni/ui": "github:situated-ai/enni-design-system#v0.6.3" }
 ```
 
 Put the two stylesheets on the page once, in the root layout, then use the components:
@@ -41,6 +41,18 @@ and what is selected. The primary button is ink (`--enni-btn`, `--enni-btn-ink`,
 `--enni-btn-hover`). `--enni-glow`, `--enni-glass` and `--enni-scrim` stay translucent; a code
 block has `--enni-code-bg`, `-ink` and `-dim`. Every ink is held to WCAG AA on the grounds it is
 drawn on, in both themes, by `palette.test.ts`.
+
+## Brand
+
+Since 0.6.3 the brand is the operator's new logo, redrawn by hand as SVG in `brand-mark.ts`: the
+mark is three isometric layers (lavender, violet, indigo, each overlap a tone of its own) with a
+chain of three dots in white rings down the middle, and the wordmark is the four letters as paths,
+not a font. Its tones are `BRAND` (`--enni-brand-*`), the same in both themes; the wordmark is
+`currentColor`. `BrandMark` (mark and wordmark, the `name` its accessible name), `BrandTile` (the
+mark alone) and `BrandLogo` (the lockup as one image) draw it from tokens; `BRAND_MARK_SVG` (the
+favicon), `BRAND_ICON_SVG` (the mark on a white rounded tile, for an app icon),
+`BRAND_LOGO_SVG` and `BRAND_LOGO_DARK_SVG` are the same geometry as standalone SVG with hex fills
+(`srgbHex`), for favicons and OG images.
 
 ## Components
 
@@ -82,7 +94,8 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `account-inputs` | `ChoiceList`, `CodeInput`, `CodeList`, `CopyField`, `codeDigits`, `DevicePrompt`, `groupCode`, `groupKey`, `QrBlock` |
 | `account-settings` | `ActionMenu`, `Dialog`, `orderMenu`, `Row`, `Rows`, `SettingsCard`, `wrapTab` |
 | `badge` | `CountBadge`, `Pill`, `StatusBadge`, `Tag` |
-| `brand` | `BrandMark`, `BrandTile` |
+| `brand` | `BrandLogo`, `BrandMark`, `BrandTile` |
+| `brand-mark` | `BRAND_ICON_SVG`, `BRAND_LOGO_DARK_SVG`, `BRAND_LOGO_SVG`, `BRAND_MARK_SVG` |
 | `check-groups` | `CheckGroups` |
 | `button` | `Button`, `ButtonLink`, `buttonClass`, `Chip`, `SubmitButton`, `SuggestionChip` |
 | `close-button` | `CloseButton` |
@@ -111,7 +124,7 @@ Every component takes its words as props. Generated from `src/index.ts`, by modu
 | `time` | `relativeTime`, `ScrollHere`, `Timestamp` |
 | `toggle` | `Toggle`, `Toggles` |
 | `turn` | `ChipRow`, `Hint`, `Turn` |
-| `tokens` | `colour`, `CONTROL`, `DARK`, `EASE`, `FONT`, `LEADING`, `LIGHT`, `MEASURE`, `MOTION`, `ORB`, `RADIUS`, `SHADOW_DARK`, `SHADOW_LIGHT`, `SPACE`, `TOKENS_CSS`, `TRACKING`, `TRANSLUCENT_DARK`, `TRANSLUCENT_LIGHT`, `TYPE` |
+| `tokens` | `BRAND`, `colour`, `CONTROL`, `DARK`, `EASE`, `FONT`, `LEADING`, `LIGHT`, `MEASURE`, `MOTION`, `ORB`, `RADIUS`, `SHADOW_DARK`, `SHADOW_LIGHT`, `SPACE`, `TOKENS_CSS`, `TRACKING`, `TRANSLUCENT_DARK`, `TRANSLUCENT_LIGHT`, `TYPE` |
 
 ## Guardrails
 
