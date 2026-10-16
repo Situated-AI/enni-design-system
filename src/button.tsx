@@ -5,10 +5,14 @@
  * in flight it stays in the tab order, says so to a screen reader with `aria-busy`, and refuses a
  * second press — so *"I pressed it twice"* is never two requests.
  *
- * **Variants and sizes (#280).** `primary` is filled ink (`btn`, enni-v2 #635); `secondary` is outlined on a surface
- * (the landing's *Try it on a sample space*); `quiet` is outlined on nothing; `danger` is the
- * destructive one. `lg` is the landing's call to action, and `block` fills the width, as the
- * phone's calls to action do. A call to action that goes somewhere is a `ButtonLink` — an `<a>`,
+ * **Variants and sizes (#280; the landing's, enni-v2 #637).** `primary` is filled ink (`btn`,
+ * enni-v2 #635) with the violet glow under it and a sheen across it under a hover; `secondary` is
+ * a surface outlined in the strong line, which turns the accent under a hover (the landing's *Copy
+ * answer*); `ghost` is outlined on nothing in the strong line (its *Get started*); `quiet` is
+ * outlined on nothing in the hairline; `glow` is a surface whose edge turns in the accent; `danger`
+ * is the destructive one. `sm` is the landing's small button, `lg` a larger call to action, and
+ * `block` fills the width, as the phone's calls to action do. `arrow` adds the landing's `→`, which
+ * steps forward under a hover. A call to action that goes somewhere is a `ButtonLink` — an `<a>`,
  * so it opens in a new tab and a screen reader hears a link.
  *
  * **Disabled is one look (enni-v2 #480).** Whatever the variant, a button that cannot be pressed
@@ -21,10 +25,21 @@
  */
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "quiet" | "danger";
-export type ButtonSize = "md" | "lg";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "quiet" | "glow" | "danger";
+export type ButtonSize = "sm" | "md" | "lg";
 
-type Look = { readonly size?: ButtonSize; readonly block?: boolean };
+type Look = {
+  readonly size?: ButtonSize;
+  readonly block?: boolean;
+  /** The landing's trailing `→`, hidden from a screen reader (enni-v2 #637). */
+  readonly arrow?: boolean;
+};
+
+const Arrow = () => (
+  <span className="enni-button__arrow" aria-hidden="true">
+    →
+  </span>
+);
 
 type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> &
   Look & {
@@ -38,7 +53,7 @@ export const buttonClass = (variant: ButtonVariant, { size = "md", block = false
   [
     "enni-button",
     `enni-button--${variant}`,
-    size === "lg" ? "enni-button--lg" : null,
+    size === "md" ? null : `enni-button--${size}`,
     block ? "enni-button--block" : null,
   ]
     .filter(Boolean)
@@ -48,6 +63,7 @@ export function Button({
   variant = "quiet",
   size,
   block,
+  arrow,
   type = "button",
   children,
   ...rest
@@ -55,6 +71,7 @@ export function Button({
   return (
     <button {...rest} type={type} className={buttonClass(variant, { size, block })}>
       {children}
+      {arrow === true ? <Arrow /> : null}
     </button>
   );
 }
@@ -67,15 +84,23 @@ type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "className"> &
   };
 
 /** A call to action that navigates: a link with a button's look. */
-export function ButtonLink({ variant = "secondary", size, block, children, ...rest }: LinkProps) {
+export function ButtonLink({
+  variant = "secondary",
+  size,
+  block,
+  arrow,
+  children,
+  ...rest
+}: LinkProps) {
   return (
     <a {...rest} className={buttonClass(variant, { size, block })}>
       {children}
+      {arrow === true ? <Arrow /> : null}
     </a>
   );
 }
 
-type SubmitProps = Omit<ButtonProps, "type" | "variant"> & {
+type SubmitProps = Omit<ButtonProps, "type" | "variant" | "arrow"> & {
   /** True while the form's request is in flight. */
   readonly pending: boolean;
   /** What the button says while pending — *"Checking…"*, not a spinner with no words. */

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { renderToStaticMarkup } from "react-dom/server";
-import { CountBadge, StatusBadge } from "./badge.tsx";
+import { CountBadge, Pill, StatusBadge, Tag } from "./badge.tsx";
 import { StatusMark } from "./status.tsx";
 
 describe("StatusBadge", () => {
@@ -33,5 +33,30 @@ describe("CountBadge", () => {
 
   test("a dash for nothing yet is a count too", () => {
     expect(renderToStaticMarkup(<CountBadge count="—" />)).toContain(">—</span>");
+  });
+});
+
+describe("the landing's chip, pill and tag (enni-v2 #637)", () => {
+  test("a status badge may lead with a live dot, hidden from a screen reader; the glyph and word stay", () => {
+    const html = renderToStaticMarkup(<StatusBadge glyph="✓" word="Ready" tone="ready" dot />);
+    expect(html).toBe(
+      '<span class="enni-badge enni-tone--ready"><span class="enni-badge__dot" aria-hidden="true"></span><span class="enni-badge__glyph" aria-hidden="true">✓</span><span>Ready</span></span>',
+    );
+  });
+
+  test("a pill is glass words with an optional badge; with an href it is a link", () => {
+    expect(renderToStaticMarkup(<Pill badge="New">Ask from your editor</Pill>)).toBe(
+      '<span class="enni-pill"><b class="enni-pill__badge">New</b><span>Ask from your editor</span></span>',
+    );
+    expect(renderToStaticMarkup(<Pill href="/changelog">What changed</Pill>)).toBe(
+      '<a class="enni-pill" href="/changelog"><span>What changed</span></a>',
+    );
+  });
+
+  test("a tag is its tone's word, ready unless asked", () => {
+    expect(renderToStaticMarkup(<Tag>Shipped</Tag>)).toBe(
+      '<span class="enni-tag enni-tone--ready">Shipped</span>',
+    );
+    expect(renderToStaticMarkup(<Tag tone="accent">Live</Tag>)).toContain("enni-tone--accent");
   });
 });

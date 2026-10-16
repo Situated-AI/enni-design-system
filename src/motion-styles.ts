@@ -14,8 +14,11 @@
  * - **A skeleton** stands in for what is still being fetched, so nothing arrives as a layout jump.
  * - **`enni-stagger`** lets a short list arrive one item after another.
  *
+ * - **The landing's springs** (enni-v2 #637) are `spring-styles.ts`', which this ends with.
+ *
  * Every duration is a `MOTION` token, so `prefers-reduced-motion` stills all of it in `TOKENS_CSS`.
  */
+import { SPRING_CSS } from "./spring-styles.ts";
 
 const EASED = [
   ".enni-button",
@@ -35,20 +38,21 @@ const EASED = [
   ".enni-guided__footer summary",
 ].join(", ");
 
-const PROPERTIES = ["background", "border-color", "color", "box-shadow", "transform"]
-  .map((property) => `${property} var(--enni-motion-quick) var(--enni-ease-standard)`)
-  .join(", ");
+/** Colours ease on `motion-quick`; what moves (a scale, a lift) moves on the landing's spring. */
+const PROPERTIES = [
+  ...["background", "border-color", "color", "box-shadow"].map(
+    (property) => `${property} var(--enni-motion-quick) var(--enni-ease-standard)`,
+  ),
+  "transform var(--enni-motion-spring) var(--enni-ease-spring)",
+].join(", ");
 
 const STATES = `
 ${EASED} { transition: ${PROPERTIES}; }
-.enni-button:not([disabled]):active, .enni-chip:active, .enni-talk:not([disabled]):active, .enni-composer__send:not([disabled]):active { transform: scale(0.97); }
+.enni-button:not([disabled]):active, .enni-chip:active, .enni-talk:not([disabled]):active, .enni-composer__send:not([disabled]):active { transform: scale(0.96); transition-duration: var(--enni-motion-quick); }
 .enni-chip:hover, .enni-toggle:hover, .enni-choice:hover, .enni-pack:hover { border-color: var(--enni-line-strong); }
 .enni-composer__send:not([disabled]):hover, .enni-close:hover { background: var(--enni-hover); }
 .enni-segmented button:hover, .enni-details > summary:hover, .enni-sources > summary:hover, .enni-guided__footer summary:hover { color: var(--enni-ink); }
 .enni-details > summary .enni-icon, .enni-sources > summary .enni-icon { transition: transform var(--enni-motion-quick) var(--enni-ease-standard); }
-.enni-card--interactive { cursor: pointer; }
-.enni-card--interactive:hover { border-color: var(--enni-line-strong); box-shadow: var(--enni-shadow-lift); transform: translateY(-1px); }
-.enni-card--interactive:active { transform: none; box-shadow: var(--enni-shadow-card); }
 .enni-field input, .enni-field textarea, .enni-composer textarea { transition: border-color var(--enni-motion-quick) var(--enni-ease-standard), box-shadow var(--enni-motion-quick) var(--enni-ease-standard); }
 .enni-field input:hover, .enni-field textarea:hover, .enni-composer textarea:hover { border-color: var(--enni-line-strong); }
 .enni-field input:focus, .enni-field textarea:focus, .enni-composer textarea:focus { border-color: var(--enni-accent); }
@@ -115,5 +119,5 @@ ${stagger()}
 .enni-skeleton--block .enni-skeleton__line { height: 4.5rem; border-radius: var(--enni-radius-lg); }
 `;
 
-/** The states, exits, openings and arrivals, in one string `PRIMITIVES_CSS` ends with. */
-export const MOTION_CSS = [STATES, LEAVING, OPENING, ARRIVING].join("\n").trim();
+/** The states, exits, openings, arrivals and springs, in one string `PRIMITIVES_CSS` ends with. */
+export const MOTION_CSS = [STATES, LEAVING, OPENING, ARRIVING, SPRING_CSS].join("\n").trim();

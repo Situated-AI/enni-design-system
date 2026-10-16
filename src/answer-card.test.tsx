@@ -4,7 +4,9 @@ import {
   AnswerActions,
   AnswerCard,
   AnswerPair,
+  AnswerReasons,
   AnswerSection,
+  AnswerWho,
   Citation,
   Segmented,
 } from "./answer-card.tsx";
@@ -146,8 +148,60 @@ describe("Segmented — each option's outcome, once known (enni-v2 #468)", () =>
   });
 });
 
-test("the card's sentence is a size up from Enni's voice: 21px (enni-v2 #532)", () => {
+test("the card's sentence is a size up from Enni's voice: the landing's 22–27px (enni-v2 #532, #637)", () => {
   expect(ANSWER_CSS).toContain(
-    ".enni-answer-card__sentence { margin: 0; color: var(--enni-ink); font-size: 1.3125rem; line-height: 1.35; }",
+    ".enni-answer-card__sentence { margin: 0; color: var(--enni-ink); font-size: clamp(1.375rem, 2.4vw, 1.6875rem); line-height: 1.3; }",
   );
+});
+
+describe("the landing window's answer (enni-v2 #637)", () => {
+  test("the reasons are numbered in mono, each followed by its source", () => {
+    const html = renderToStaticMarkup(
+      <AnswerReasons
+        reasons={[
+          { text: "No acceptance criteria.", cite: <Citation n={1} target="s1" title="Open" /> },
+          { text: "The API is not decided." },
+        ]}
+      />,
+    );
+    expect(html).toStartWith(
+      '<ol class="enni-reasons"><li><span class="enni-reasons__n" aria-hidden="true">1.</span><div>No acceptance criteria.',
+    );
+    expect(html).toContain(' <a class="enni-cite" href="#s1"');
+    expect(html).toContain("2.</span><div>The API is not decided.</div></li></ol>");
+  });
+
+  test("who knows is a named box: the label, the name, and why them", () => {
+    expect(
+      renderToStaticMarkup(<AnswerWho title="Who knows" name="Maya" why="Wrote the spec." />),
+    ).toBe(
+      '<section class="enni-answer-who" aria-label="Who knows"><p class="enni-answer-section__title">Who knows</p><b>Maya</b><span>Wrote the spec.</span></section>',
+    );
+  });
+
+  test("a boxed section and an arriving card carry their classes", () => {
+    expect(
+      renderToStaticMarkup(
+        <AnswerSection title="What's in the way" boxed>
+          x
+        </AnswerSection>,
+      ),
+    ).toStartWith('<section class="enni-answer-section enni-answer-section--boxed"');
+    const card = renderToStaticMarkup(
+      <AnswerCard label="Answer" status="s" sentence="Ready." arriving />,
+    );
+    expect(card).toStartWith('<article class="enni-answer-card enni-answer-card--arriving"');
+  });
+
+  test("drawn as the landing's: the boxed section is sunken, the citation the accent's mono, the chosen intent raised", () => {
+    expect(ANSWER_CSS).toMatch(
+      /\.enni-answer-section--boxed \{[^}]*background: var\(--enni-sunken\);/,
+    );
+    expect(ANSWER_CSS).toMatch(
+      /\.enni-cite \{[^}]*color: var\(--enni-accent\); font-family: var\(--enni-font-mono\)/,
+    );
+    expect(ANSWER_CSS).toContain(
+      '.enni-segmented button[aria-pressed="true"] { border-color: transparent; background: var(--enni-surface); color: var(--enni-ink); box-shadow: 0 0 0 1px var(--enni-line-strong); }',
+    );
+  });
 });

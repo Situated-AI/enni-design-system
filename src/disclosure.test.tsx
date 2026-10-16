@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import {
   Details,
   EXIT_MS,
+  Faq,
   heldWhile,
   lingerMs,
   prefersStill,
@@ -163,4 +164,30 @@ test("a closed sheet refers to no heading, and an open one to the heading it dra
   const id = /aria-labelledby="([^"]+)"/.exec(open)?.[1];
   expect(id).toBeDefined();
   expect(open).toContain(`id="${id}"`);
+});
+
+describe("Faq (enni-v2 #637)", () => {
+  const html = renderToStaticMarkup(
+    <Faq
+      label="Questions"
+      items={[
+        { question: "Does it write anything?", answer: <p>No. It only reads.</p> },
+        { question: "Where does it run?", answer: "On your workspace." },
+      ]}
+    />,
+  );
+
+  test("one native details per question, the answer under its summary", () => {
+    expect(html).toStartWith('<section class="enni-faq" aria-label="Questions"><details>');
+    expect(html.match(/<details>/g)).toHaveLength(2);
+    expect(html).toContain(
+      '<summary>Does it write anything?</summary><div class="enni-faq__answer"><p>No. It only reads.</p></div>',
+    );
+  });
+
+  test("is drawn as the landing's: a + that turns as it opens, a hover in the accent", () => {
+    expect(PRIMITIVES_CSS).toMatch(/\.enni-faq summary::after \{ content: "\+";/);
+    expect(PRIMITIVES_CSS).toContain(".enni-faq details[open] summary::after { rotate: 45deg; }");
+    expect(PRIMITIVES_CSS).toContain(".enni-faq summary:hover { color: var(--enni-accent); }");
+  });
 });

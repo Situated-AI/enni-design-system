@@ -13,7 +13,13 @@ describe("BrandMark", () => {
 
   test("no colour is typed in the mark — the tile's fills are classes over tokens", () => {
     expect(html).not.toMatch(/fill=|oklch|#[0-9a-f]{3,6}\b/i);
-    expect(html.match(/class="enni-brand__bar"/g)).toHaveLength(3);
+    expect(html.match(/class="enni-brand__bar[ "]/g)).toHaveLength(3);
+  });
+
+  test("it is the landing's tile (enni-v2 #637): a 28px grid, the middle bar the accent", () => {
+    expect(html).toContain('viewBox="0 0 28 28"');
+    expect(html).toContain('<rect class="enni-brand__ground" width="28" height="28" rx="8">');
+    expect(html.match(/enni-brand__bar--accent/g)).toHaveLength(1);
   });
 
   test("with an href it is a link home, named by its wordmark", () => {

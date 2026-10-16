@@ -14,9 +14,12 @@ export const BILLING_CSS = `
 .enni-summary__unit { color: var(--enni-ink-muted); font-size: var(--enni-type-lg); font-weight: 500; letter-spacing: 0; }
 .enni-summary__detail { color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
 .enni-summary__detail p { margin: 0 0 var(--enni-space-1); }
-.enni-meter { display: grid; gap: var(--enni-space-2); }
-.enni-meter__track { overflow: hidden; height: 8px; border-radius: var(--enni-radius-pill); background: var(--enni-sunken); }
-.enni-meter__fill { display: block; height: 100%; border-radius: var(--enni-radius-pill); background: var(--enni-accent); }
+.enni-meter { display: grid; gap: 10px; }
+.enni-meter--boxed { padding: 18px; border: 1px solid var(--enni-line); border-radius: var(--enni-radius-xl); background: var(--enni-surface); }
+.enni-meter__row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--enni-space-3); margin: 0; color: var(--enni-ink-muted); font-size: 0.875rem; }
+.enni-meter__row b { color: var(--enni-ink); font-size: 1.375rem; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.enni-meter__track { overflow: hidden; height: 6px; border-radius: var(--enni-radius-pill); background: var(--enni-line); }
+.enni-meter__fill { display: block; height: 100%; border-radius: var(--enni-radius-pill); background: linear-gradient(90deg, var(--enni-accent), var(--enni-ready-fg)); }
 .enni-meter--care .enni-meter__fill { background: var(--enni-care-border); }
 .enni-meter__caption { margin: 0; color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
 .enni-meter--care .enni-meter__caption { color: var(--enni-care-fg); }

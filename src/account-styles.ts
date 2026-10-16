@@ -2,6 +2,10 @@
  * The account primitives' rules (#289): steps, the auth card, the notice, choice cards, codes, the
  * copy field, the QR block, the device prompt, the dialog, settings cards, rows and the action menu,
  * as A01–A12 and S01–S09 draw them. Tokens only (`account-styles.test.ts`).
+ *
+ * Since 0.6.1 (enni-v2 #637) the copy field is the landing's dark code panel, and the dialog and the
+ * action menu are its surfaces: the dialog on the window's 20px radius over the scrim, the menu
+ * glass where transparency is allowed, both raised by the landing's shadow.
  */
 const FLOW = `
 .enni-steps { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-1); margin: 0; padding: 0; list-style: none; color: var(--enni-ink-subtle); font-size: var(--enni-type-sm); }
@@ -38,10 +42,12 @@ const INPUTS = `
 .enni-code-list { display: grid; gap: var(--enni-space-3); padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-card); }
 .enni-code-list ul { display: grid; grid-template-columns: repeat(2, max-content); gap: var(--enni-space-1) calc(2 * var(--enni-space-5)); margin: 0; padding: 0; list-style: none; color: var(--enni-ink); font-family: var(--enni-font-mono); }
 .enni-code-list__actions, .enni-copy-field { display: flex; flex-wrap: wrap; align-items: center; gap: var(--enni-space-2); }
-.enni-copy-field { padding: 2px 2px 2px var(--enni-space-3); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-sunken); }
-.enni-copy-field code { flex: 1; min-width: 0; overflow-wrap: anywhere; white-space: pre-wrap; color: var(--enni-ink); font-family: var(--enni-font-mono); font-size: var(--enni-type-sm); }
+.enni-copy-field { padding: 6px 6px 6px var(--enni-space-4); border: 1px solid color-mix(in oklab, var(--enni-code-ink) 6%, transparent); border-radius: var(--enni-radius-lg); background: var(--enni-code-bg); }
+.enni-copy-field code { flex: 1; min-width: 0; overflow-wrap: anywhere; white-space: pre-wrap; color: var(--enni-code-ink); font-family: var(--enni-font-mono); font-size: 0.84375rem; line-height: 1.7; }
+.enni-copy-field .enni-copy { position: static; }
 .enni-copy-field__status:empty { display: none; }
-.enni-copy-field__status, .enni-code-list__actions [role="status"] { color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
+.enni-copy-field__status { color: var(--enni-code-dim); font-size: var(--enni-type-sm); }
+.enni-code-list__actions [role="status"] { color: var(--enni-ink-muted); font-size: var(--enni-type-sm); }
 .enni-qr { display: flex; gap: var(--enni-space-4); padding: var(--enni-space-4); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-card); }
 .enni-qr__code { flex-shrink: 0; width: 140px; padding: var(--enni-space-2); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-md); background: var(--enni-surface); }
 .enni-qr__code svg { display: block; width: 100%; height: auto; }
@@ -59,7 +65,7 @@ const INPUTS = `
 `;
 
 const SETTINGS = `
-.enni-dialog { width: min(calc(100vw - 2 * var(--enni-space-4)), 28rem); max-height: calc(100dvh - 2 * var(--enni-space-4)); padding: var(--enni-space-5); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-lift); color: var(--enni-ink); overflow: hidden; }
+.enni-dialog { width: min(calc(100vw - 2 * var(--enni-space-4)), 28rem); max-height: calc(100dvh - 2 * var(--enni-space-4)); padding: var(--enni-space-5); border: 1px solid var(--enni-line); border-radius: calc(var(--enni-radius-base) + 8px); background: var(--enni-surface); box-shadow: var(--enni-shadow-lift); color: var(--enni-ink); overflow: hidden; }
 .enni-dialog[open] { display: flex; flex-direction: column; }
 .enni-dialog::backdrop { background: var(--enni-scrim); }
 .enni-dialog__header { display: flex; flex: none; align-items: flex-start; justify-content: space-between; gap: var(--enni-space-3); }
@@ -82,8 +88,9 @@ const SETTINGS = `
 .enni-row__below { flex-basis: 100%; min-width: 0; }
 .enni-row__trailing { display: inline-flex; flex-shrink: 0; align-items: center; gap: var(--enni-space-2); margin-left: auto; }
 .enni-action-menu { position: relative; display: inline-flex; }
-.enni-action-menu__list { position: absolute; top: calc(100% + var(--enni-space-1)); right: 0; z-index: 5; display: grid; min-width: 14rem; margin: 0; padding: var(--enni-space-1); border: 1px solid var(--enni-line); border-radius: var(--enni-radius-lg); background: var(--enni-surface); box-shadow: var(--enni-shadow-lift); list-style: none; }
-.enni-action-menu__list button { width: 100%; min-height: 44px; padding: 0 var(--enni-space-3); border: 0; border-radius: var(--enni-radius-md); background: none; color: var(--enni-ink); font: inherit; text-align: left; cursor: pointer; }
+.enni-action-menu__list { position: absolute; top: calc(100% + var(--enni-space-1)); right: 0; z-index: 5; display: grid; min-width: 14rem; margin: 0; padding: var(--enni-space-1); border: 1px solid var(--enni-line); border-radius: calc(var(--enni-radius-base) + 2px); background: var(--enni-surface); box-shadow: var(--enni-shadow-lift); list-style: none; }
+@media (prefers-reduced-transparency: no-preference) { .enni-action-menu__list { background: var(--enni-glass); -webkit-backdrop-filter: saturate(180%) blur(16px); backdrop-filter: saturate(180%) blur(16px); } }
+.enni-action-menu__list button { width: 100%; min-height: 44px; padding: 0 var(--enni-space-3); border: 0; border-radius: calc(var(--enni-radius-base) - 3px); background: none; color: var(--enni-ink); font: inherit; text-align: left; cursor: pointer; }
 .enni-action-menu__list button:hover, .enni-action-menu__list button:focus-visible { background: var(--enni-hover); }
 .enni-action-menu__list button[data-danger="true"] { color: var(--enni-danger-fg); }
 .enni-action-menu__list button[aria-current="true"] { font-weight: 600; }

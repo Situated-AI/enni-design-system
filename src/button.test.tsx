@@ -29,6 +29,33 @@ describe("Button", () => {
   });
 });
 
+describe("the landing's variants and sizes (enni-v2 #637)", () => {
+  test("ghost, glow and sm are classes like the rest; md adds none", () => {
+    expect(buttonClass("ghost", { size: "sm" })).toBe(
+      "enni-button enni-button--ghost enni-button--sm",
+    );
+    expect(buttonClass("glow")).toBe("enni-button enni-button--glow");
+    expect(buttonClass("quiet", { size: "md" })).toBe("enni-button enni-button--quiet");
+  });
+
+  test("an arrow follows the words, and a screen reader does not hear it", () => {
+    const html = renderToStaticMarkup(
+      <Button variant="primary" arrow>
+        Get started
+      </Button>,
+    );
+    expect(html).toBe(
+      '<button type="button" class="enni-button enni-button--primary">Get started<span class="enni-button__arrow" aria-hidden="true">→</span></button>',
+    );
+    const link = renderToStaticMarkup(
+      <ButtonLink href="/get-started" variant="ghost" size="sm" arrow>
+        Guide
+      </ButtonLink>,
+    );
+    expect(link).toContain('class="enni-button enni-button--ghost enni-button--sm">Guide<span');
+  });
+});
+
 describe("ButtonLink", () => {
   test("is a link — a call to action that goes somewhere — with a button's look", () => {
     const html = renderToStaticMarkup(

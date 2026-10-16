@@ -87,3 +87,16 @@ test("SummaryCard: no figure where the answer is a sentence — the card on file
   const html = renderToStaticMarkup(<SummaryCard title="Payment" detail="Visa ending 4242" />);
   expect(html).not.toContain("enni-summary__figure");
 });
+
+test("enni-v2 #637: with a title the meter stands alone, boxed, its title and figure above the bar", () => {
+  const html = renderToStaticMarkup(
+    <Meter label="Milestones" value={7} max={12} caption="" title="Shipped" figure="7 of 12" />,
+  );
+  expect(html).toMatch(/^<div class="enni-meter enni-meter--accent enni-meter--boxed">/);
+  expect(html).toContain(
+    '<p class="enni-meter__row" aria-hidden="true"><span>Shipped</span><b>7 of 12</b></p>',
+  );
+  expect(renderToStaticMarkup(<Meter label="q" value={1} max={2} caption="" />)).not.toContain(
+    "enni-meter__row",
+  );
+});

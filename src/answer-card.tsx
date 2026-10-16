@@ -13,6 +13,13 @@
  * Also here: a **citation** (\`[1]\`, a link to its source card), a **section** with its mono label,
  * a **pair** of boxed sections (Who knows · What to do next), the **actions** row, and a **segmented**
  * control (*Answer for: Building · Reviewing · Deploying*).
+ *
+ * **Since 0.6.1 it is the landing window's answer** (`landing-window-answer.tsx`, enni-v2 #637): the
+ * verdict chip, the key and the title; the sentence in the serif at the landing's size; the meter
+ * and *What's in the way* in one sunken box (`AnswerSection boxed`), the reasons numbered with their
+ * sources (`AnswerReasons`); *Who knows* in its own box (`AnswerWho`); *Answer for* and *Copy
+ * answer* in a row; the sources and the details folded under. `arriving` lets its parts rise in one
+ * after another, as the landing's play does, and is still where less motion is asked for.
  */
 import type { ReactNode } from "react";
 import type { Mark } from "./status.tsx";
@@ -33,12 +40,16 @@ type CardProps = {
   readonly sources?: ReactNode;
   readonly details?: ReactNode;
   readonly state?: string;
+  /** Its parts rise in one after another (enni-v2 #637): for an answer that has just come. */
+  readonly arriving?: boolean;
 };
 
 export function AnswerCard(props: CardProps) {
   const { subject } = props;
+  const className =
+    props.arriving === true ? "enni-answer-card enni-answer-card--arriving" : "enni-answer-card";
   return (
-    <article className="enni-answer-card" aria-label={props.label} data-state={props.state}>
+    <article className={className} aria-label={props.label} data-state={props.state}>
       <div className="enni-answer-card__body">
         <p className="enni-answer-card__status">
           {props.status}
@@ -64,15 +75,65 @@ export function AnswerCard(props: CardProps) {
 
 export function AnswerSection({
   title,
+  boxed,
   children,
 }: {
   readonly title: string;
+  /** In the landing's sunken box, with what goes with it (the meter above it): enni-v2 #637. */
+  readonly boxed?: boolean;
   readonly children: ReactNode;
 }) {
+  const className =
+    boxed === true ? "enni-answer-section enni-answer-section--boxed" : "enni-answer-section";
   return (
-    <section className="enni-answer-section" aria-label={title}>
+    <section className={className} aria-label={title}>
       <p className="enni-answer-section__title">{title}</p>
       {children}
+    </section>
+  );
+}
+
+export type Reason = {
+  readonly text: ReactNode;
+  /** Its source, after the words: a `Citation`. */
+  readonly cite?: ReactNode;
+};
+
+/** What's in the way, numbered in mono as the landing's are, each followed by its source. */
+export function AnswerReasons({ reasons }: { readonly reasons: readonly Reason[] }) {
+  return (
+    <ol className="enni-reasons">
+      {reasons.map((reason, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: reasons are ordered, and their text may be a node.
+        <li key={i}>
+          <span className="enni-reasons__n" aria-hidden="true">
+            {i + 1}.
+          </span>
+          <div>
+            {reason.text}
+            {reason.cite === undefined ? null : <> {reason.cite}</>}
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** *Who knows*: the person's name, and why them, in the landing's box. */
+export function AnswerWho({
+  title,
+  name,
+  why,
+}: {
+  readonly title: string;
+  readonly name: ReactNode;
+  readonly why?: ReactNode;
+}) {
+  return (
+    <section className="enni-answer-who" aria-label={title}>
+      <p className="enni-answer-section__title">{title}</p>
+      <b>{name}</b>
+      {why === undefined ? null : <span>{why}</span>}
     </section>
   );
 }
